@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Mooctestv01.Subject>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SubName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Classify)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubDetail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AddTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Classify)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubDetail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddTime)
+        </td>
+
+    </tr>
+}
+
+</table>
