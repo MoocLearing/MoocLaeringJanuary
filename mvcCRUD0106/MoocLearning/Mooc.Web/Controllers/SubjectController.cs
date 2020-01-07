@@ -23,12 +23,24 @@ namespace Mooc.Web.Controllers
         {
             _subjectCrud = subjectCrud;
         }
+
+        public ActionResult Test()
+        {
+            return Content("test");
+        }
         // GET: Subject
 
         public async Task<ActionResult> Index()
         {
-           var subjects = await _subjectCrud.ListAsync();
-            return View(subjects);
+            List<SubjectViewModel> viewList = new List<SubjectViewModel>();
+
+            var list = await _subjectCrud.ListAsync();
+
+            viewList = AutoMapper.Mapper.Map<List<SubjectViewModel>>(list);
+
+            ViewBag.ViewList = viewList;
+
+            return View(list);
         }
 
         //subject/create
@@ -55,15 +67,10 @@ namespace Mooc.Web.Controllers
         //subject/delete/1
         public ActionResult Delete(int subid)
         {
-
-
             var Subject = _subjectCrud.DeleteAsync(subid);
 
             return RedirectToAction("Index");
 
         }
-
-
-
     }
 }

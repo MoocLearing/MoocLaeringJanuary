@@ -13,49 +13,36 @@ namespace Mooc.DataAccess.Service
         //想直接注入DbContext
         DataContext _dataContext = new DataContext();
 
+        private readonly DataContext _context;
+        public SubjectCrud(DataContext context)
+        {
+            this._context = context;
+        }
 
         public async Task<bool> DeleteAsync(int id)
         {
-
-                Task<Subject> subject = _dataContext.Subjects.FirstAsync(r => r.SubId == id);
-                _dataContext.Subjects.Remove(await subject);
-                return await _dataContext.SaveChangesAsync()>0;
-
-            
+            Task<Subject> subject = _dataContext.Subjects.FirstAsync(r => r.SubId == id);
+            _dataContext.Subjects.Remove(await subject);
+            return await _dataContext.SaveChangesAsync() > 0;
         }
 
         public Task<Subject> GetByIdAsync(int id)
         {
-
-                return _dataContext.Subjects.FirstOrDefaultAsync(r =>r.SubId==id);
-            
+            return _dataContext.Subjects.FirstOrDefaultAsync(r => r.SubId == id);
         }
 
         //List
         public Task<List<Subject>> ListAsync()
         {
-
-
-                return _dataContext.Subjects.ToListAsync();
-            
+            var list = this._context.Subjects.ToList();
+            return _dataContext.Subjects.ToListAsync();
         }
-
-        //public List<Subject> GetList()
-        //{
-        //    using (DataContext db = new DataContext())
-        //    {
-        //        return db.Subjects.ToList();
-        //    }
-        //}
-
-
 
         public async Task<bool> UpdateAsync(Subject subject)
         {
-
             _dataContext.Entry(subject).State = System.Data.Entity.EntityState.Modified;
-                return await _dataContext.SaveChangesAsync() > 0;
-            
+            return await _dataContext.SaveChangesAsync() > 0;
+
         }
 
         //Add

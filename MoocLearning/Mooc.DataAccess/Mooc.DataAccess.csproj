@@ -76,6 +76,10 @@
     <Compile Include="Migrations\201912301412167_test001.designer.cs">
       <DependentUpon>201912301412167_test001.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001070638221_test002.cs" />
+    <Compile Include="Migrations\202001070638221_test002.designer.cs">
+      <DependentUpon>202001070638221_test002.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IDependency.cs" />
@@ -95,6 +99,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201912301412167_test001.resx">
       <DependentUpon>201912301412167_test001.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001070638221_test002.resx">
+      <DependentUpon>202001070638221_test002.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

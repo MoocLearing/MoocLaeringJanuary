@@ -1,7 +1,11 @@
-﻿@model IEnumerable<Mooc.DataAccess.Entities.Subject>
+﻿@using Mooc.Models.ViewModels;
+
+@model IEnumerable<Mooc.DataAccess.Entities.Subject>
 
 @{
+
     ViewBag.Title = "Index";
+
 }
 
 <h2>Index</h2>
@@ -23,23 +27,34 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubDetail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubCreateTime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SubId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SubId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SubId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubDetail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCreateTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.SubId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.SubId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.SubId })
+            </td>
+        </tr>
+    }
+
 
 </table>
+@{
+    var list = ViewBag.ViewList as List<SubjectViewModel>;
+    foreach (var item in list)
+    {
+        <span>
+            @item.LSubName
+        </span>
+    }
+}

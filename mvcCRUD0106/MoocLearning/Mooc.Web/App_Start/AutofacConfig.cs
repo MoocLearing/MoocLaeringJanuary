@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using Mooc.DataAccess.Context;
 using Mooc.DataAccess.Service;
+using Mooc.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +31,11 @@ namespace Mooc.Web.App_Start
             builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t => baseType.IsAssignableFrom(t) && t != baseType).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterType<DataContext>();
+            builder.RegisterType<TestModel>();
+
             var container = builder.Build();
+
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 

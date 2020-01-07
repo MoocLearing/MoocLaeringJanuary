@@ -73,6 +73,11 @@
     <Compile Include="Context\DataContext.cs" />
     <Compile Include="Entities\Subject.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Migrations\202001061524151_test001.cs" />
+    <Compile Include="Migrations\202001061524151_test001.designer.cs">
+      <DependentUpon>202001061524151_test001.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IDependency.cs" />
     <Compile Include="Service\ISubjectCrud.cs" />
@@ -90,7 +95,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001061524151_test001.resx">
+      <DependentUpon>202001061524151_test001.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

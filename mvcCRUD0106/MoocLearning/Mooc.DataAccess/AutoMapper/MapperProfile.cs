@@ -18,6 +18,13 @@ namespace Mooc.DataAccess.AutoMapper
             CreateMap<UserViewModel, User>();
             CreateMap<Subject, SubjectViewModel>();
             CreateMap<SubjectViewModel, Subject>();
+
+            CreateMap<Subject, SubjectViewModel>()
+    .ForMember(dest => dest.LSubName, opt => opt.MapFrom(src => src.SubName))
+    .ForMember(dest => dest.LSubDetail, opt => opt.MapFrom(src => src.SubDetail));
+  
+            CreateMap<SubjectViewModel, Subject>()
+  .ForMember(dest => dest.SubName, opt => opt.MapFrom(src => src.LSubName));
         }
 
         
