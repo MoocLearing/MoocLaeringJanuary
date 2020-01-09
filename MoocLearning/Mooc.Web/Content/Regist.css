@@ -1,0 +1,39 @@
+﻿body{
+	
+    font-family: "宋体", Arial, Helvetica, sans-serif;
+    color: white;
+    font-size:12px; 
+    background:url(../images/bg.jpg) repeat-x #E2E2E2; 
+	
+}
+
+div {
+    position: center
+}
+ 
+.reg{
+    width:450px;
+    height:auto;
+    margin:0 auto;
+    padding-top:100px;
+}
+ 
+.topic{
+    background:url(../images/denj_top.jpg);
+    width:450px;
+    height:54px;
+}
+.content{
+    border:1px solid #DBDBDB;
+    color:#003976;
+    background:#F9F9F9;
+    text-align:center
+}
+/*.btn{
+	
+    color:#FFFFFF;
+    
+    width:58px;
+    height:27px;
+    
+}*/

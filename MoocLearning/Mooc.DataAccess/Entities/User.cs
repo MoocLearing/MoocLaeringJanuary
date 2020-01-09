@@ -29,8 +29,11 @@ namespace Mooc.DataAccess.Entities
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
+        [Display(Name = "居住省")]
         public int UserState { get; set; }
+
         public int RoleType { get; set; }
+
         public DateTime? AddTime { get; set; }
     }
 }

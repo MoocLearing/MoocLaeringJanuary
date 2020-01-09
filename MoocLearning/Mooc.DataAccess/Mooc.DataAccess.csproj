@@ -76,9 +76,13 @@
     <Compile Include="Migrations\201912301412167_test001.designer.cs">
       <DependentUpon>201912301412167_test001.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202001070638221_test002.cs" />
-    <Compile Include="Migrations\202001070638221_test002.designer.cs">
-      <DependentUpon>202001070638221_test002.cs</DependentUpon>
+    <Compile Include="Migrations\202001081041532_startup.cs" />
+    <Compile Include="Migrations\202001081041532_startup.designer.cs">
+      <DependentUpon>202001081041532_startup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001090747474_test2.cs" />
+    <Compile Include="Migrations\202001090747474_test2.designer.cs">
+      <DependentUpon>202001090747474_test2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,8 +104,11 @@
     <EmbeddedResource Include="Migrations\201912301412167_test001.resx">
       <DependentUpon>201912301412167_test001.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001070638221_test002.resx">
-      <DependentUpon>202001070638221_test002.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001081041532_startup.resx">
+      <DependentUpon>202001081041532_startup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001090747474_test2.resx">
+      <DependentUpon>202001090747474_test2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

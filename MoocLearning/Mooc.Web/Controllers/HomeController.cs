@@ -15,11 +15,23 @@ namespace Mooc.Web.Controllers
         {
             this._userService = userService;
         }
-        public ActionResult Index()
+        public ActionResult Index(string username)
         {
-            var list = this._userService.GetList();
-            List<UserViewModel> models = AutoMapper.Mapper.Map<List<UserViewModel>>(list);
-            return View();
+            
+
+            if (Session["username"]==null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                ViewBag.username = username;
+                return View();
+            }
+
+            //var list = this._userService.GetList();
+            //List<UserViewModel> models = AutoMapper.Mapper.Map<List<UserViewModel>>(list);
+
         }
 
         public ActionResult About()
