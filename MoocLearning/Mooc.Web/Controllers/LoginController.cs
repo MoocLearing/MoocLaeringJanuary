@@ -12,6 +12,12 @@ namespace Mooc.Web.Controllers
     {
         //加了session储存用户登录状态，验证跳转主页，没跑出这个功能，是不是需要在web-config里面进行session使用的配置还是直接默认就可以用session的功能？
 
+        private readonly DataContext _dataContext;
+        public LoginController(DataContext dataContext)
+        {
+            this._dataContext = dataContext;
+        }
+
         // GET: Login
         public ActionResult Index()
         {
@@ -25,31 +31,53 @@ namespace Mooc.Web.Controllers
             {
                 return View();
             }
-            return View();
+            //return View();
         }
 
         //Create session if uid&pwd correct
         [HttpPost]
         public ActionResult LoginResult(User user)
         {
-            DataContext db = new DataContext();
-
-            var userLoggedIn = db.Users.SingleOrDefault(x => x.UserName == user.UserName && x.PassWord == user.PassWord);
-
-            if (userLoggedIn!=null)
+            if (ModelState.IsValid)
             {
-                ViewBag.message = "loggedin";
-                ViewBag.triedOnce = "yes";
+                var userModel = this._dataContext.Users.FirstOrDefault(x => x.UserName == user.UserName && x.PassWord == user.PassWord);
 
-                Session["username"] = user.UserName;
+                if(userModel!=null)
+                {
+                    Session["User"] = user;
 
-                return RedirectToAction("Index", "Home", new {username = user.UserName});
+                    // return RedirectToAction("Index", "Home", new { username = user.UserName });
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError("", "用户名或密码不存在");
+                return View("Index", user);
             }
             else
             {
-                ViewBag.triedOnce = "yes";
-                return RedirectToAction("Index");
+                return View("Index",user);
             }
+       
+
+            //DataContext db = new DataContext();//using 或者dispose或者autofac
+
+            //var userLoggedIn = db.Users.FirstOrDefault(x => x.UserName == user.UserName && x.PassWord == user.PassWord);
+
+            //if (userLoggedIn!=null)
+            //{
+            //    //ViewBag.message = "loggedin";
+            //    //ViewBag.triedOnce = "yes";
+
+            //    Session["username"] = user.UserName;
+
+            //    return RedirectToAction("Index", "Home", new {username = user.UserName});
+            //}
+            //else
+            //{
+            //   // ViewBag.triedOnce = "yes";
+            //    return RedirectToAction("Index");
+            //}
 
             
         }

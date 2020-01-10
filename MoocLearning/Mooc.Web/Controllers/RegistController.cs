@@ -34,24 +34,41 @@ namespace Mooc.Web.Controllers
         [System.Web.Http.HttpPost]
         public async Task<ActionResult> Regist(User user)
         {
-
-            _userService.Regist(new User()
+            if(ModelState.IsValid)
             {
-                UserName = user.UserName,
-                PassWord = user.PassWord,
-                Email = user.Email,
-                AddTime = DateTime.Now,
-                UserState = user.UserState,
-                RoleType = user.RoleType
-            });
-
-            if (!ModelState.IsValid)
-            {
-                // if not legal, return badpage mention!!!
-                return new EmptyResult();
+              int i=  _userService.Regist(new User()
+                {
+                    UserName = user.UserName,
+                    PassWord = user.PassWord,
+                    Email = user.Email,
+                    AddTime = DateTime.Now,
+                    UserState = user.UserState,
+                    RoleType = user.RoleType
+                });
+                if(i>0)
+                    return RedirectToAction("Index", "Login");
+               
             }
 
-            return RedirectToAction("Index", "Login");
+            return View("Index",user);//不走action,走view 页面信息不会清空
+
+            //_userService.Regist(new User()
+            //{
+            //    UserName = user.UserName,
+            //    PassWord = user.PassWord,
+            //    Email = user.Email,
+            //    AddTime = DateTime.Now,
+            //    UserState = user.UserState,
+            //    RoleType = user.RoleType
+            //});
+
+            //if (!ModelState.IsValid)
+            //{
+            //    // if not legal, return badpage mention!!!
+            //    return new EmptyResult();
+            //}
+
+            //return RedirectToAction("Index", "Login");
         }
     }
 }

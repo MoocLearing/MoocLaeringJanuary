@@ -12,13 +12,14 @@ using Mooc.DataAccess.Entities;
 
 namespace Mooc.Web.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private DataContext db = new DataContext();
 
         // GET: Users
         public async Task<ActionResult> Index()
         {
+            ViewBag.UserName = user.UserName;
             return View(await db.Users.ToListAsync());
         }
 

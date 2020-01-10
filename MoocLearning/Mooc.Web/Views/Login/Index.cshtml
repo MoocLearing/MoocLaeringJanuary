@@ -1,4 +1,8 @@
-﻿
+﻿@model Mooc.DataAccess.Entities.User
+@*@using Mooc.DataAccess.Entities;
+
+@model User;*@
+
 @{
     Layout = null;
 }
@@ -42,11 +46,13 @@
 
             </form>
             <div style="margin-top: 20px;height: 40px">
-                <a href="../Regist/Index" style="color: white;font-family: Raleway, sans-serif;font-size: 22px;display: inline-block;">SignUp First</a>
+                @*@Html.ActionLink("注册","Index", "Regist",new { area = "",name ="123"})*@
+                <a href="@Html.Action("Index","Regist")" style="color: white;font-family: Raleway, sans-serif;font-size: 22px;display: inline-block;">SignUp First</a>
+                <a href="@Url.Content("~/Regist/Index")" style="color: white;font-family: Raleway, sans-serif;font-size: 22px;display: inline-block;">SignUp First</a>
             </div>
         </div>
     </div>
-    
+    ,
     <div class="clear"> </div>
 
 </body>

@@ -72,17 +72,9 @@
     <Compile Include="AutoMapper\MapperProfile.cs" />
     <Compile Include="Context\DataContext.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Migrations\201912301412167_test001.cs" />
-    <Compile Include="Migrations\201912301412167_test001.designer.cs">
-      <DependentUpon>201912301412167_test001.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001081041532_startup.cs" />
-    <Compile Include="Migrations\202001081041532_startup.designer.cs">
-      <DependentUpon>202001081041532_startup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001090747474_test2.cs" />
-    <Compile Include="Migrations\202001090747474_test2.designer.cs">
-      <DependentUpon>202001090747474_test2.cs</DependentUpon>
+    <Compile Include="Migrations\202001091423179_test100.cs" />
+    <Compile Include="Migrations\202001091423179_test100.designer.cs">
+      <DependentUpon>202001091423179_test100.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,17 +93,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201912301412167_test001.resx">
-      <DependentUpon>201912301412167_test001.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001081041532_startup.resx">
-      <DependentUpon>202001081041532_startup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001090747474_test2.resx">
-      <DependentUpon>202001090747474_test2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001091423179_test100.resx">
+      <DependentUpon>202001091423179_test100.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

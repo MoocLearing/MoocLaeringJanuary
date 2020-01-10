@@ -1,4 +1,5 @@
-﻿using Mooc.DataAccess.Service;
+﻿using Mooc.DataAccess.Entities;
+using Mooc.DataAccess.Service;
 using Mooc.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,17 +16,19 @@ namespace Mooc.Web.Controllers
         {
             this._userService = userService;
         }
-        public ActionResult Index(string username)
+        public ActionResult Index()
         {
-            
+          
+           // var user = Session["User"];
 
-            if (Session["username"]==null)
+            if (Session["User"] ==null)
             {
                 return RedirectToAction("Index", "Login");
             }
             else
             {
-                ViewBag.username = username;
+                var user= Session["User"] as User;
+                ViewBag.username = user.UserName;
                 return View();
             }
 
