@@ -12,6 +12,7 @@ namespace Mooc.DataAccess.Service
     {
         List<User> GetList();
         int Regist(User user);
+        List<Country> GetCountries();
 
     }
 

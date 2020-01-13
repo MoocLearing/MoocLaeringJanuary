@@ -22,6 +22,8 @@ namespace Mooc.DataAccess.Context
         }
 
         public DbSet<User> Users { get; set; }
+        
+        public DbSet<Country> Countries { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

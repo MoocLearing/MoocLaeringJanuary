@@ -1,0 +1,15 @@
+﻿<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container" style="background-color: beige; height: 40px;">
+        <div style="text-align: right; padding: 10px;">
+         @if (@ViewBag.username != null)
+         {
+             <div>欢迎用户 ： @ViewBag.username @Html.ActionLink("登出", "DeleteCookie")</div>
+         }
+         else
+         {
+             <div>@Html.ActionLink("登录", "Index", "Login")</div>
+         }
+
+        </div>
+    </div>
+</nav>

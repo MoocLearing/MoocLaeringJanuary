@@ -31,5 +31,12 @@ namespace Mooc.DataAccess.Service
                 return db.SaveChanges();
             }
         }
+        public List<Country> GetCountries()
+        {
+            using (DataContext db = new DataContext())
+            {
+                return db.Countries.ToList();
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Compilation;
 using System.Web.Http;
 using System.Web.Mvc;
+using Mooc.DataAccess.Context;
 
 namespace Mooc.Web.App_Start
 {
@@ -29,6 +30,7 @@ namespace Mooc.Web.App_Start
             builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t => baseType.IsAssignableFrom(t) && t != baseType).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterType<DataContext>();
             var container = builder.Build();
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);

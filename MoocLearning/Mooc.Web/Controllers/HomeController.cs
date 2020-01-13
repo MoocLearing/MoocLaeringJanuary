@@ -18,23 +18,45 @@ namespace Mooc.Web.Controllers
         }
         public ActionResult Index()
         {
-          
-           // var user = Session["User"];
 
-            if (Session["User"] ==null)
+
+            HttpCookie cookie = Request.Cookies["userinfo"];
+            if (cookie!=null)
             {
-                return RedirectToAction("Index", "Login");
+                ViewBag.username = cookie.Value;
+                return View("Index");
             }
             else
             {
-                var user= Session["User"] as User;
-                ViewBag.username = user.UserName;
-                return View();
+                return RedirectToAction("Index", "Login");
             }
+
+            // var user = Session["User"];
+
+            //if (Session["User"] ==null)
+            //{
+            //    return RedirectToAction("Index", "Login");
+            //}
+            //else
+            //{
+            //    var user= Session["User"] as User;
+            //    ViewBag.username = username;
+            //    return View();
+            //}
 
             //var list = this._userService.GetList();
             //List<UserViewModel> models = AutoMapper.Mapper.Map<List<UserViewModel>>(list);
 
+        }
+
+        public ActionResult DeleteCookie()
+        {
+            HttpCookie cookie = Request.Cookies["userinfo"];
+            if(cookie != null)
+            {
+                cookie.Expires = DateTime.Now.AddYears(-1);
+            }
+            return View("index");
         }
 
         public ActionResult About()

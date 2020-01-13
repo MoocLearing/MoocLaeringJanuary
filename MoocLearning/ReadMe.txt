@@ -1,0 +1,6 @@
+﻿1.dropdownlist试了很多遍都用不出来，在别的项目上可以通过user表与country表FK相联实现这个功能。
+
+2.login的index.html上username和password加上validation的话，在后台action里modelstate.IsValid永远是false
+
+3.之前用session存登录user的对象，里面有user的roletype可以进行filter的操作，但cookie存在browser端如何
+得到用户的roletype信息？或者如果把这个信息存入cookie是否安全？

@@ -28,29 +28,40 @@ namespace Mooc.Web.Controllers
         // GET: Regist
         public ActionResult Index()
         {
+            ViewBag.passwordCheckError = "";
             return View();
         }
 
         [System.Web.Http.HttpPost]
-        public async Task<ActionResult> Regist(User user)
+        public ActionResult UserRegist(UserView userView)
         {
             if(ModelState.IsValid)
             {
-              int i=  _userService.Regist(new User()
+                if (userView.PasswordCheck == userView.User.PassWord)
                 {
-                    UserName = user.UserName,
-                    PassWord = user.PassWord,
-                    Email = user.Email,
-                    AddTime = DateTime.Now,
-                    UserState = user.UserState,
-                    RoleType = user.RoleType
-                });
-                if(i>0)
-                    return RedirectToAction("Index", "Login");
-               
+                    ViewBag.passwordCheckError = "";
+                    int i = _userService.Regist(new User()
+                    {
+                        UserName = userView.User.UserName,
+                        PassWord = userView.User.PassWord,
+                        Email = userView.User.Email,
+                        StudentNum = userView.User.StudentNum,
+                        Gender = userView.User.Gender,
+                        AddTime = DateTime.Now
+                        
+                    });
+
+                    if (i > 0)
+                        return RedirectToAction("Index", "Login");
+
+                }
+                else
+                {
+                    ViewBag.passwordCheckError = "请保持密码和校验密码一致";
+                }
             }
 
-            return View("Index",user);//不走action,走view 页面信息不会清空
+            return View("Index");//不走action,走view 页面信息不会清空
 
             //_userService.Regist(new User()
             //{

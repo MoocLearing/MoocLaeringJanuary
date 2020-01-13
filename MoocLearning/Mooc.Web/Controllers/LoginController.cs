@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Mooc.DataAccess.Context;
 using Mooc.DataAccess.Entities;
 
@@ -10,9 +12,8 @@ namespace Mooc.Web.Controllers
 {
     public class LoginController : Controller
     {
-        //加了session储存用户登录状态，验证跳转主页，没跑出这个功能，是不是需要在web-config里面进行session使用的配置还是直接默认就可以用session的功能？
-
         private readonly DataContext _dataContext;
+
         public LoginController(DataContext dataContext)
         {
             this._dataContext = dataContext;
@@ -31,34 +32,39 @@ namespace Mooc.Web.Controllers
             {
                 return View();
             }
+
             //return View();
         }
 
-        //Create session if uid&pwd correct
+
         [HttpPost]
         public ActionResult LoginResult(User user)
         {
-            if (ModelState.IsValid)
+            //这里加ModelState.Isvalid永远都返false
+            if (true)
             {
-                var userModel = this._dataContext.Users.FirstOrDefault(x => x.UserName == user.UserName && x.PassWord == user.PassWord);
+                var userModel =
+                    this._dataContext.Users.FirstOrDefault(x =>
+                        x.UserName == user.UserName && x.PassWord == user.PassWord);
 
-                if(userModel!=null)
+                if (userModel != null)
                 {
-                    Session["User"] = user;
 
-                    // return RedirectToAction("Index", "Home", new { username = user.UserName });
+                    HttpCookie cookie = new HttpCookie("userinfo");
+                    cookie.Value = userModel.UserName;
+                    cookie.Expires = DateTime.Now.AddDays(1);
+                    Response.Cookies.Add(cookie);
 
                     return RedirectToAction("Index", "Home");
+
+                }
+                else
+                {
+                    ModelState.AddModelError("", "用户名或密码不存在");
+                    return View("Index", user);
                 }
 
-                ModelState.AddModelError("", "用户名或密码不存在");
-                return View("Index", user);
             }
-            else
-            {
-                return View("Index",user);
-            }
-       
 
             //DataContext db = new DataContext();//using 或者dispose或者autofac
 
@@ -79,7 +85,7 @@ namespace Mooc.Web.Controllers
             //    return RedirectToAction("Index");
             //}
 
-            
+
         }
     }
 }
