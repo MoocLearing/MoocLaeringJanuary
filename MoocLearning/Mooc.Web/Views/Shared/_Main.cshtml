@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewBag.Title - Mooc</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/xenon.css" rel="stylesheet" />
+    <link href="~/Content/xenon-core.css" rel="stylesheet" />
+    <link href="~/Content/fonts/fontawesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</head>
+<body class="page-body">
+    <div class="page-container">
+        <div class="sidebar-menu toggle-others fixed">
+
+            <div class="sidebar-menu-inner">
+
+                <header class="logo-env">
+                    <!-- logo -->
+                    <div class="logo">
+                        <a href="~/Home/Index" class="logo-expanded">
+                            <h3 style="color:#fff">Mooc 后台</h3>
+                        </a>
+                    </div>
+                </header>
+                <ul id="main-menu" class="main-menu">
+                    <li class="opened active">
+                        <a href="~/Home/Index">
+                            <i class="glyphicon glyphicon-home"></i>
+                            <span class="title">后台首页</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="glyphicon glyphicon-th-large"></i>
+                            <span class="title">课程类别</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="#">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                            <span class="title">课程列表</span>
+                        </a>    
+                    </li>
+                    <li>
+                        <a href="~/Home/Index">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span class="title">用户列表</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="~/RedPacket/RedPacketList">
+                            <i class="glyphicon glyphicon-gift"></i>
+                            <span class="title">老师列表</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Home/Index">
+                            <i class="glyphicon glyphicon-cog"></i>
+                            <span class="title">系统管理</span>
+
+                        </a>
+
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="main-content">
+            <nav class="navbar user-info-navbar" role="navigation">
+
+                <ul class="user-info-menu right-links list-inline list-unstyled">
+                    @Html.Partial("_LoginPartial")
+                </ul>
+
+            </nav>
+            @RenderBody()
+
+        </div>
+    </div>
+
+</body>
+</html>

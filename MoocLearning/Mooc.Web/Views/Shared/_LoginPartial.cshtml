@@ -1,0 +1,37 @@
+﻿@{
+    bool isLogin = true;
+    string userName = "张三";
+}
+@if (isLogin)
+{
+    <li class="dropdown user-profile">
+        <a class="padding-right25" href="#" data-toggle="dropdown">
+            欢迎登录：
+            <span class="login-user">
+                @userName
+                <i class="fa-angle-down"></i>
+            </span>
+        </a>
+        <ul class="dropdown-menu user-profile-menu list-unstyled">
+            <li>
+                <a href="~/Manage/Index">
+                    <i class="fa-edit"></i>
+                    更改密码
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="fa-lock"></i>
+                    退出
+                </a>
+            </li>
+        </ul>
+    </li>
+
+}
+else
+{
+<li class=" user-profile">  
+    @Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+</li>
+}
