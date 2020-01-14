@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mooc.DataAccess.Service
+namespace Mooc.Data.Service
 {
     public interface IDependency
     {

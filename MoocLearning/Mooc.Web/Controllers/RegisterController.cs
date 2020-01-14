@@ -1,8 +1,9 @@
-﻿using Mooc.DataAccess.Context;
-using Mooc.DataAccess.Dto;
-using Mooc.DataAccess.Entities;
-using Mooc.DataAccess.Service;
+﻿using Mooc.Data.Context;
+using Mooc.Data.Entities;
+using Mooc.Data.Service;
+using Mooc.Data.ViewModels;
 using Mooc.Utils.Enums;
+using Mooc.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Mooc.Web.Controllers
 {
     public class RegisterController : Controller
     {
-
+        private TeacherOption _option = new TeacherOption();
         private IUserService _userService;
         private DataContext _dataContext;
 
@@ -29,35 +30,15 @@ namespace Mooc.Web.Controllers
             //List<SelectListItem> enumsList = ((RoleTypeEnum[])Enum.GetValues(typeof(SelectListItem))).Select(c => new SelectListItem() { Value = ((int)c).ToString(), Text = c.ToString() }).ToList();
 
             //ViewBag.RoleTypeList = enumsList;
-            ViewBag.CountryList = GetCountrySelectOptions();
+            ViewBag.TeacherList = _option.GetTeacherSelectOptions();
             return View();
         }
 
-        public List<Country> GetCountries()
-        {
-            List<Country> list = new List<Country>() {
-                new Country{ Id=1,CountryName="中国"},
-                new Country{Id=2,CountryName="美国"}
-            };
-            return list;
-        }
-
-        private IEnumerable<SelectListItem> GetCountrySelectOptions()
-        {
-            var itemlist = GetCountries().AsEnumerable().Select(r => new SelectListItem
-            {
-                Text = r.CountryName,
-                Value = r.Id.ToString(),
-                // Selected = r.CountryName == "中国" ? true : false
-            });
-            return itemlist;
-        }
-
         [System.Web.Http.HttpPost]
-        public ActionResult UserRegist(UserView userView)
+        public ActionResult Register(UserViewModel userView)
         {
-           
-            ViewBag.CountryList = GetCountrySelectOptions();
+
+            ViewBag.TeacherList = _option.GetTeacherSelectOptions();
 
             if (ModelState.IsValid)
             {
@@ -77,12 +58,12 @@ namespace Mooc.Web.Controllers
                 if (model != null)
                 {
 
-                    ModelState.AddModelError("","此用户已存在");
+                    ModelState.AddModelError("","用户已存在");
                     return View("Index", userView);
                 }
                 User user = AutoMapper.Mapper.Map<User>(userView);
                 user.UserState = 0;
-                user.CountryId =Convert.ToInt32( userView.CountryIds);
+                user.TeacherId =Convert.ToInt32( userView.TeacherIds);
                 user.RoleType = (int)RoleTypeEnum.student;
                 int i = _userService.Regist(user);
 

@@ -1,18 +1,14 @@
-﻿using Mooc.DataAccess.Entities;
-using System;
+﻿using Mooc.Data.Entities;
+using Mooc.Data.Service;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mooc.Models.ViewModels;
 
-namespace Mooc.DataAccess.Service
+namespace Mooc.Data.Service
 {
     public interface IUserService:IDependency
     {
         List<User> GetList();
         int Regist(User user);
-        List<Country> GetCountries();
+        //List<Country> GetCountries();
 
     }
 

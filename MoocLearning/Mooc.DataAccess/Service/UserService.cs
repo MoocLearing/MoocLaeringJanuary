@@ -1,15 +1,10 @@
-﻿using Mooc.DataAccess.Context;
-using Mooc.DataAccess.Entities;
-using System;
+﻿using AutoMapper;
+using Mooc.Data.Context;
+using Mooc.Data.Entities;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Mooc.Models.ViewModels;
 
-namespace Mooc.DataAccess.Service
+namespace Mooc.Data.Service
 {
     public class UserService : IUserService
     {
@@ -31,12 +26,6 @@ namespace Mooc.DataAccess.Service
                 return db.SaveChanges();
             }
         }
-        public List<Country> GetCountries()
-        {
-            using (DataContext db = new DataContext())
-            {
-                return db.Countries.ToList();
-            }
-        }
+    
     }
 }

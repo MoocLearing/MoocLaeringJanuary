@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using Mooc.Data.Context;
+using Mooc.Data.Entities;
 using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Mooc.DataAccess.Context;
-using Mooc.DataAccess.Entities;
 
 namespace Mooc.Web.Controllers
 {
@@ -19,7 +14,7 @@ namespace Mooc.Web.Controllers
         // GET: Users
         public async Task<ActionResult> Index()
         {
-            ViewBag.UserName = user.UserName;
+            ViewBag.UserName = GetSession<string>(loginSessionName);
             return View(await db.Users.ToListAsync());
         }
 

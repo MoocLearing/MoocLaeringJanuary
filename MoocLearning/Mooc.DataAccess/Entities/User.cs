@@ -7,15 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 
-namespace Mooc.DataAccess.Entities
+namespace Mooc.Data.Entities
 {
-    public class User 
+    public class User : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-
-        public DateTime? AddTime { get; set; }
-
+       
         [Required(ErrorMessage = "用户名必填")]
         [StringLength(100, ErrorMessage = "用户名长度不能超过100个字符")]
         [Display(Name = "用户名")]
@@ -34,26 +30,22 @@ namespace Mooc.DataAccess.Entities
 
         [Required(ErrorMessage = "学号必填")]
         [Display(Name = "学号")]
-        public int StudentNum { get; set; }
+        public int StudentNo { get; set; }
 
 
-        [Display(Name = "教师号")]
-        public string TeacherId { get; set; }
+        [Display(Name = "教师")]
+        public long TeacherId { get; set; }
 
         [Required(ErrorMessage = "请选择性别")]
         [Display(Name = "性别")]
         public int Gender { get; set; }
 
 
-        [Display(Name = "国家")]
-        public byte CountryId { get; set; }
-
-
         [Display(Name = "用户状态")]
         [DefaultValue(0)]
         public int UserState { get; set; }
 
-        [DefaultValue(1)]
+        [DefaultValue(3)]
         [Display(Name = "角色")]
         public int RoleType { get; set; }
 

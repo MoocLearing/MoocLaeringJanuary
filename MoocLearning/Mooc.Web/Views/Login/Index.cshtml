@@ -1,9 +1,6 @@
-﻿@using System.Drawing.Imaging
-@using System.Net.Http
-@model Mooc.DataAccess.Entities.User
-@*@using Mooc.DataAccess.Entities;
+﻿
+@model Mooc.Data.ViewModels.LoginViewModel
 
-@model User;*@
 
 @{
     Layout = null;
@@ -23,16 +20,18 @@
         var formData = new FormData(document.getElementById("checklogin"));
         $.ajax({
             type: 'post',
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            url: 'Login/LoginResult',
+            //async: false,
+            //cache: false,
+            //contentType: false,
+            //processData: false,
+            url:"@Url.Content("~/Login/LoginResult2")",
+            dataType:"json",
             data: formData,
             success: function (data) {
                 if (data.code == 200) {
                        
-                    window.location.reload();
+                    // window.location.reload();
+                    window.location.href="@Url.Content("~/Home/Index")";
                         
                 } 
             }
@@ -47,39 +46,41 @@
             <div class="login-head">
                 <h1>用户登录</h1>
             </div>
-            
-                @using (Ajax.BeginForm("LoginResult", "Login", new AjaxOptions {HttpMethod = "Post"}))
-                {
-                    <ul>
 
-                        <li>
-                            <label>用户</label>
-                            @Html.EditorFor(m=>m.UserName, new { @class = "form-control" })
-                        </li>
+            @*@using (Ajax.BeginForm("LoginResult", "Login", new AjaxOptions { HttpMethod = "Post" }))*@
+            @using (Html.BeginForm("LoginResult", "Login"))
+            {
+                @Html.AntiForgeryToken()
+                <ul>
 
-                        <li>
-                            <label>密码</label>
-                            @Html.EditorFor(m=>m.PassWord, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m=>m.PassWord)
-                        </li>
-                        
-                    </ul>
+                    <li>
+                        @Html.LabelFor(model => model.UserName, htmlAttributes:null)
+                        @Html.EditorFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PassWord)
+                    </li>
+
+                    <li>
+                        @Html.LabelFor(model => model.PassWord, htmlAttributes: null)
+                        @Html.EditorFor(m => m.PassWord, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PassWord)
+                    </li>
+
+                </ul>
+                <div class="clear"> </div>
+                @Html.ValidationSummary(true);
+                <div class="submit">
+                    <input type="submit" value="登录">
                     <div class="clear"> </div>
-                    @Html.ValidationSummary(true)
-                    <div class="submit">
-                        <input type="submit" value="登录">
-                        <h4><a href="#">忘记密码 ?</a></h4>
-                        <div class="clear"> </div>
-                    </div>
-                }
-                
+                </div>
+            }
 
 
-            
+
+
             <div style="margin-top: 20px;height: 40px">
                 @*@Html.ActionLink("注册","Index", "Regist",new { area = "",name ="123"})*@
                 @*<a href="@Html.Action("Index","Regist")" style="color: white;font-family: Raleway, sans-serif;font-size: 22px;display: inline-block;">SignUp First</a>*@
-                <a href="@Url.Content("~/Regist/Index")" style="color: white;font-family: Raleway, sans-serif;font-size: 22px;display: inline-block;">注册</a>
+                <a href="@Url.Content("~/Register/Index")" style="color: white;font-family: Raleway, sans-serif;font-size: 22px;display: inline-block;">注册</a>
             </div>
         </div>
     </div>

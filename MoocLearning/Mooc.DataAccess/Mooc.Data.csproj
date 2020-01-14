@@ -72,74 +72,27 @@
     <Compile Include="AutoMapper\MapperProfile.cs" />
     <Compile Include="Context\DataContext.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
-    <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Entities\UserView.cs" />
-    <Compile Include="Migrations\202001122116478_adduser.cs" />
-    <Compile Include="Migrations\202001122116478_adduser.designer.cs">
-      <DependentUpon>202001122116478_adduser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001122122059_addu.cs" />
-    <Compile Include="Migrations\202001122122059_addu.designer.cs">
-      <DependentUpon>202001122122059_addu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001130006435_ad.cs" />
-    <Compile Include="Migrations\202001130006435_ad.designer.cs">
-      <DependentUpon>202001130006435_ad.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001130114327_addd.cs" />
-    <Compile Include="Migrations\202001130114327_addd.designer.cs">
-      <DependentUpon>202001130114327_addd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001130146333_adddd.cs" />
-    <Compile Include="Migrations\202001130146333_adddd.designer.cs">
-      <DependentUpon>202001130146333_adddd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001130150368_adddd1.cs" />
-    <Compile Include="Migrations\202001130150368_adddd1.designer.cs">
-      <DependentUpon>202001130150368_adddd1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001130152501_adddd2.cs" />
-    <Compile Include="Migrations\202001130152501_adddd2.designer.cs">
-      <DependentUpon>202001130152501_adddd2.cs</DependentUpon>
+    <Compile Include="Migrations\202001141531061_init001.cs" />
+    <Compile Include="Migrations\202001141531061_init001.designer.cs">
+      <DependentUpon>202001141531061_init001.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IDependency.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\UserService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mooc.Models\Mooc.Models.csproj">
-      <Project>{83001f9c-34ac-4785-8ea3-7b639b13cd9e}</Project>
-      <Name>Mooc.Models</Name>
-    </ProjectReference>
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\TeacherSelectOption.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001122116478_adduser.resx">
-      <DependentUpon>202001122116478_adduser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001122122059_addu.resx">
-      <DependentUpon>202001122122059_addu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001130006435_ad.resx">
-      <DependentUpon>202001130006435_ad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001130114327_addd.resx">
-      <DependentUpon>202001130114327_addd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001130146333_adddd.resx">
-      <DependentUpon>202001130146333_adddd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001130150368_adddd1.resx">
-      <DependentUpon>202001130150368_adddd1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001130152501_adddd2.resx">
-      <DependentUpon>202001130152501_adddd2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001141531061_init001.resx">
+      <DependentUpon>202001141531061_init001.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

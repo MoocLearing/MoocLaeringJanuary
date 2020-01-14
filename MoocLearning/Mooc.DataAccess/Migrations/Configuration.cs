@@ -5,14 +5,14 @@
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Mooc.DataAccess.Context.DataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Mooc.Data.Context.DataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Mooc.DataAccess.Context.DataContext context)
+        protected override void Seed(Mooc.Data.Context.DataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

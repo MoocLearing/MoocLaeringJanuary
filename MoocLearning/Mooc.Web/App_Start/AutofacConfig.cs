@@ -1,16 +1,13 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
-using Mooc.DataAccess.Service;
-using System;
-using System.Collections.Generic;
+using Mooc.Data.Context;
+using Mooc.Data.Service;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Compilation;
 using System.Web.Http;
 using System.Web.Mvc;
-using Mooc.DataAccess.Context;
 
 namespace Mooc.Web.App_Start
 {

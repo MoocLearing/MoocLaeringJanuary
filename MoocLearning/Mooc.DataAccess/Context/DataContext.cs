@@ -1,13 +1,8 @@
-﻿using Mooc.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
+﻿using Mooc.Data.Entities;
 using System.Configuration;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Mooc.DataAccess.Context
+namespace Mooc.Data.Context
 {
     public class DataContext : DbContext
     {
@@ -23,7 +18,6 @@ namespace Mooc.DataAccess.Context
 
         public DbSet<User> Users { get; set; }
         
-        public DbSet<Country> Countries { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

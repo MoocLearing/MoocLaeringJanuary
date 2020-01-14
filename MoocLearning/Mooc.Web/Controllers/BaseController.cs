@@ -1,28 +1,34 @@
-﻿using Mooc.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Mooc.Web.Controllers
 {
     public class BaseController : Controller
     {
-        public User user;
+        public string loginSessionId = "userid";
+        public string loginSessionName = "username";
         public BaseController()
         {
-            if (Session["User"] == null)
-            {
-                Response.Redirect("/Login/Index", true);
+
+        }
+
+        public void SetSession(string name, object value)
+        {
+            if (string.IsNullOrEmpty(name))
                 return;
-            }
-            else
-            {
-                user = Session["User"] as User;
-               
-            }
+
+            System.Web.HttpContext.Current.Session[name] = value;
+        }
+
+        public T GetSession<T>(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return default(T);
+
+            var session = System.Web.HttpContext.Current.Session[name];
+            if(session==null)
+                return default(T);
+
+            return (T)System.Web.HttpContext.Current.Session[name];
         }
        
     }
