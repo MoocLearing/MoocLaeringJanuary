@@ -1,6 +1,7 @@
 ﻿using Mooc.Data.Entities;
 using System.Configuration;
 using System.Data.Entity;
+using Mooc.DataAccess.Entities;
 
 namespace Mooc.Data.Context
 {
@@ -17,6 +18,10 @@ namespace Mooc.Data.Context
         }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<SubjectCategory> SubjectCategories { get; set; }
+
+        public DbSet<CategoryType> CategoryTypes { get; set; }
         
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

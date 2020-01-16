@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Mooc.Data.Entities;
 using Mooc.Data.ViewModels;
+using Mooc.DataAccess.ViewModels;
 
 namespace Mooc.Data.AutoMapper
 {
@@ -10,6 +11,11 @@ namespace Mooc.Data.AutoMapper
         {
             CreateMap<User, UserViewModel>();
             CreateMap<UserViewModel, User>();
+
+            CreateMap<User, AdminUserViewModel>();
+            CreateMap<AdminUserViewModel, User>();
+
+            
         }
     }
 }

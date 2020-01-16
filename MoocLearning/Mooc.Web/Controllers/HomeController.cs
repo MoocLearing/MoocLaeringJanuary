@@ -1,7 +1,10 @@
 ﻿using Mooc.Data.Service;
 using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using Mooc.Data.Entities;
+using Mooc.Data.ViewModels;
 
 namespace Mooc.Web.Controllers
 {
@@ -15,9 +18,9 @@ namespace Mooc.Web.Controllers
         public ActionResult Index()
         {
 
-
+            //先注释掉
             HttpCookie cookie = Request.Cookies["userinfo"];
-            if (cookie!=null)
+            if (cookie != null)
             {
                 ViewBag.username = cookie.Value;
                 return View("Index");
@@ -27,22 +30,22 @@ namespace Mooc.Web.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            // var user = Session["User"];
+            //var user = Session["User"];
 
-            //if (Session["User"] ==null)
+            //if (Session["User"] == null)
             //{
             //    return RedirectToAction("Index", "Login");
             //}
             //else
             //{
-            //    var user= Session["User"] as User;
+            //    var user = Session["User"] as User;
             //    ViewBag.username = username;
             //    return View();
             //}
 
             //var list = this._userService.GetList();
             //List<UserViewModel> models = AutoMapper.Mapper.Map<List<UserViewModel>>(list);
-
+            //return View();
         }
 
         public ActionResult DeleteCookie()

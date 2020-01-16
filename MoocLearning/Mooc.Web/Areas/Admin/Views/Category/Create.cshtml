@@ -1,0 +1,60 @@
+﻿@model Mooc.DataAccess.ViewModels.CategoryViewModel
+@{
+    ViewBag.Title = "添加课程类型";
+    //Layout = "~/Areas/Admin/Views/Shared/_Main.cshtml";
+}
+
+    <div class="row">
+
+        <div class="panel panel-default col-md-6 col-md-push-3">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加/修改 课程类型</h3>
+            </div>
+            @using (Html.BeginForm("Save", "Category"))
+            {
+                @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubjectCategory.CategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SubjectCategory.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SubjectCategory.CategoryName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubjectCategory.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SubjectCategory.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SubjectCategory.Remark, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubjectCategory.CategoryTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                   @Html.DropDownListFor(m=>m.SubjectCategory.CategoryTypeId, new SelectList(Model.CategoryTypes,"ID","Name"),"请选择类型", new {@Class="form-control"});
+                       
+                    @Html.ValidationMessageFor(model => model.SubjectCategory.CategoryTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            @*同时传隐藏ID回后台，用来判断是添加还是更新，如果是个新添加的对象，ID应该传到后台的是0*@
+            @Html.HiddenFor(m=>m.SubjectCategory.ID)
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="提交" class="btn btn-success btn-submit" />
+                    <input type="reset" value="重置" class="btn btn-danger btn-margin" />
+                </div>
+            </div>
+        </div>
+            }
+        </div>
+
+    </div>
+

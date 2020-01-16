@@ -10,11 +10,12 @@ namespace Mooc.Data.ViewModels
         [Display(Name = "用户名")]
         public string UserName { get; set; }
 
+
+
         [Required(ErrorMessage = "密码必填")]
         [Display(Name = "密码")]
         [StringLength(20, ErrorMessage = "{0} 必须至少包含 {2} 个字符。", MinimumLength = 6)]
         [DataType(DataType.Password)]
-
         public string PassWord { get; set; }
     }
 }

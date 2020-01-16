@@ -4,3 +4,12 @@
 
 3.之前用session存登录user的对象，里面有user的roletype可以进行filter的操作，但cookie存在browser端如何
 得到用户的roletype信息？或者如果把这个信息存入cookie是否安全？
+
+01/15  
+1.从数据库里添加的user数据读不出来，必须建立EF controller用create action添加的才能读出来,并且codefirst的数据不能从数据库修改
+
+2.当使用user/index里的一个user选择edit时，后台代码通过点击的这个userID得到user对象，之后把user对象mapper成
+AdminUserViewModel对象，但最后一个TeacherId系统要求是IEnumerable<SelectListItem>类型，这个不知道如何转换好了？？
+之前在关联表实现drop down list时候是可以直接做两个对象的mapper的。
+
+3.在admin域里的filter里想通过session的username值得到user的对象从而判断roletype的值是否为管理员，但总是报一个异常：'Object reference not set to an instance of an object

@@ -1,30 +1,36 @@
-﻿@model IEnumerable<Mooc.Data.ViewModels.UserViewModel>
+﻿@model IEnumerable<Mooc.DataAccess.Entities.SubjectCategory>
 @{
-    ViewBag.Title = "用户列表";
+    ViewBag.Title = "课程分类";
+    //Layout = "~/Areas/Admin/Views/Shared/_Main.cshtml";
 }
 
 
 <div class="row">
     <div class="panel panel-default panel-full">
         <div class="panel-heading panel-heading-padding">
-            <h3 class="panel-title">用户列表</h3>
+            <h3 class="panel-title">课程分类</h3>
 
             <div class="panel-options">
                 @Html.ActionLink("添加", "Create", new { @class = "btn btn-gray" })
             </div>
         </div>
         <div class="panel-body">
+            @if (!Model.Any())
+            {
+                <p>目前没有课程分类</p>
+            }
+
             <table class="table  table-striped" id="example-1">
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.UserName)
+                            @Html.DisplayNameFor(model => model.CategoryName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Email)
+                            @Html.DisplayNameFor(model => model.CategoryType)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.TeacherId)
+                            @Html.DisplayNameFor(model => model.Remark)
                         </th>
 
                         <th>操作</th>
@@ -34,17 +40,17 @@
                 <tbody class="middle-align">
                     @foreach (var item in Model)
                     {
-                        if (item.UserState != 2)
+                        if (item.IsDel != 2)
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
+                                    @Html.DisplayFor(modelItem => item.CategoryName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Email)
+                                    @Html.DisplayFor(modelItem => item.CategoryTypeId)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.TeacherId)
+                                    @Html.DisplayFor(modelItem => item.Remark)
                                 </td>
                                 <td>
                                     @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" }) |
@@ -61,3 +67,4 @@
 
     </div>
 </div>
+

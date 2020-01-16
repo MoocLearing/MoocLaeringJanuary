@@ -1,4 +1,4 @@
-﻿@model Mooc.Data.ViewModels.UserViewModel
+﻿@model Mooc.DataAccess.ViewModels.AdminUserViewModel
 @{
     ViewBag.Title = "添加用户";
 }
@@ -7,9 +7,9 @@
 
     <div class="panel panel-default col-md-6 col-md-push-3">
         <div class="panel-heading">
-            <h3 class="panel-title">添加用户</h3>
+            <h3 class="panel-title">添加/修改 用户</h3>
         </div>
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Save","User"))
         {
             @Html.AntiForgeryToken()
 
@@ -54,7 +54,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.TeacherId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(m => m.TeacherIds, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.TeacherId, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
                     </div>
                 </div>

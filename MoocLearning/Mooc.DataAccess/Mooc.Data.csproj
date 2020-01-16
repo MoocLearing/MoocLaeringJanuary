@@ -72,16 +72,32 @@
     <Compile Include="AutoMapper\MapperProfile.cs" />
     <Compile Include="Context\DataContext.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
+    <Compile Include="Entities\CategoryType.cs" />
+    <Compile Include="Entities\SubjectCategory.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Migrations\202001141531061_init001.cs" />
     <Compile Include="Migrations\202001141531061_init001.designer.cs">
       <DependentUpon>202001141531061_init001.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001160759405_addcategory.cs" />
+    <Compile Include="Migrations\202001160759405_addcategory.designer.cs">
+      <DependentUpon>202001160759405_addcategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001160804132_addcategory2.cs" />
+    <Compile Include="Migrations\202001160804132_addcategory2.designer.cs">
+      <DependentUpon>202001160804132_addcategory2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001160940180_adddisplay.cs" />
+    <Compile Include="Migrations\202001160940180_adddisplay.designer.cs">
+      <DependentUpon>202001160940180_adddisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IDependency.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\UserService.cs" />
+    <Compile Include="ViewModels\AdminUserViewModel.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\TeacherSelectOption.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -93,6 +109,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202001141531061_init001.resx">
       <DependentUpon>202001141531061_init001.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001160759405_addcategory.resx">
+      <DependentUpon>202001160759405_addcategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001160804132_addcategory2.resx">
+      <DependentUpon>202001160804132_addcategory2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001160940180_adddisplay.resx">
+      <DependentUpon>202001160940180_adddisplay.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

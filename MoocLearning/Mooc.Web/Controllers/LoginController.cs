@@ -33,7 +33,7 @@ namespace Mooc.Web.Controllers
         [HttpPost]
         public ActionResult LoginResult(LoginViewModel user)
         {
-            //这里加ModelState.Isvalid永远都返false
+            //这里加ModelState.Isvalid永远都返false,y因为传的过来什么就验证什么，有空项就报错
             if (ModelState.IsValid)
             {
                 var userModel =
@@ -54,6 +54,8 @@ namespace Mooc.Web.Controllers
                     CookieHelper.SetCookie(loginSessionName, userModel.UserName);
 
                     SetSession(loginSessionName, userModel.UserName);
+                    
+                    
                     return RedirectToAction("Index", "Home");
 
                 }
