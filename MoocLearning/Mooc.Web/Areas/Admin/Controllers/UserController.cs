@@ -1,16 +1,13 @@
 ﻿using Mooc.Data.Context;
+using Mooc.Data.Entities;
 using Mooc.Data.Service;
 using Mooc.Data.ViewModels;
+using Mooc.Web.Areas.Admin.Attribute;
 using Mooc.Web.Models;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Mooc.Data.Entities;
-using Mooc.DataAccess.ViewModels;
-using Mooc.Web.Areas.Admin.Attribute;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {

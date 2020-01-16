@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mooc.DataAccess.ViewModels
+namespace Mooc.Data.ViewModels
 {
     public class AdminUserViewModel
     {

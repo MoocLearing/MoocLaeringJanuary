@@ -8,8 +8,8 @@
     <ProjectGuid>{9532E425-15BF-4FB1-9A5B-763467400463}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mooc.DataAccess</RootNamespace>
-    <AssemblyName>Mooc.DataAccess</AssemblyName>
+    <RootNamespace>Mooc.Data</RootNamespace>
+    <AssemblyName>Mooc.Data</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -75,23 +75,6 @@
     <Compile Include="Entities\CategoryType.cs" />
     <Compile Include="Entities\SubjectCategory.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Migrations\202001141531061_init001.cs" />
-    <Compile Include="Migrations\202001141531061_init001.designer.cs">
-      <DependentUpon>202001141531061_init001.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001160759405_addcategory.cs" />
-    <Compile Include="Migrations\202001160759405_addcategory.designer.cs">
-      <DependentUpon>202001160759405_addcategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001160804132_addcategory2.cs" />
-    <Compile Include="Migrations\202001160804132_addcategory2.designer.cs">
-      <DependentUpon>202001160804132_addcategory2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001160940180_adddisplay.cs" />
-    <Compile Include="Migrations\202001160940180_adddisplay.designer.cs">
-      <DependentUpon>202001160940180_adddisplay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IDependency.cs" />
     <Compile Include="Service\IUserService.cs" />
@@ -105,20 +88,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001141531061_init001.resx">
-      <DependentUpon>202001141531061_init001.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001160759405_addcategory.resx">
-      <DependentUpon>202001160759405_addcategory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001160804132_addcategory2.resx">
-      <DependentUpon>202001160804132_addcategory2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001160940180_adddisplay.resx">
-      <DependentUpon>202001160940180_adddisplay.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

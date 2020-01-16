@@ -266,8 +266,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mooc.DataAccess\Mooc.Data.csproj">
-      <Project>{9532e425-15bf-4fb1-9a5b-763467400463}</Project>
+    <ProjectReference Include="..\Mooc.Data\Mooc.Data.csproj">
+      <Project>{9532E425-15BF-4FB1-9A5B-763467400463}</Project>
       <Name>Mooc.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mooc.Utils\Mooc.Utils.csproj">

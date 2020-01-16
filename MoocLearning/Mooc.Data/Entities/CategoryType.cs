@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mooc.Data.Entities;
 
-namespace Mooc.DataAccess.Entities
+namespace Mooc.Data.Entities
 {
     public class CategoryType:BaseEntity
     {

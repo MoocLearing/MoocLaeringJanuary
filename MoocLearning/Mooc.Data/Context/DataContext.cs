@@ -1,7 +1,6 @@
 ﻿using Mooc.Data.Entities;
 using System.Configuration;
 using System.Data.Entity;
-using Mooc.DataAccess.Entities;
 
 namespace Mooc.Data.Context
 {

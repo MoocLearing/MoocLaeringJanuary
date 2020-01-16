@@ -13,12 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooc.Web.Tests", "Mooc.Web.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooc.Utils", "Mooc.Utils\Mooc.Utils.csproj", "{BE0DC4DB-3E3E-4C7D-99C1-B272D0F8DEF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooc.Data", "Mooc.DataAccess\Mooc.Data.csproj", "{9532E425-15BF-4FB1-9A5B-763467400463}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReadMe", "ReadMe", "{52228A20-B6CD-49A3-ABC5-14623D99CB92}"
 	ProjectSection(SolutionItems) = preProject
 		ReadMe.txt = ReadMe.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mooc.Data", "Mooc.Data\Mooc.Data.csproj", "{9532E425-15BF-4FB1-9A5B-763467400463}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
