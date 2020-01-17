@@ -1,11 +1,10 @@
 ﻿using Mooc.Data.Context;
 using Mooc.Data.Entities;
+using Mooc.Data.Enums;
 using Mooc.Data.Service;
 using Mooc.Data.ViewModels;
-using Mooc.Utils.Enums;
 using Mooc.Web.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -64,7 +63,7 @@ namespace Mooc.Web.Controllers
                 User user = AutoMapper.Mapper.Map<User>(userView);
                 user.UserState = 0;
                 user.TeacherId =Convert.ToInt32( userView.TeacherIds);
-                user.RoleType = (int)RoleTypeEnum.student;
+                user.RoleType = (int)RoleTypeEnum.Student;
                 int i = _userService.Regist(user);
 
                 if (i > 0)

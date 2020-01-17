@@ -1,6 +1,8 @@
-﻿@model Mooc.DataAccess.ViewModels.AdminUserViewModel
+﻿@model Mooc.Data.ViewModels.UserViewModel
 @{
     ViewBag.Title = "添加用户";
+
+
 }
 
 <div class="row">
@@ -9,10 +11,12 @@
         <div class="panel-heading">
             <h3 class="panel-title">添加/修改 用户</h3>
         </div>
-        @using (Html.BeginForm("Save","User"))
+        @using (Html.BeginForm("Save", "User"))
         {
             @Html.AntiForgeryToken()
 
+
+            @Html.HiddenFor(m => Model.ID)
             <div class="form-horizontal">
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -49,12 +53,20 @@
                     </div>
                 </div>
 
-               
+
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.TeacherId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.DropDownListFor(m => m.TeacherId, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.RoleType, ViewBag.RoleList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
                     </div>
                 </div>

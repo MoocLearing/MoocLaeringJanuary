@@ -1,0 +1,80 @@
+﻿
+@model Mooc.Data.ViewModels.UserViewModel
+@{
+    ViewBag.Title = "用户列表";
+}
+
+
+<div class="row">
+    <div class="panel panel-default panel-full">
+        <div class="panel-heading panel-heading-padding">
+            <h3 class="panel-title">用户列表</h3>
+
+            <div class="panel-options">
+                @Html.ActionLink("添加", "Create", new { @class = "btn btn-gray" })
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table  table-striped" id="example-1">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RoleType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserState)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TeacherId)
+                        </th>
+
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody class="middle-align" id="dataBind"></tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function search() {
+
+        $.ajax({
+            url: "@Url.Content("~/Admin/User/GetUserList")",
+            //data: {"id":5},
+            type: "POST", dataType: 'json',
+            success: function (data) {
+                if (data) {
+                    var _html = "";
+                    for (var i = 0; i < data.list.length; i++) {
+                        var item = data.list[i];
+                        _html += "<tr>";
+                        _html += "<td>" + item.UserName + "</td>";
+                        _html += "<td>" + item.Email + "</td>";
+                        _html += "<td>" + item.RoleName + "</td>";
+                        _html += "<td>" + item.StatusName + "</td>";
+                        _html += "<td>" + item.TeacherId + "</td>";
+                        _html += "<td><a href='@Url.Content("~/Admin/User/AjaxEdit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
+                       
+                        _html += "<a href='~/Admin/User/Delete/" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                        _html += "</tr>";
+                    }
+                    $("#dataBind").html(_html);
+                }
+            }
+        })
+
+    }
+
+    search();
+
+</script>

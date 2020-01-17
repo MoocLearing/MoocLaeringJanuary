@@ -24,8 +24,15 @@
                             @Html.DisplayNameFor(model => model.Email)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.TeacherId)
+                            @Html.DisplayNameFor(model => model.RoleType)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StatusName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DisplayDate)
+                        </th>
+
 
                         <th>操作</th>
                     </tr>
@@ -34,24 +41,31 @@
                 <tbody class="middle-align">
                     @foreach (var item in Model)
                     {
-                        if (item.UserState != 2)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Email)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.TeacherId)
-                                </td>
-                                <td>
-                                    @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" }) |
-                                    @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa-trash", @style = "font-size:20px" })
-                                </td>
-                            </tr>
-                        }
+                        //if (item.UserState != 2)
+                        //{
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoleName)
+                        </td>
+                     
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StatusName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DisplayDate)
+                        </td>
+                        <td>
+                            @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" }) |
+                            @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa-trash", @style = "font-size:20px" })
+                        </td>
+                    </tr>
+                        //  }
 
                     }
 

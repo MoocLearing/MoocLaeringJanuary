@@ -18,9 +18,11 @@ namespace Mooc.Data.Context
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<SubjectCategory> SubjectCategories { get; set; }
+        public DbSet<Category> Categorys { get; set; }
 
-        public DbSet<CategoryType> CategoryTypes { get; set; }
+        //public DbSet<SubjectCategory> SubjectCategories { get; set; }
+
+       // public DbSet<CategoryType> CategoryTypes { get; set; }
         
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

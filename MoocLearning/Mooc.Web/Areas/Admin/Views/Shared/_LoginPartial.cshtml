@@ -1,6 +1,7 @@
 ﻿@{
-    bool isLogin = true;
+
     string userName = ViewBag.username;
+    bool isLogin = !string.IsNullOrEmpty(userName);
 }
 @if (isLogin)
 {

@@ -1,4 +1,5 @@
-﻿using Mooc.Data.ViewModels;
+﻿using Mooc.Data.Enums;
+using Mooc.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +29,20 @@ namespace Mooc.Web.Models
             });
             return itemlist;
         }
+
+
     }
+
+    public class SelectOptions
+    {
+        public static IEnumerable<SelectListItem>  GetRoleSelectOptions()
+        {
+            IEnumerable<SelectListItem> enumsList = ((RoleTypeEnum[])Enum.GetValues(typeof(RoleTypeEnum))).Select(c => new SelectListItem() { Value = ((int)c).ToString(), Text = c.ToString() }).ToList();
+           
+            return enumsList;
+        }
+
+    }
+
+
 }

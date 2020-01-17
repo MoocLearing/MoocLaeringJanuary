@@ -38,6 +38,10 @@ namespace Mooc.Data.Entities
         [DefaultValue(1)]
         public long TeacherId { get; set; }
 
+        [Display(Name = "类别")]
+        [DefaultValue(1)]
+        public long CategoryId { get; set; }
+
         [Required(ErrorMessage = "请选择性别")]
         [Display(Name = "性别")]
         public int Gender { get; set; }
