@@ -18,4 +18,17 @@ namespace Mooc.Data.Enums
         Normal = 0,
         Locked = 1
     }
+
+    public enum CategoryTypeEnum
+    {
+        FirstCategory=1,
+        SecondCategory=2
+    }
+
+    public enum CategoryTypeNameEnum
+    {
+        一级分类 = 1,
+        二级分类 = 2
+    }
+
 }

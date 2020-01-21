@@ -1,7 +1,9 @@
-﻿@using Mooc.Data.Entities;
+﻿@model Mooc.Data.Entities.Category
 @{
-    ViewBag.Title = "添加课程类型";
-    //Layout = "~/Areas/Admin/Views/Shared/_Main.cshtml";
+    ViewBag.Title = "编辑课程类型";
+
+    string display = Model.Type == 1 ? "display:none;" : "display:block;";
+
 }
 
 
@@ -9,7 +11,7 @@
 
     <div class="panel panel-default col-md-6 col-md-push-3">
         <div class="panel-heading">
-            <h3 class="panel-title">添加课程类型</h3>
+            <h3 class="panel-title">编辑课程类型</h3>
         </div>
 
         <div class="form-horizontal">
@@ -19,7 +21,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2">类别名称</label>
                 <div class="col-md-10">
-                    <input type="text" id="CategoryName" class="form-control" placeholder="请输入类别名称" />
+                    <input type="text" id="CategoryName" value="@Model.CategoryName" class="form-control" placeholder="请输入类别名称" />
 
                 </div>
             </div>
@@ -28,23 +30,31 @@
                 <label class="control-label col-md-2">类别等级</label>
                 <div class="col-md-10">
                     <select id="CategoryType" class="form-control" onchange="change()">
-                        <option value="1">一级分类</option>
-                        <option value="2">二级分类</option>
+                        <option value="1" @(Model.Type == 1 ? "selected" : "")>一级分类</option>
+                        <option value="2" @(Model.Type == 2 ? "selected" : "")>二级分类</option>
                     </select>
                 </div>
             </div>
 
-            <div class="form-group" id="first" style="display:none;">
+            <div class="form-group" id="first" style="@display">
                 <label class="control-label col-md-2">一级分类</label>
                 <div class="col-md-10">
                     <select class="form-control" id="FirstCategory">
                         @{
-                            var categoryList = ViewBag.categoryList as List<Category>;
+                            var categoryList = ViewBag.categoryList as List<Mooc.Data.Entities.Category>;
                             if (categoryList != null && categoryList.Count > 0)
                             {
                                 foreach (var item in categoryList)
                                 {
-                                    <option value="@item.ID">@item.CategoryName</option>
+                                    if (item.ID == Model.ParentId)
+                                    {
+                                        <option value="@item.ID" selected="selected">@item.CategoryName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.CategoryName</option>
+                                    }
+
                                 }
                             }
                         }
@@ -54,8 +64,8 @@
             <div class="form-group">
                 <label class="control-label col-md-2">备注</label>
                 <div class="col-md-10">
-                  
-                    <textarea class="form-control" rows="5" id="remark" placeholder="请输入备注信息" style="resize: none;"></textarea>
+
+                    <textarea class="form-control" rows="5" id="remark" placeholder="请输入备注信息" style="resize: none;">@Model.Remark</textarea>
 
                 </div>
             </div>
@@ -63,7 +73,7 @@
             <div class="form-group" style="padding-top: 20px;">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="button" value="提交" onclick="submit()" class="btn btn-success btn-submit" />
-                    <input type="button" value="返回" onclick="back()"class="btn btn-danger btn-margin" />
+                    <input type="button" value="返回" onclick="back()" class="btn btn-danger btn-margin" />
                 </div>
             </div>
         </div>
@@ -77,6 +87,9 @@
     }
 </script>
 <script>
+
+  //  $("#CategoryType").val("@Model.CategoryName")//赋值
+
     function change() {
         var type = $("#CategoryType").val();
         if (type && type == 2) {
@@ -84,8 +97,7 @@
             // $("#first").css("display","block");
         }
         else {
-
-
+            $("#first").hide();
             // $("#first").css("display", "none");
         }
 
@@ -111,12 +123,14 @@
             }
         }
         $.ajax({
-            url: "@Url.Content("~/Admin/Category/CreateCategory")",
-            data: { "CategoryName": CategoryName, "ParentId": FirstCategory, "Type": type, "Remark": remark},
+            url: "@Url.Content("~/Admin/Category/EditCategory")",
+            data: {"ID":"@Model.ID", "CategoryName": CategoryName, "ParentId": FirstCategory, "Type": type, "Remark": remark},
             type: "POST", dataType: 'json',
             success: function (data) {
                 if (data.code == 0) {
-                    window.location = "@Url.Content("~/Admin/Category/Index")";
+                    window.location = "@Url.Content("~/Admin/Category/Edit/")" + "@Model.ID";
+
+                   // window.location.reload(); //当前页面重新刷新
                 }
                 else {
                     alert(data.msg)
@@ -127,3 +141,4 @@
 
     }
 </script>
+

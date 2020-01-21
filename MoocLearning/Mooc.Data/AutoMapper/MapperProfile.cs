@@ -14,7 +14,9 @@ namespace Mooc.Data.AutoMapper
             CreateMap<User, AdminUserViewModel>();
             CreateMap<AdminUserViewModel, User>();
 
-            
+            CreateMap<Category, CategoryViewModel>();
+            CreateMap<CategoryViewModel, Category>();
+
         }
     }
 }

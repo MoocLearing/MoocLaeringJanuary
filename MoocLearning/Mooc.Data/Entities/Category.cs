@@ -14,7 +14,7 @@ namespace Mooc.Data.Entities
         [StringLength(20, ErrorMessage = "{0}不能超过20个字符")]      
         public string CategoryName { get; set; }
 
-        [Display(Name = "一级分类")]
+        [Display(Name = "父类别")]
         public long ParentId { get; set; }
 
         [Range(0, 10)]

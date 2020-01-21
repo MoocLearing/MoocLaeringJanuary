@@ -38,16 +38,23 @@
                     </tr>
                 </thead>
 
-                <tbody class="middle-align" id="dataBind"></tbody>
+                <tbody class="middle-align" id="dataBind">
+
+
+                </tbody>
             </table>
         </div>
+
+      <div>
+
+      </div>
 
     </div>
 </div>
 
 <script>
     function search() {
-
+        //$.post  $.get  async
         $.ajax({
             url: "@Url.Content("~/Admin/User/GetUserList")",
             //data: {"id":5},
@@ -72,6 +79,9 @@
                 }
             }
         })
+
+        ///
+        var s = 55;
 
     }
 

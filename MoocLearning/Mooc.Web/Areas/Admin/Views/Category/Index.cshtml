@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Mooc.DataAccess.Entities.SubjectCategory>
+﻿@using Mooc.Data.Enums;
+@model IEnumerable<Mooc.Data.ViewModels.CategoryViewModel>
 @{
     ViewBag.Title = "课程分类";
     //Layout = "~/Areas/Admin/Views/Shared/_Main.cshtml";
@@ -11,55 +12,91 @@
             <h3 class="panel-title">课程分类</h3>
 
             <div class="panel-options">
-                @Html.ActionLink("添加", "Create", new { @class = "btn btn-gray" })
+                @Html.ActionLink("添加", "Create",  new { @class = "btn btn-gray" })
             </div>
         </div>
         <div class="panel-body">
-            @if (!Model.Any())
-            {
-                <p>目前没有课程分类</p>
-            }
+
 
             <table class="table  table-striped" id="example-1">
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.CategoryName)
+                            @Html.DisplayNameFor(model => model.Type)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.CategoryType)
+                            @Html.DisplayNameFor(model => model.CategoryName)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Remark)
                         </th>
 
+                        <th>
+                            @Html.DisplayNameFor(model => model.ParentId)
+                        </th>
                         <th>操作</th>
                     </tr>
                 </thead>
 
                 <tbody class="middle-align">
-                    @foreach (var item in Model)
+                    @if (Model != null && Model.Count() > 0)
                     {
-                        if (item.IsDel != 2)
+                        foreach (var item in Model)
                         {
+
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CategoryName)
+                                    @(Enum.GetName(typeof(CategoryTypeNameEnum), item.Type))
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CategoryTypeId)
+                                    @Html.DisplayFor(modelItem => item.CategoryName)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Remark)
                                 </td>
                                 <td>
+                                    ---
+                                </td>
+                                <td>
                                     @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" }) |
-                                    @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa-trash", @style = "font-size:20px" })
+                                    @*@Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa-trash", @style = "font-size:20px" })*@
+                                    <a onclick="Delete('@item.ID')" class="fa-trash" style="font-size:20px"></a>
                                 </td>
                             </tr>
-                        }
+                            if (item.CategryList != null && item.CategryList.Count() > 0)
+                            {
+                                foreach (var itemSecond in item.CategryList)
+                                {
 
+                                    <tr>
+                                        <td>
+                                            @(Enum.GetName(typeof(CategoryTypeNameEnum), itemSecond.Type))
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => itemSecond.CategoryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => itemSecond.Remark)
+                                        </td>
+
+                                        <td>
+                                            @item.CategoryName
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink(" ", "Edit", new { id = itemSecond.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" }) |
+                                          
+                                            <a onclick="Delete('@itemSecond.ID')" class = "fa-trash" style = "font-size:20px"></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
                     }
+                    else
+                    {
+                        <tr><td colspan="5">暂无数据！</td></tr>
+                    }
+
 
                 </tbody>
             </table>
@@ -68,3 +105,23 @@
     </div>
 </div>
 
+<script>
+    function Delete(id) {
+        if (confirm("确定删除么？")) {
+             $.ajax({
+            url: "@Url.Content("~/Admin/Category/DeleteCategory")",
+            data: { "id": id},
+            type: "POST", dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    window.location = "@Url.Content("~/Admin/Category/Index")";
+                }
+                else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+       })
+        }
+    }
+</script>
