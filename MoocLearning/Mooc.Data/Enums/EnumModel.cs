@@ -31,4 +31,14 @@ namespace Mooc.Data.Enums
         二级分类 = 2
     }
 
+    public enum TeacherDepartmentEnum
+    {   
+        ItDepartment = 1,
+
+        AccountDepartment=2,
+
+        MarketDepartment = 3
+
+    }
+
 }

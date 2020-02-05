@@ -1,0 +1,107 @@
+﻿@using Mooc.Data.Enums;
+@model Mooc.Data.ViewModels.ListTeacherPage
+@{
+    ViewBag.Title = "教师后台";
+
+}
+
+
+<div class="row">
+    <div class="panel panel-default panel-full">
+        <div class="panel-heading panel-heading-padding">
+            <h3 class="panel-title">教师后台</h3>
+
+            <div class="panel-options">
+                @*@Html.ActionLink("添加", "Create", new { @class = "btn btn-gray" })*@
+                <a href="~/Admin/RazorTeacher/Create" class="btn btn-gray">添加</a>
+            </div>
+        </div>
+        <div class="panel-body">
+
+
+            <table class="table  table-striped" id="example-1">
+                <thead>
+                    <tr>
+                        <th>
+                            
+                            TeacherName
+                        </th>
+                        <th>
+                           
+                            TeacherDepartment
+                        </th>
+                        <th>
+                           
+                            TeacherProfile
+                        </th>
+
+                        <th>
+                            
+                            AddTime
+                        </th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody class="middle-align" id="dataBind">
+                    @if (Model != null && Model.teachers.Count() > 0)
+                    {
+                        foreach (var item in Model.teachers)
+                        {
+
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TeacherName)
+                                </td>
+                                <td>
+                                    @(Enum.GetName(typeof(TeacherDepartmentEnum), item.TeacherDepartment))
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TeacherProfile)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AddTime)
+                                </td>
+                                <td>
+                                    @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" }) |
+
+                                    @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class="fa-trash", @style="font-size: 20px" })
+
+                                   
+
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <nav aria-label="...">
+                <ul class="pagination pagination-sm" id="fenye">
+
+                    @for (int i = 1; i < Model.TotalPage + 1; i++)
+                    {
+
+                        if (Model.CurrentPage == i)
+                        {
+                            <li class="active"><a href="~/Admin/RazorTeacher/IndexList?currentpage=@i">@i<span class="sr-only">(current)</span></a></li>
+
+                            
+                        }
+                        else
+                        {
+                            <li><a href="~/Admin/RazorTeacher/IndexList?currentpage=@i">@i<span class="sr-only">(current)</span></a></li>
+                        }
+
+                    }
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+
+
+

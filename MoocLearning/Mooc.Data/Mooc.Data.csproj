@@ -75,11 +75,24 @@
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\CategoryType.cs" />
     <Compile Include="Entities\SubjectCategory.cs" />
+    <Compile Include="Entities\Teacher.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\EnumModel.cs" />
-    <Compile Include="Migrations\202001181416591_test001.cs" />
-    <Compile Include="Migrations\202001181416591_test001.designer.cs">
-      <DependentUpon>202001181416591_test001.cs</DependentUpon>
+    <Compile Include="Migrations\202001272248070_first.cs" />
+    <Compile Include="Migrations\202001272248070_first.designer.cs">
+      <DependentUpon>202001272248070_first.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001280351325_second.cs" />
+    <Compile Include="Migrations\202001280351325_second.designer.cs">
+      <DependentUpon>202001280351325_second.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001280956074_third.cs" />
+    <Compile Include="Migrations\202001280956074_third.designer.cs">
+      <DependentUpon>202001280956074_third.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001290218166_222.cs" />
+    <Compile Include="Migrations\202001290218166_222.designer.cs">
+      <DependentUpon>202001290218166_222.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,8 +101,13 @@
     <Compile Include="Service\UserService.cs" />
     <Compile Include="ViewModels\AdminUserViewModel.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\ListTeacherPage.cs" />
+    <Compile Include="ViewModels\ListUserPages.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\RazorTeacherView.cs" />
     <Compile Include="ViewModels\TeacherSelectOption.cs" />
+    <Compile Include="ViewModels\TeacherViewModel.cs" />
+    <Compile Include="ViewModels\UserRazorView.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,8 +115,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001181416591_test001.resx">
-      <DependentUpon>202001181416591_test001.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001272248070_first.resx">
+      <DependentUpon>202001272248070_first.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001280351325_second.resx">
+      <DependentUpon>202001280351325_second.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001280956074_third.resx">
+      <DependentUpon>202001280956074_third.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001290218166_222.resx">
+      <DependentUpon>202001290218166_222.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,70 @@
+﻿@model  IEnumerable<Mooc.Data.ViewModels.TeacherViewModel>
+@{
+    ViewBag.Title = "用户列表";
+}
+
+
+<div class="row">
+    <div class="panel panel-default panel-full">
+        <div class="panel-heading panel-heading-padding">
+            <h3 class="panel-title">用户列表</h3>
+
+            <div class="panel-options">
+                @Html.ActionLink("添加", "Create", new { @class = "btn btn-gray" })
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table  table-striped" id="example-1">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TeacherName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TeacherDepartment)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TeacherProfile)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AddTime)
+                        </th>
+
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody class="middle-align">
+                    @foreach (var item in Model)
+                    {
+                        //if (item.UserState != 2)
+                        //{
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TeacherName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TeacherDepartment)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TeacherProfile)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AddTime)
+                            </td>
+                            <td>
+                                @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" }) |
+                                @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa-trash", @style = "font-size:20px" })
+                            </td>
+                        </tr>
+                        //  }
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

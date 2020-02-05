@@ -13,7 +13,8 @@ using System.Web.Mvc;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-  //  [CheckAdminLogin]
+    [CheckAdminLogin]
+
     public class UserController : Controller
     {
         private TeacherOption _option = new TeacherOption();
@@ -173,20 +174,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
             if (user == null)
                 return HttpNotFound();
 
-            // var adminUserViewModel = new UserViewModel();
-
-            //System.InvalidOperationException: 'The ViewData item that has the key 'TeacherId' is of type 'System.Int64'
-            //but must be of type 'IEnumerable<SelectListItem>'.'
-
             var adminUserViewModel = AutoMapper.Mapper.Map<UserViewModel>(user);
-            
-
-            //adminUserViewModel.UserName = user.UserName;
-            //adminUserViewModel.PassWord = user.PassWord;
-            //adminUserViewModel.ConfirmPassword = user.PassWord;
-            //adminUserViewModel.Email = user.Email;
-            //ViewBag.TeacherList = _option.GetTeacherSelectOptions();
-
 
             return View("Create", adminUserViewModel);
 
@@ -208,13 +196,38 @@ namespace Mooc.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-       //[HttpPost]
-       // public ActionResult AjaxEdit(int id)
-       // {
-       //     var user = _dataContext.Users.Find(id);
+        //[HttpPost]
+        //public ActionResult Edit(UserViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (model.ID == 0)
+        //        {
+        //            _dataContext.Users.Add(model);
+        //        }
+        //        else
+        //        {
+        //            var updateUser = _dataContext.Users.Find(model.ID);
 
-       //     return Json(new {code=0 });
-       // }
+        //            updateUser.UserName = model.UserName;
+        //            updateUser.PassWord = model.PassWord;
+        //            updateUser.Email = model.Email;
+        //            updateUser.StudentNo = model.StudentNo;
+        //            updateUser.TeacherId = model.TeacherId;
+        //            updateUser.RoleType = model.RoleType;
+
+        //        }
+
+        //        _dataContext.SaveChanges();
+        //        return Redirect("~/Admin/User/Index");
+
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError("", "请正确填写");
+        //    }
+        //    return View(model);
+        //}
 
         public ActionResult AjaxEdit(int id)
         {

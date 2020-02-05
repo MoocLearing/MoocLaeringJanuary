@@ -159,18 +159,23 @@
     <Compile Include="Areas\Admin\Attribute\CheckAdminLoginAttribute.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RazorAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RazorTeacherController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TeacherController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Attribute\CheckLoginAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\TeachersController.cs" />
     <Compile Include="Controllers\UserListController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\TeacherOption.cs" />
+    <Compile Include="Models\UserOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +232,15 @@
     <Content Include="Areas\Admin\Views\User\_PartUserList.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Teacher\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Teacher\RazorIndex.cshtml" />
+    <Content Include="Areas\Admin\Views\Teacher\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Teacher\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\RazorUser\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\RazorAccount\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\RazorTeacher\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\RazorTeacher\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\RazorTeacher\Edit.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -265,10 +279,17 @@
     <Content Include="Views\UserList\Details.cshtml" />
     <Content Include="Views\UserList\Edit.cshtml" />
     <Content Include="Views\UserList\Index.cshtml" />
+    <Content Include="Views\Teachers\Create.cshtml" />
+    <Content Include="Views\Teachers\Delete.cshtml" />
+    <Content Include="Views\Teachers\Details.cshtml" />
+    <Content Include="Views\Teachers\Edit.cshtml" />
+    <Content Include="Views\Teachers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Default\" />
+    <Folder Include="Areas\Admin\Views\RazorCategory\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

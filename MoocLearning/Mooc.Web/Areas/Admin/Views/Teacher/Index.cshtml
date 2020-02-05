@@ -1,0 +1,178 @@
+﻿@using Mooc.Data.Enums;
+@model Mooc.Data.ViewModels.ListTeacherPage
+@{
+    ViewBag.Title = "教师后台";
+
+}
+
+
+<div class="row">
+    <div class="panel panel-default panel-full">
+        <div class="panel-heading panel-heading-padding">
+            <h3 class="panel-title">教师后台</h3>
+
+            <div class="panel-options">
+                @*@Html.ActionLink("添加", "Create", new { @class = "btn btn-gray" })*@
+                <a href="~/Admin/Teacher/Create" class="btn btn-gray">添加</a>
+            </div>
+        </div>
+        <div class="panel-body">
+
+
+            <table class="table  table-striped" id="example-1">
+                <thead>
+                    <tr>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.TeacherName)*@
+                            TeacherName
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.TeacherDepartment)*@
+                            TeacherDepartment
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.TeacherProfile)*@
+                            TeacherProfile
+                        </th>
+
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.AddTime)*@
+                            AddTime
+                        </th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody class="middle-align" id="dataBind">
+                    @if (Model != null && Model.teachers.Count() > 0)
+                    {
+                        foreach (var item in Model.teachers)
+                        {
+
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TeacherName)
+                                </td>
+                                <td>
+                                    @(Enum.GetName(typeof(TeacherDepartmentEnum), item.TeacherDepartment))
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TeacherProfile)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AddTime)
+                                </td>
+                                <td>
+                                    @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" }) |
+
+                                 
+
+                                    <a onclick="Delete('@item.ID')" class="fa-trash" style="font-size: 20px"></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <nav aria-label="...">
+                <ul class="pagination pagination-sm" id="fenye">
+                    @*<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+
+                        ...*@
+                    @for (int i = 1; i < Model.TotalPage + 1; i++)
+                    {
+                        if (Model.CurrentPage == i)
+                        {
+                            <li class="active"><a href="~/Admin/Teacher/IndexList?currentpage=@i">@i<span class="sr-only">(current)</span></a></li>
+                        }
+                        else
+                        {
+                            <li><a href="~/Admin/Teacher/IndexList?currentpage=@i">@i<span class="sr-only">(current)</span></a></li>
+                        }
+
+                    }
+                </ul>
+
+
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script>
+    function Delete(id) {
+                        if (confirm("确定删除么？")) {
+             $.ajax({
+                                url: "@Url.Content("~/Admin/Teacher/Delete")",
+            data: { "id": id},
+            type: "POST", dataType: 'json',
+            success: function (data) {
+                                    if (data.code == 0) {
+                                        window.location = "@Url.Content("~/Admin/Teacher/Index")";
+                                    }
+                                    else {
+                                        alert(data.msg)
+                                        return false;
+                                    }
+                                }
+                            })
+        }
+                    }
+</script>
+
+
+
+@*<script>
+        function search() {
+            //$.post  $.get  async
+            $.ajax({
+
+                url: "@Url.Content("~/Admin/Teacher/Index/")",
+                data: {"currentpage":currentpage},
+                type: "POST", dataType: 'json',
+                success: function (data) {
+                                    if (data) {
+                                        var _html = "";
+                                        var _html2 = "";
+                                        for (var i = 0; i < data.list.length; i++) {
+
+                                            var item = data.list[i];
+                                            _html += "<tr>";
+                                            _html += "<td>" + item.TeacherName + "</td>";
+                                            _html += "<td>" + item.TeacherDepartment + "</td>";
+                                            _html += "<td>" + item.TeacherProfile + "</td>";
+                                            _html += "<td>" + item.AddTime + "</td>";
+
+                                            _html += "<td><a href='@Url.Content("~/Admin/Teacher/Edit")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
+
+                                            _html += "<a href='~/Admin/Teacher/Delete/" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                                            _html += "</tr>";
+                                        }
+                                        var totalpage = 1;
+                                        if (data.totalcount % 5 == 0) {
+                                            totalpage = data.totalcount / 5;
+                                        }
+
+                                        if (data.totalcount % 5 != 0) {
+                                            totalpage = totalcount / 5 + 1;
+                                        }
+                                        for (var i = 0; i < totalpage; i++) {
+                                            _html2+="<li class="active">"+"<a href="'~/Admin/Teacher/Index?currentpage='+i">"+i+"<span class="sr-only">(current)</span></a></li>"
+
+                                        }
+
+
+                                        $("#dataBind").html(_html);
+                                        $("#fenye").html(_html2);
+                                    }
+                                }
+                            })
+        }
+    </script>*@

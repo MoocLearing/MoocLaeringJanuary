@@ -13,3 +13,13 @@ AdminUserViewModel对象，但最后一个TeacherId系统要求是IEnumerable<Se
 之前在关联表实现drop down list时候是可以直接做两个对象的mapper的。
 
 3.在admin域里的filter里想通过session的username值得到user的对象从而判断roletype的值是否为管理员，但总是报一个异常：'Object reference not set to an instance of an object
+
+
+01/25
+如果一个action接受的是前端来的Ajax发出的json，那么返回值必须是retrun json()吗？还是可以直接return view？
+
+为什么CategoryViewModel要在构造函数里面初始化一个CategoryList对象？
+
+account/login 里面, return Json(new {code=0}) 结果直接就打印在了login.html上而没有执行success回调函数.
+
+为什么@html.validation在createa界面里面不管用了？用一个空的@mode Mooc.MoocData.Entity.Teacher 作为@html.validation的基础不行吗？

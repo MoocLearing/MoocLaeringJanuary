@@ -20,6 +20,8 @@ namespace Mooc.Data.Context
 
         public DbSet<Category> Categorys { get; set; }
 
+        public DbSet<Teacher> Teachers { get; set; }
+
         //public DbSet<SubjectCategory> SubjectCategories { get; set; }
 
        // public DbSet<CategoryType> CategoryTypes { get; set; }

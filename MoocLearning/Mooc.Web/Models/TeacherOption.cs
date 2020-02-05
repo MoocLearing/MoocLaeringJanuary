@@ -44,5 +44,14 @@ namespace Mooc.Web.Models
 
     }
 
+    public class SelectDepartments
+    {
+        public IEnumerable<SelectListItem> GetDepartments()
+        {
+            IEnumerable<SelectListItem> enumsList = ((TeacherDepartmentEnum[])Enum.GetValues(typeof(TeacherDepartmentEnum))).Select(c => new SelectListItem() { Value = ((int)c).ToString(), Text = c.ToString() }).ToList();
+            return enumsList;
+        }
+    }
+
 
 }
