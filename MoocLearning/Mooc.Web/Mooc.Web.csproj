@@ -241,7 +241,9 @@
     <Content Include="Areas\Admin\Views\RazorTeacher\Index.cshtml" />
     <Content Include="Areas\Admin\Views\RazorTeacher\Create.cshtml" />
     <Content Include="Areas\Admin\Views\RazorTeacher\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Teacher\List.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jqPaginator.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />

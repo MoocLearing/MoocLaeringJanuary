@@ -61,7 +61,7 @@
                             @Html.DisplayFor(modelItem => item.DisplayDate)
                         </td>
                         <td>
-                            @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" }) |
+                            @Html.ActionLink(" ", "Edit","User", new { id = item.ID }, new { @class = "fa-pencil-square-o", @style = "font-size:20px" ,@id="edit"}) |
                             @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa-trash", @style = "font-size:20px" })
                         </td>
                     </tr>

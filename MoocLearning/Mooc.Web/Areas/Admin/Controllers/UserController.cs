@@ -40,7 +40,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 list = AutoMapper.Mapper.Map<List<User>, List<UserViewModel>>(userList);
             }
 
-            ViewBag.username = Session["username"];
+            ViewBag.username = Session["username"];//使用时，判断下
             return View(list);
         }
 
@@ -105,7 +105,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
                     if (user == null)
                     {
                         ModelState.AddModelError("", "当前用户不存在");
-                        return RedirectToAction("Create", model);
+                        //return RedirectToAction("Create", model);
+                        return View("Create", model);
                     }
                     user = AutoMapper.Mapper.Map<User>(model);
                     user.UserState = (int)StatusEnum.Normal;
@@ -117,7 +118,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
                     if (user != null)
                     {
                         ModelState.AddModelError("", "当前用户已存在");
-                        return RedirectToAction("Create", model);
+                        // return RedirectToAction("Create", model);
+                        return View("Create", model);
                     }
                     user = AutoMapper.Mapper.Map<User>(model);
                     user.UserState = (int)StatusEnum.Normal;
@@ -131,7 +133,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
             }
 
-            return RedirectToAction("Create", model);
+            //return RedirectToAction("Create", model);
+            return View("Create", model);
             //ArrayList nameList = new ArrayList();
             //List<User> users = _dataContext.Users.ToList();
             //foreach (var user in users)

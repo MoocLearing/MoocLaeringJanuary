@@ -28,7 +28,7 @@
             <input type="password" name="password" class="password" placeholder="密码" id="passwordtext" >
             
             <div style="float:left">
-                <input type="checkbox" name="checkme" value="checked" style="height:20px;width:20px;" />  记住我的cookie
+                <input type="checkbox" name="checkme" value="checked" style="height:20px;width:20px;" />  Remeber me
             </div>
 
             <button type="submit" onclick="submit()">登录</button>
@@ -46,6 +46,15 @@
 </body>
 
 <script>
+    init();
+    function init() {
+
+        var username = localStorage.getItem("username");
+        if (username) {
+            $("#usernametext").val(username);
+        }
+
+    }
     function submit() {
         var username = $.trim($("#usernametext").val());
         if (username == "") {
@@ -57,11 +66,17 @@
             alert("密码不能为空");
             return;
         }
+        var rememberme = $("input[name='checkme']:checkbox:checked").map(function () { return $(this).val() }).get().join(",");
+        if (rememberme == "checked") {
+            localStorage.setItem("username", username);
+        } else {
+            localStorage.removeItem("username");
 
+        }
 
     $.ajax({
             url: "@Url.Content("~/Admin/Account/Login/")",
-            data: {"Username":username,"Password":password,"CheckMe":checkme},
+        data: { "Username": username, "Password": password, "CheckMe": rememberme },
             type: "POST", dataType: 'json',
             success: function (data) {
 

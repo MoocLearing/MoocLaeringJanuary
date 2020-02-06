@@ -11,6 +11,6 @@ namespace Mooc.Data.ViewModels
 {
     public class TeacherViewModel:Teacher
     {
-
+        public string CreateDate => Convert.ToDateTime(AddTime).ToString("yyyy-MM-dd");
     }
 }

@@ -17,6 +17,8 @@ namespace Mooc.Data.AutoMapper
             CreateMap<Category, CategoryViewModel>();
             CreateMap<CategoryViewModel, Category>();
 
+            CreateMap<Teacher, TeacherViewModel>();
+            CreateMap<TeacherViewModel, Teacher>();
         }
     }
 }

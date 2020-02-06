@@ -11,7 +11,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">添加/修改 用户</h3>
         </div>
-        @using (Html.BeginForm("Save", "User"))
+        @using (Html.BeginForm("Save", "User"))//如果文件夹或者控制器--user控制器下的create post 方法
         {
             @Html.AntiForgeryToken()
 

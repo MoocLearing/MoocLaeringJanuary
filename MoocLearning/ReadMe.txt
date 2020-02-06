@@ -1,4 +1,5 @@
-﻿1.dropdownlist试了很多遍都用不出来，在别的项目上可以通过user表与country表FK相联实现这个功能。
+﻿
+1.dropdownlist试了很多遍都用不出来，在别的项目上可以通过user表与country表FK相联实现这个功能。
 
 2.login的index.html上username和password加上validation的话，在后台action里modelstate.IsValid永远是false
 
@@ -23,3 +24,5 @@ AdminUserViewModel对象，但最后一个TeacherId系统要求是IEnumerable<Se
 account/login 里面, return Json(new {code=0}) 结果直接就打印在了login.html上而没有执行success回调函数.
 
 为什么@html.validation在createa界面里面不管用了？用一个空的@mode Mooc.MoocData.Entity.Teacher 作为@html.validation的基础不行吗？
+
+

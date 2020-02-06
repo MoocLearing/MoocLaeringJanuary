@@ -12,7 +12,7 @@ using Mooc.Web.Models;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-    [CheckAdminLogin]
+   // [CheckAdminLogin]
     public class TeacherController : Controller
     {
         private DataContext _dataContext;
@@ -24,6 +24,13 @@ namespace Mooc.Web.Areas.Admin.Controllers
             _dataContext = dataContext;
         }
         // GET: Admin/Teacher
+
+        public ActionResult List()
+        {
+            return View();
+        }
+
+
 
         public ActionResult Index()
         {
@@ -55,7 +62,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
             };
             ViewBag.username = Session["username"];
-                return View(listTeacherPage);
+            return View(listTeacherPage);
 
         }
 
@@ -167,7 +174,6 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
 
         [HttpPost]
-
         public JsonResult Delete(long? id)
         {
             Teacher teacher = _dataContext.Teachers.Find(id);
@@ -181,6 +187,20 @@ namespace Mooc.Web.Areas.Admin.Controllers
             _dataContext.SaveChanges();
 
             return Json(new { code = 0 });
+        }
+
+        [HttpPost]
+        public JsonResult PageList(int pageIndex, int pageSize)
+        {
+            PageResult<TeacherViewModel> result = new PageResult<TeacherViewModel>() { data = new List<TeacherViewModel>(), PageIndex = pageIndex, PageSize = pageSize };
+            int current = (pageIndex - 1) * pageSize;
+            var _teacher = _dataContext.Teachers;
+            var list= _teacher.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
+            var teacherView = AutoMapper.Mapper.Map<List<TeacherViewModel>>(list);
+            result.data = teacherView;
+            result.Count = _teacher.Count();
+
+            return Json(result);
         }
     }
 }

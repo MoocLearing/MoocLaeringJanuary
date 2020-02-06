@@ -37,24 +37,28 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
             if (user != null)
             {
-                if (checkme == "checked")
-                {
-                    Response.Cookies.Add(new HttpCookie("username")
-                    {
-                        Value = user.UserName,
-                        Expires = DateTime.Now.AddDays(7)
-                    });
-                    Response.Cookies.Add(new HttpCookie("userid")
-                    {
-                        Value = user.ID.ToString(),
-                        Expires = DateTime.Now.AddDays(7)
-                    });
-                }
-                else
-                {
-                    Session["username"] = user.UserName;
-                    Session["userid"] = user.ID;
-                }
+                //if (checkme == "checked")
+                //{
+                //    Response.Cookies.Add(new HttpCookie("username")
+                //    {
+                //        Value = user.UserName,
+                //        Expires = DateTime.Now.AddDays(7)
+                //    });
+                //    Response.Cookies.Add(new HttpCookie("userid")
+                //    {
+                //        Value = user.ID.ToString(),
+                //        Expires = DateTime.Now.AddDays(7)
+                //    });
+                //}
+                //else
+                //{
+                //    Session["username"] = user.UserName;
+                //    Session["userid"] = user.ID;
+                //}
+
+
+                Session["username"] = user.UserName;
+                Session["userid"] = user.ID;
 
                 return Redirect("~/Admin/User/Index");
             }
