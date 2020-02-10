@@ -26,3 +26,9 @@ account/login 里面, return Json(new {code=0}) 结果直接就打印在了login
 为什么@html.validation在createa界面里面不管用了？用一个空的@mode Mooc.MoocData.Entity.Teacher 作为@html.validation的基础不行吗？
 
 
+02/10
+
+想把Course和chapter在一个list中显示，chapter的groupby按照courseID来排序。但如果要使用真分页，每次还是要查找全部的chapters数据table才能
+进行groupby和orderby，也就失去了真分页的意义了
+
+MongoDB还在研究如何使用在这个项目中存放和读取video，目前video是假设存在本地的文件路径。

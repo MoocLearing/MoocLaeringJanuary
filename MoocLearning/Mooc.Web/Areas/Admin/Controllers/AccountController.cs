@@ -39,16 +39,12 @@ namespace Mooc.Web.Areas.Admin.Controllers
             {
                 //if (checkme == "checked")
                 //{
-                //    Response.Cookies.Add(new HttpCookie("username")
-                //    {
-                //        Value = user.UserName,
-                //        Expires = DateTime.Now.AddDays(7)
-                //    });
-                //    Response.Cookies.Add(new HttpCookie("userid")
-                //    {
-                //        Value = user.ID.ToString(),
-                //        Expires = DateTime.Now.AddDays(7)
-                //    });
+                Response.Cookies.Add(new HttpCookie("username")
+                {
+                    Value = user.UserName,
+                    Expires = DateTime.Now.AddDays(7)
+                });
+
                 //}
                 //else
                 //{
@@ -57,8 +53,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 //}
 
 
-                Session["username"] = user.UserName;
-                Session["userid"] = user.ID;
+                //Session["username"] = user.UserName;
+                //Session["userid"] = user.ID;
 
                 return Redirect("~/Admin/User/Index");
             }
@@ -68,6 +64,16 @@ namespace Mooc.Web.Areas.Admin.Controllers
             }
 
 
+        }
+
+        public ActionResult DeleteCookie()
+        {
+  
+            if (Request.Cookies["username"] != null)
+            {
+                Response.Cookies["username"].Expires = DateTime.Now.AddDays(-1);
+            }
+            return Redirect("~/Admin/Account/Index");
         }
 
 

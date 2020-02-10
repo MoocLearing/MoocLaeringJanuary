@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "List";
+}
+
+<div class="row">
+    <div class="panel panel-default panel-full">
+        <div class="panel-heading panel-heading-padding">
+            <h3 class="panel-title">类型列表</h3>
+            <div class="panel-options">
+
+                <a href="~/Admin/Category/Create" class="btn btn-gray">添加</a>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <table class="table  table-striped" id="example-1">
+                <thead>
+                    <tr>
+                        <th>
+
+                            Category Name
+                        </th>
+                        <th>
+
+                            Parent Id
+                        </th>
+                        <th>
+
+                            Type
+                        </th>
+                        <th>
+
+                            Remark
+                        </th>
+                        <th>
+
+                            Add Time
+                        </th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody class="middle-align" id="dataBind"></tbody>
+            </table>
+            <div>
+                <ul id="divPagination" class="pagination" style="margin:10px 0px;"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="PageIndex" value="1" />
+<script src="~/Scripts/jqPaginator.js"></script>
+<script>
+
+    var pageSize = 2;
+    search();
+
+        function search() {
+
+            var pageIndex = $("#PageIndex").val();
+            $.ajax({
+                url: "@Url.Content("~/Admin/Category/PageList")",
+                data: { "pageIndex": pageIndex, "pageSize": pageSize },
+                type: "POST", dataType: 'json',
+                success: function (res) {
+                    var pageCount = res.PageCount == 0 ? 1 : res.PageCount;
+                    $("#divPagination").jqPaginator({
+                        totalPages: parseInt(pageCount),
+                        visiblePages: 10,
+                        currentPage: parseInt(pageIndex),
+                        onPageChange: function (num, type) {
+                            $('#PageIndex').val(num);
+                            if ($('#divPagination .active').eq(0).attr('jp-data') !== num.toString()) {
+                                search();
+                            }
+                        }
+                    });
+                    var _html = "";
+                    for (var i = 0; i < res.data.length; i++) {
+
+                        var item = res.data[i];
+                        _html += "<tr>";
+                        _html += "<td>" + item.CategoryName + "</td>";
+                        _html += "<td>" + item.ParentId + "</td>";
+                        _html += "<td>" + item.Type + "</td>";
+                        _html += "<td>" + item.Remark + "</td>";
+                        _html += "<td>" + item.CreateDate + "</td>";
+
+                        _html += "<td><a href='@Url.Content("~/Admin/Category/Edit")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
+
+                        _html += "<a href='@Url.Content("~/Admin/Category/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                        _html += "</tr>";
+                    }
+
+                    $("#dataBind").html(_html);
+                         }
+               })
+        }
+</script>

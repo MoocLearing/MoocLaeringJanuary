@@ -16,16 +16,25 @@ namespace Mooc.Web.Areas.Admin.Attribute
             //base.OnAuthorization(filterContext);
 
             //当用户存储在cookie中且session数据为空时，把cookie的数据同步到session中
-            if (filterContext.HttpContext.Request.Cookies["username"] != null &&
-                filterContext.HttpContext.Session["username"] == null)
-            {
-                filterContext.HttpContext.Session["username"] = filterContext.HttpContext.Request.Cookies["username"].Value;
-                filterContext.HttpContext.Session["userid"] = filterContext.HttpContext.Request.Cookies["userid"].Value;
-            }
+            //if (filterContext.HttpContext.Request.Cookies["username"] != null &&
+            //    filterContext.HttpContext.Session["username"] == null)
+            //{
+            //    filterContext.HttpContext.Session["username"] = filterContext.HttpContext.Request.Cookies["username"].Value;
+            //    filterContext.HttpContext.Session["userid"] = filterContext.HttpContext.Request.Cookies["userid"].Value;
+            //}
 
             //没cookie没session验证，直接跳转到~/admin/account/login/
-            if (!(filterContext.HttpContext.Session["username"] != null ||
-                filterContext.HttpContext.Request.Cookies["username"] != null))
+            //if (!(filterContext.HttpContext.Session["username"] != null ||
+            //    filterContext.HttpContext.Request.Cookies["username"] != null))
+            //{
+            //    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary()
+            //    {
+            //        {"controller","Account" },
+            //        {"action","Index" }
+            //    });
+            //}
+
+            if (!(filterContext.HttpContext.Request.Cookies["username"] != null))
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary()
                 {

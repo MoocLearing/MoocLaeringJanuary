@@ -128,7 +128,7 @@
             type: "POST", dataType: 'json',
             success: function (data) {
                 if (data.code == 0) {
-                    window.location = "@Url.Content("~/Admin/Category/Edit/")" + "@Model.ID";
+                    window.location = "@Url.Content("~/Admin/Category/List")";
 
                    // window.location.reload(); //当前页面重新刷新
                 }

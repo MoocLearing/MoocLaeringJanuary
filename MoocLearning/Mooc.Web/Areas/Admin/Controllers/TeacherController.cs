@@ -12,7 +12,7 @@ using Mooc.Web.Models;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-   // [CheckAdminLogin]
+    [CheckAdminLogin]
     public class TeacherController : Controller
     {
         private DataContext _dataContext;

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-    //[CheckAdminLogin]
+    [CheckAdminLogin]
     public class CategoryController : Controller
     {
         private DataContext _dataContext;
@@ -33,6 +33,26 @@ namespace Mooc.Web.Areas.Admin.Controllers
             }
 
             return View(viewList);
+        }
+
+        //分页Ajax显示全部数据
+        public ActionResult List()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult PageList(int pageIndex, int pageSize)
+        {
+            PageResult<CategoryPageView> result = new PageResult<CategoryPageView>() { data = new List<CategoryPageView>(), PageIndex = pageIndex, PageSize = pageSize };
+            int current = (pageIndex - 1) * pageSize;
+            var _categories = _dataContext.Categorys;
+            var list = _categories.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
+            var categoryPageViews = AutoMapper.Mapper.Map<List<CategoryPageView>>(list);
+            result.data = categoryPageViews;
+            result.Count = _categories.Count();
+
+            return Json(result);
         }
 
         public ActionResult Create()
@@ -125,6 +145,20 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
             return Json(new { code = 0 });
         }
+
+        //public JsonResult PageList(int pageIndex, int pageSize)
+        //{
+        //    //这里的List<CategoryPageView>必须要先实例化才能用，要不就在new PageResult里的构造函数实例化
+        //    PageResult<CategoryPageView> result = new PageResult<CategoryPageView>() { data = new List<CategoryPageView>(), PageIndex = pageIndex, PageSize = pageSize };
+        //    int current = (pageIndex - 1) * pageSize;
+        //    var categorylist = _dataContext.Categorys.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
+        //    var categoryPageView = AutoMapper.Mapper.Map<List<CategoryPageView>>(categorylist);
+        //    result.data = categoryPageView;
+        //    result.Count = _dataContext.Categorys.Count();
+
+        //    return Json(result);
+        //}
+
 
         //[HttpPost]
         //public ActionResult Save(SubjectCategory subjectCategory)

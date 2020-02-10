@@ -1,7 +1,17 @@
 ﻿@{
+    bool isLogin = false;
+    String userName = "";
+    try
+    {
+        userName = Request.Cookies["username"].Value.ToString();
+        isLogin = !string.IsNullOrEmpty(userName);
+    }catch(Exception ex)
+    {
+        @Url.Content("~/admin/account/index")
+    }
 
-    string userName = ViewBag.username;
-    bool isLogin = !string.IsNullOrEmpty(userName);
+    
+
 }
 @if (isLogin)
 {
@@ -21,11 +31,13 @@
                 </a>
             </li>
             <li>
-                <a>
+                <a href="~/Admin/Account/DeleteCookie">
                     <i class="fa-lock"></i>
                     退出
                 </a>
             </li>
+
+
         </ul>
     </li>
 
@@ -36,4 +48,7 @@ else
         @Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
     </li>
 }
+
+
+
 

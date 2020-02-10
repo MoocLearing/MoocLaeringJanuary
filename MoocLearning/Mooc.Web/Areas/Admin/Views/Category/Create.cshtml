@@ -116,7 +116,7 @@
             type: "POST", dataType: 'json',
             success: function (data) {
                 if (data.code == 0) {
-                    window.location = "@Url.Content("~/Admin/Category/Index")";
+                    window.location = "@Url.Content("~/Admin/Category/List")";
                 }
                 else {
                     alert(data.msg)

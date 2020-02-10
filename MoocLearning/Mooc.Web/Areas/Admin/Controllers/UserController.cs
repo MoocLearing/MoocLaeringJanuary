@@ -40,7 +40,6 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 list = AutoMapper.Mapper.Map<List<User>, List<UserViewModel>>(userList);
             }
 
-            ViewBag.username = Session["username"];//使用时，判断下
             return View(list);
         }
 
@@ -245,6 +244,26 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
             return View("Create", adminUserViewModel);
 
+        }
+
+        public ActionResult List()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public JsonResult PageList(int pageIndex, int pageSize)
+        {
+            PageResult<UserPageView> result = new PageResult<UserPageView>() { data = new List<UserPageView>(), PageIndex = pageIndex, PageSize = pageSize };
+            int current = (pageIndex - 1) * pageSize;
+            var _user = _dataContext.Users;
+            var list = _user.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
+            var userview = AutoMapper.Mapper.Map<List<UserPageView>>(list);
+            result.data = userview;
+            result.Count = _user.Count();
+
+            return Json(result);
         }
 
 

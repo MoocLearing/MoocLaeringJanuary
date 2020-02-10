@@ -159,10 +159,13 @@
     <Compile Include="Areas\Admin\Attribute\CheckAdminLoginAttribute.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ChapterController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CourseController.cs" />
     <Compile Include="Areas\Admin\Controllers\RazorAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\RazorTeacherController.cs" />
     <Compile Include="Areas\Admin\Controllers\TeacherController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VideosController.cs" />
     <Compile Include="Attribute\CheckLoginAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -242,6 +245,19 @@
     <Content Include="Areas\Admin\Views\RazorTeacher\Create.cshtml" />
     <Content Include="Areas\Admin\Views\RazorTeacher\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Teacher\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\List.cshtml" />
+    <Content Include="Areas\Admin\Views\User\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Course\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Course\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Course\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Videos\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Videos\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Videos\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Videos\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Videos\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Chapter\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Chapter\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Chapter\Edit.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jqPaginator.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -291,7 +307,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Default\" />
-    <Folder Include="Areas\Admin\Views\RazorCategory\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

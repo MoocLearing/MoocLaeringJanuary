@@ -1,0 +1,97 @@
+﻿@using Mooc.Data.Entities;
+@model Mooc.Data.ViewModels.ChapterView
+@{
+    ViewBag.Title = "更新chapter";
+}
+
+<div class="row">
+
+    <div class="panel panel-default col-md-6 col-md-push-3">
+        <div class="panel-heading">
+            <h3 class="panel-title">更新chapter</h3>
+        </div>
+
+        <div class="form-horizontal">
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ChapterName)
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.ChapterName, new { htmlAttributes = new { @class = "form-control", id = "chaptername" } })
+                    @Html.ValidationMessageFor(m => m.ChapterName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ChapterDetail)
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.ChapterDetail, new { htmlAttributes = new { @class = "form-control", id = "chapterdetail" } })
+                    @Html.ValidationMessageFor(m => m.ChapterDetail)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CourseId, "CourseNames", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control", id = "courseid" })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.VideoId, "VideoNames", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("VideoId", null, htmlAttributes: new { @class = "form-control", id = "videoid" })
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group" style="padding-top: 20px;">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="提交" onclick="submit()" class="btn btn-success btn-submit" />
+                    <input type="button" value="返回" onclick="back()" class="btn btn-danger btn-margin" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    function back() {
+        window.location.href = "@Url.Content("~/Admin/Chapter/List")";
+    }
+</script>
+<script>
+
+    function submit() {
+
+        var chaptername= $.trim($("#chaptername").val());
+
+        var chapterdetail = $.trim($("#chapterdetail").val());
+
+        var courseid = $.trim($("#courseid").val());
+
+        var videoid = $.trim($("#videoid").val());
+
+
+        $.ajax({
+            url: "@Url.Content("~/Admin/Chapter/EditChapter")",
+            data: {"Id":@Model.ID,"ChapterName":chaptername,"ChapterDetail":chapterdetail,"CourseId":courseid,"VideoId":videoid},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    window.location = "@Url.Content("~/Admin/Chapter/List")";
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+    }
+</script>
+
