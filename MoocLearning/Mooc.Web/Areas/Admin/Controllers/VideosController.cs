@@ -18,7 +18,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
         // GET: Admin/Videos
         public ActionResult Index()
         {
-            return View(db.Videos.ToList());
+            return View();
         }
 
         // GET: Admin/Videos/Details/5
@@ -28,12 +28,12 @@ namespace Mooc.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Video video = db.Videos.Find(id);
-            if (video == null)
-            {
-                return HttpNotFound();
-            }
-            return View(video);
+           // Video video = db.Videos.Find(id);
+            //if (video == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return View();
         }
 
         // GET: Admin/Videos/Create
@@ -51,7 +51,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Videos.Add(video);
+               // db.Videos.Add(video);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,12 +66,12 @@ namespace Mooc.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Video video = db.Videos.Find(id);
-            if (video == null)
-            {
-                return HttpNotFound();
-            }
-            return View(video);
+           // Video video = db.Videos.Find(id);
+            //if (video == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return View();
         }
 
         // POST: Admin/Videos/Edit/5
@@ -97,12 +97,12 @@ namespace Mooc.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Video video = db.Videos.Find(id);
-            if (video == null)
-            {
-                return HttpNotFound();
-            }
-            return View(video);
+            //Video video = db.Videos.Find(id);
+            //if (video == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return View();
         }
 
         // POST: Admin/Videos/Delete/5
@@ -110,8 +110,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            Video video = db.Videos.Find(id);
-            db.Videos.Remove(video);
+           // Video video = db.Videos.Find(id);
+            //db.Videos.Remove(video);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

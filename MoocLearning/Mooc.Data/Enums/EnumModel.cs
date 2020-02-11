@@ -41,4 +41,11 @@ namespace Mooc.Data.Enums
 
     }
 
+    public enum CourseStatusEnum
+    {
+        未上架=0,
+        已上架=1,
+        已下架=2
+    }
+
 }

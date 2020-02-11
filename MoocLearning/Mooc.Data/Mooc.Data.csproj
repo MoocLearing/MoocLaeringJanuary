@@ -58,6 +58,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.0\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
@@ -81,29 +82,9 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Enums\EnumModel.cs" />
-    <Compile Include="Migrations\202002081113444_first.cs" />
-    <Compile Include="Migrations\202002081113444_first.designer.cs">
-      <DependentUpon>202002081113444_first.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002092306515_addcourseforeignkey.cs" />
-    <Compile Include="Migrations\202002092306515_addcourseforeignkey.designer.cs">
-      <DependentUpon>202002092306515_addcourseforeignkey.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002100110325_foreignkey.cs" />
-    <Compile Include="Migrations\202002100110325_foreignkey.designer.cs">
-      <DependentUpon>202002100110325_foreignkey.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002100209533_course.cs" />
-    <Compile Include="Migrations\202002100209533_course.designer.cs">
-      <DependentUpon>202002100209533_course.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002100450021_video.cs" />
-    <Compile Include="Migrations\202002100450021_video.designer.cs">
-      <DependentUpon>202002100450021_video.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002100530085_video2.cs" />
-    <Compile Include="Migrations\202002100530085_video2.designer.cs">
-      <DependentUpon>202002100530085_video2.cs</DependentUpon>
+    <Compile Include="Migrations\202002101523068_test004.cs" />
+    <Compile Include="Migrations\202002101523068_test004.designer.cs">
+      <DependentUpon>202002101523068_test004.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,23 +112,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002081113444_first.resx">
-      <DependentUpon>202002081113444_first.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002092306515_addcourseforeignkey.resx">
-      <DependentUpon>202002092306515_addcourseforeignkey.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002100110325_foreignkey.resx">
-      <DependentUpon>202002100110325_foreignkey.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002100209533_course.resx">
-      <DependentUpon>202002100209533_course.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002100450021_video.resx">
-      <DependentUpon>202002100450021_video.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002100530085_video2.resx">
-      <DependentUpon>202002100530085_video2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002101523068_test004.resx">
+      <DependentUpon>202002101523068_test004.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

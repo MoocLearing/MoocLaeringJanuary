@@ -18,7 +18,7 @@
                 @Html.LabelFor(m => m.CourseName)
                 <div class="col-md-10">
                     <input type="text" id="CourseName" class="form-control" placeholder="请输入课程名称" />
-                    @Html.ValidationMessageFor(m => m.CourseName)
+                    @*@Html.ValidationMessageFor(m => m.CourseName)*@
                 </div>
             </div>
 
@@ -26,15 +26,17 @@
                 @Html.LabelFor(m => m.CourseDetail)
                 <div class="col-md-10">
                     <input type="text" id="CourseDetail" class="form-control" placeholder="请输入课程简介" />
-                    @Html.ValidationMessageFor(m => m.CourseDetail)
+                    @*@Html.ValidationMessageFor(m => m.CourseDetail)*@
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.TeacherId, "TeacherNames", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.TeacherId, htmlAttributes: new { @class = "control-label col-md-2" })
+                @*@Html.LabelFor(model => model.TeacherId, "TeacherNames", htmlAttributes: new { @class = "control-label col-md-2" })*@
                 <div class="col-md-10">
-                    @Html.DropDownList("TeacherId", null, htmlAttributes: new { @class = "form-control", id = "teacherid" })
-                    
+                    @*@Html.DropDownList("TeacherId", null, htmlAttributes: new { @class = "form-control", id = "teacherid" })*@
+                    @Html.DropDownListFor(m => m.TeacherId, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control",@id="TeacherId" })
+
                 </div>
             </div>
 
@@ -42,17 +44,18 @@
                 @Html.LabelFor(model => model.CategoryId, "CategoryNames", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", id = "categoryid" })
-                    
+                   
+
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.LabelFor(m => m.Status)
                 <div class="col-md-10">
                     <input type="text" id="status" class="form-control" placeholder="课程状态" />
                     @Html.ValidationMessageFor(m => m.Status)
                 </div>
-            </div>
+            </div>*@
 
             <div class="form-group" style="padding-top: 20px;">
                 <div class="col-md-offset-2 col-md-10">
@@ -75,22 +78,29 @@
     function submit() {
 
         var coursename = $.trim($("#CourseName").val());
-
+        if (coursename == "") {
+            alert("课程名称不能为空")
+            return;
+        }
         var coursedetail = $.trim($("#CourseDetail").val());
+        if (coursedetail == "") {
+            alert("课程描述不能为空")
+            return;
+        }
+        var teacherid = $("#TeacherId").val();
+        if (!teacherid) {
+            alert("请选择课程讲师")
+            return;
+        }
+       
 
-        var teacherid = $.trim($("#teacherid").val());
+        var categoryid = $("#categoryid").val();
 
-        var categoryid = $.trim($("#categoryid").val());
-
-        var status = $.trim($("#status").val());
-
-
-
-
+       // var status = $.trim($("#status").val());
 
         $.ajax({
             url: "@Url.Content("~/Admin/Course/Save")",
-            data: {"CourseName":coursename,"CourseDetail":coursedetail,"TeacherId":teacherid,"CategoryId":categoryid,"Status":status},
+            data: { "CourseName": coursename, "CourseDetail": coursedetail, "TeacherId": teacherid,"CategoryId":categoryid},
             type: "POST",
             dataType: 'json',
             success: function(data) {

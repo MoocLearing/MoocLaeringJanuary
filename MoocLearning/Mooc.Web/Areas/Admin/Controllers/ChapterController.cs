@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -10,18 +11,20 @@ using Mooc.Data.Context;
 using Mooc.Data.Entities;
 using Mooc.Data.ViewModels;
 using Mooc.Web.Areas.Admin.Attribute;
+using Mooc.Web.Models;
 
 
 //一旦引用的类库不对，系统也不给纠正
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-    [CheckAdminLogin]
+    // [CheckAdminLogin]
 
     public class ChapterController : Controller
     {
 
-        private DataContext _dataContext = new DataContext();
+        private SelectOptions selectOptions = new SelectOptions();
 
+        private readonly DataContext _dataContext;
         public ChapterController(DataContext dataContext)
         {
             _dataContext = dataContext;
@@ -30,7 +33,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
         // GET: Admin/Chapter
         public ActionResult Index()
         {
-            return View();
+            return View("List");
         }
 
         //改变呈现，groupby courseID
@@ -44,7 +47,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
         {
             PageResult<ChapterView> result = new PageResult<ChapterView>() { data = new List<ChapterView>(), PageIndex = pageIndex, PageSize = pageSize };
             int current = (pageIndex - 1) * pageSize;
-            var _chapter = _dataContext.Chapters.Include(m => m.Course).Include(m => m.Video);
+            var _chapter = _dataContext.Chapters;//.Include(m => m.Course).Include(m => m.Video);
             var list = _chapter.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
             var chapterview = AutoMapper.Mapper.Map<List<ChapterView>>(list);
             result.data = chapterview;
@@ -53,14 +56,112 @@ namespace Mooc.Web.Areas.Admin.Controllers
             return Json(result);
         }
 
-        public ActionResult Create()
+
+
+        public ActionResult CreateNew()
         {
-            ViewBag.VideoId = new SelectList(_dataContext.Videos, "ID", "VideoName");
-            ViewBag.CourseId = new SelectList(_dataContext.Courses, "ID", "CourseName");
+            ViewBag.CourseSelectOption = new SelectList(selectOptions.GetCourseSelectOptions(), "Value", "Text");
             var model = new ChapterView() { ID = 0 };
             return View(model);
         }
 
+
+        [HttpPost]
+        public ActionResult SaveNew(ChapterView model)
+        {
+            ViewBag.CourseSelectOption = new SelectList(selectOptions.GetCourseSelectOptions(), "Value", "Text");
+
+            if (ModelState.IsValid)
+            {
+                var file = model.Video;
+                string fileExtension = Path.GetExtension(file.FileName);
+                string[] filetype = { ".mp4", ".flv", ".rmvb", ".mpeg", ".mov", ".wmv" }; //文件允许格式    rmvb、mpeg、mov、wmv、avi、mkv、mp4、flv、vob、f4v
+                bool checkType = Array.IndexOf(filetype, fileExtension) == -1;
+                if (checkType)
+                {
+                    ModelState.AddModelError("", "视频格式错误");
+                    return View("CreateNew", model);
+                }
+                
+                if (file.ContentLength >= 1000 * 1024 * 1024)//1000MB
+                {
+
+                    ModelState.AddModelError("", "上传视频大小不能超过1000MB");
+                    return View("CreateNew", model);
+                }
+
+                string fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
+                try
+                {
+                    string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Upload/Video");
+                    if (!Directory.Exists(savaFile))
+                    {
+                        Directory.CreateDirectory(savaFile);
+                    }
+                    var filePath = Path.Combine(savaFile, fileName);
+                    file.SaveAs(filePath);
+
+                    Chapter chapter = new Chapter
+                    {
+                        Name = model.Name,
+                        Details = model.Details,
+                        VideoGuid = fileName,
+                        CourseId = model.CourseId,
+                    };
+                    _dataContext.Chapters.Add(chapter);
+                    _dataContext.SaveChanges();
+                }
+                catch (Exception e)
+                {
+
+                    return View("CreateNew", model);
+                }
+                
+                return RedirectToAction("List");
+            }
+            return View("CreateNew", model);
+        }
+
+        [Route("Video/Show/{fileName}")]
+        public ActionResult Show(string fileName)
+        {
+            string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Upload/Video");
+            var filePath = Path.Combine(savaFile, fileName);
+            if (!System.IO.File.Exists(filePath))
+                return Content("视频不存在");
+            return File(FileToStream(filePath), "video/mp4", fileName);
+        }
+
+        public Stream FileToStream(string fileName)
+        {
+
+            // 打开文件
+
+            FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            // 读取文件的 byte[]
+
+            byte[] bytes = new byte[fileStream.Length];
+
+            fileStream.Read(bytes, 0, bytes.Length);
+
+            fileStream.Close();
+
+            // 把 byte[] 转换成 Stream
+
+            Stream stream = new MemoryStream(bytes);
+
+            return stream;
+
+        }
+
+        public ActionResult Create()
+        {
+            // ViewBag.VideoId = new SelectList(_dataContext.Videos, "ID", "VideoName");
+            ViewBag.CourseId = new SelectList(_dataContext.Courses, "ID", "CourseName");
+            var model = new ChapterView() { ID = 0 };
+            return View(model);
+        }
 
         //验证：当前course有多少chapter？最少一个，最多5个
         [HttpPost]
@@ -68,18 +169,18 @@ namespace Mooc.Web.Areas.Admin.Controllers
         {
             Chapter chapter = new Chapter()
             {
-                ChapterName = model.ChapterName,
-                ChapterDetail = model.ChapterDetail,
+                Name = model.Name,
+                Details = model.Details,
                 CourseId = model.CourseId,
-                VideoId = model.VideoId,
+                //VideoId = model.VideoId,
                 UpdateTime = DateTime.Now
             };
-            
+
 
             if (model != null)
             {
                 var chapterpercourse = _dataContext.Chapters.Count(c => c.CourseId == model.CourseId);
-                if(chapterpercourse >= 5 || chapterpercourse < 1)
+                if (chapterpercourse >= 5 || chapterpercourse < 1)
                 {
                     return Json(new { code = 1, msg = "每个course的chapter不得超过5个也不得小于1个！！！" });
                 }
@@ -98,8 +199,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
             {
                 return Json(new { code = 1, msg = "更新的chapter不存在" });
             }
-            ViewBag.VideoId = new SelectList(_dataContext.Videos, "ID", "VideoName");
-            ViewBag.CourseId = new SelectList(_dataContext.Courses, "ID", "CourseName");
+            // ViewBag.VideoId = new SelectList(_dataContext.Videos, "ID", "VideoName");
+            // ViewBag.CourseId = new SelectList(_dataContext.Courses, "ID", "CourseName");
             var chapterview = AutoMapper.Mapper.Map<ChapterView>(chapter);
             return View(chapterview);
         }
@@ -117,10 +218,10 @@ namespace Mooc.Web.Areas.Admin.Controllers
                     return Json(new { code = 1, msg = "当前chapter不存在" });
                 }
 
-                model.ChapterName = chapter.ChapterName;
-                model.ChapterDetail = chapter.ChapterDetail;
+                model.Name = chapter.Name;
+                model.Details = chapter.Details;
                 model.CourseId = chapter.CourseId;
-                model.VideoId = chapter.VideoId;
+                //model.VideoId = chapter.VideoId;
                 model.UpdateTime = DateTime.Now;
                 _dataContext.SaveChanges();
 
@@ -142,11 +243,11 @@ namespace Mooc.Web.Areas.Admin.Controllers
             if (chapter != null)
             {
                 var chapterpercourse = _dataContext.Chapters.Count(c => c.CourseId == chapter.CourseId);
-                if (chapterpercourse <=1 )
+                if (chapterpercourse <= 1)
                 {
                     return Content("每个course至少有一个chapter");
                 }
-                
+
                 _dataContext.Chapters.Remove(chapter);
                 _dataContext.SaveChanges();
 

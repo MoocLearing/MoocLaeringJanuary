@@ -64,7 +64,7 @@
 
             var pageIndex = $("#PageIndex").val();
             $.ajax({
-                url: "@Url.Content("~/Admin/Course/PageList")",
+                url: "@Url.Content("~/Admin/Course/GetCourseList")",
                 data: { "pageIndex": pageIndex, "pageSize": pageSize },
                 type: "POST", dataType: 'json',
                 success: function (res) {
@@ -87,21 +87,33 @@
                         _html += "<tr>";
                         _html += "<td>" + item.CourseName + "</td>";
                         _html += "<td>" + item.CourseDetail + "</td>";
-                        _html += "<td>" + item.Teacher.TeacherName + "</td>";
-                        _html += "<td>" + item.Category.CategoryName + "</td>";
-                        _html += "<td>" + item.Status + "</td>";
+                        _html += "<td>" + item.TeacherName + "</td>";
+                        _html += "<td>" + item.CategoryName + "</td>";
+                        _html += "<td>" + item.CourseStatus + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
-
-
 
                         _html += "<td><a href='@Url.Content("~/Admin/Course/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
 
-                        _html += "<a href='@Url.Content("~/Admin/Course/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                       // _html += "<a href='@Url.Content("~/Admin/Course/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+
+                        //_html += "<a href='javascript:void(0);' onclick=\"Delete('" + item.ID + "')\" class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                        _html += "<a href='javascript:void(0);' onclick='Delete(" + item.ID + ")' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
                         _html += "</tr>";
+                       
+
                     }
 
                     $("#dataBind").html(_html);
                          }
                })
+    }
+
+    function Delete(id) {
+
+        if (confirm("确定删除当前数据么?")) {
+
+
         }
+
+    }
 </script>

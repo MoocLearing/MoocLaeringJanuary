@@ -32,6 +32,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
         // GET: Admin/User
         public ActionResult Index()
         {
+           
             List<User> userList = _dataContext.Users.ToList();
             //List<UserViewModel> userViewModels = AutoMapper.Mapper.Map<List<User>,List<UserViewModel>>(users);
             List<UserViewModel> list = new List<UserViewModel>();

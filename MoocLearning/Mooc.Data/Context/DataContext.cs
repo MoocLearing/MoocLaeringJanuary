@@ -26,7 +26,7 @@ namespace Mooc.Data.Context
 
         public DbSet<Chapter> Chapters { get; set; }
 
-        public DbSet<Video> Videos { get; set; }
+       // public DbSet<Video> Videos { get; set; }
 
         //public DbSet<SubjectCategory> SubjectCategories { get; set; }
 

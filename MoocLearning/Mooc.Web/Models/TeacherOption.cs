@@ -1,4 +1,5 @@
-﻿using Mooc.Data.Enums;
+﻿using Mooc.Data.Context;
+using Mooc.Data.Enums;
 using Mooc.Data.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,23 @@ namespace Mooc.Web.Models
 {
     public class TeacherOption
     {
-        public List<TeacherSelectOption> GetTeachers()
+        public IEnumerable<TeacherSelectOption> GetTeachers()
         {
-            List<TeacherSelectOption> list = new List<TeacherSelectOption>() {
-                new TeacherSelectOption{ ID=1,TeacherName="Lily" },
-                new TeacherSelectOption{ID=2,TeacherName="Tom"}
-            };
-            return list;
+            using (DataContext db = new DataContext())
+            {
+                return db.Teachers.OrderByDescending(p => p.AddTime).Select(p => new TeacherSelectOption { ID = p.ID, TeacherName = p.TeacherName });
+            }
+
+            //    List<TeacherSelectOption> list = new List<TeacherSelectOption>() {
+            //    new TeacherSelectOption{ ID=1,TeacherName="Lily" },
+            //    new TeacherSelectOption{ID=2,TeacherName="Tom"}
+            //};
+            // return list;
         }
 
-        public  IEnumerable<SelectListItem> GetTeacherSelectOptions()
+        public IEnumerable<SelectListItem> GetTeacherSelectOptions()
         {
-            var itemlist = GetTeachers().AsEnumerable().Select(r => new SelectListItem
+            var itemlist = GetTeachers().Select(r => new SelectListItem
             {
                 Text = r.TeacherName,
                 Value = r.ID.ToString(),
@@ -35,11 +41,25 @@ namespace Mooc.Web.Models
 
     public class SelectOptions
     {
-        public static IEnumerable<SelectListItem>  GetRoleSelectOptions()
+        
+        public static IEnumerable<SelectListItem> GetRoleSelectOptions()
         {
             IEnumerable<SelectListItem> enumsList = ((RoleTypeEnum[])Enum.GetValues(typeof(RoleTypeEnum))).Select(c => new SelectListItem() { Value = ((int)c).ToString(), Text = c.ToString() }).ToList();
-           
+
             return enumsList;
+        }
+
+        public List<SelectListItem> GetCourseSelectOptions()
+        {
+            using (DataContext db = new DataContext())
+            {
+                var list = db.Courses.OrderByDescending(p => p.AddTime).Select(r => new SelectListItem
+                {
+                    Text = r.CourseName,
+                    Value = r.ID.ToString(),
+                }).ToList();
+                return list;
+            }
         }
 
     }

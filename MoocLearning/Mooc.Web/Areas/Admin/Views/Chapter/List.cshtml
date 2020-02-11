@@ -82,22 +82,16 @@
                         }
                     });
                     var _html = "";
-
-
-
                     for (var i = 0; i < res.data.length; i++) {
 
                         var item = res.data[i];
                         _html += "<tr>";
-                        _html += "<td>" + item.ChapterName + "</td>";
-                        _html += "<td>" + item.ChapterDetail + "</td>";
+                        _html += "<td>" + item.Name + "</td>";
+                        _html += "<td>" + item.Details + "</td>";
                         _html += "<td>" + item.Course.CourseName + "</td>";
                         _html += "<td>" + item.Video.VideoName + "</td>";
                         _html += "<td>" + item.UpdateDate + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
-
-
-
                         _html += "<td><a href='@Url.Content("~/Admin/chapter/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
 
                         _html += "<a href='@Url.Content("~/Admin/Chapter/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
