@@ -13,6 +13,7 @@ namespace Mooc.Data.Entities
         [Display(Name = "用户")]
         public string CourseName { get; set; }
 
+        [Display(Name ="用户详情")]
         public string CourseDetail { get; set; }
 
         // [ForeignKey(nameof(Teacher))]
@@ -22,6 +23,7 @@ namespace Mooc.Data.Entities
       //  public Teacher Teacher { get; set; }
 
        // [ForeignKey(nameof(Category))]
+       [Display(Name ="课程类型")]
         public long CategoryId { get; set; }
        // public Category Category { get; set; }
 

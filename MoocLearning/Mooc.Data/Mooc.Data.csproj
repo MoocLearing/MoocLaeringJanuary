@@ -82,9 +82,9 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Enums\EnumModel.cs" />
-    <Compile Include="Migrations\202002101523068_test004.cs" />
-    <Compile Include="Migrations\202002101523068_test004.designer.cs">
-      <DependentUpon>202002101523068_test004.cs</DependentUpon>
+    <Compile Include="Migrations\202002121342147_first.cs" />
+    <Compile Include="Migrations\202002121342147_first.designer.cs">
+      <DependentUpon>202002121342147_first.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,8 +112,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002101523068_test004.resx">
-      <DependentUpon>202002101523068_test004.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002121342147_first.resx">
+      <DependentUpon>202002121342147_first.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

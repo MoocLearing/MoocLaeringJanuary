@@ -17,7 +17,34 @@
                         Type = c.Int(nullable: false),
                         Remark = c.String(),
                         AddTime = c.DateTime(),
-                        Discriminator = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
+                "dbo.Chapters",
+                c => new
+                    {
+                        ID = c.Long(nullable: false, identity: true),
+                        ChapterName = c.String(nullable: false, maxLength: 100),
+                        ChapterDetails = c.String(),
+                        VideoGuid = c.String(),
+                        CourseId = c.Long(nullable: false),
+                        UpdateTime = c.DateTime(),
+                        AddTime = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
+                "dbo.Courses",
+                c => new
+                    {
+                        ID = c.Long(nullable: false, identity: true),
+                        CourseName = c.String(),
+                        CourseDetail = c.String(),
+                        TeacherId = c.Long(nullable: false),
+                        CategoryId = c.Long(nullable: false),
+                        Status = c.Int(nullable: false),
+                        AddTime = c.DateTime(),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -30,7 +57,6 @@
                         TeacherDepartment = c.Int(nullable: false),
                         TeacherProfile = c.String(maxLength: 500),
                         AddTime = c.DateTime(),
-                        Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -49,9 +75,6 @@
                         UserState = c.Int(nullable: false),
                         RoleType = c.Int(nullable: false),
                         AddTime = c.DateTime(),
-                        ConfirmPassword = c.String(),
-                        TeacherIds = c.String(),
-                        Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -61,6 +84,8 @@
         {
             DropTable("dbo.Users");
             DropTable("dbo.Teachers");
+            DropTable("dbo.Courses");
+            DropTable("dbo.Chapters");
             DropTable("dbo.Categories");
         }
     }

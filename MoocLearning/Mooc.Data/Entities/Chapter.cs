@@ -13,11 +13,12 @@ namespace Mooc.Data.Entities
         [Required(ErrorMessage = "章节名称必填")]
         [StringLength(100, ErrorMessage = "章节名称长度不能超过100个字符")]
         [Display(Name = "章节名称")]
-        public string Name { get; set; }
+        public string ChapterName { get; set; }
 
         [Display(Name = "章节描述")]
-        public string Details { get; set; }
+        public string ChapterDetails { get; set; }
 
+        [Display(Name="影音文件")]
         public string VideoGuid { get; set; }
 
         //一对一关系

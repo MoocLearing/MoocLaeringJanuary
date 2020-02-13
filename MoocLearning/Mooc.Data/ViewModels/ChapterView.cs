@@ -18,5 +18,9 @@ namespace Mooc.Data.ViewModels
         public HttpPostedFileBase Video { get; set; }
         public string CreateDate => Convert.ToDateTime(AddTime).ToString("yyyy-MM-dd");
         public string UpdateDate => Convert.ToDateTime(UpdateTime).ToString("yyyy-MM-dd");
+
+        //[Display(Name="课程名称")]
+        //[Required(ErrorMessage ="课程名称不能为空")]
+        public string CourseName { get; set; }
     }
 }

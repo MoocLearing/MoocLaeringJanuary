@@ -32,3 +32,8 @@ account/login 里面, return Json(new {code=0}) 结果直接就打印在了login
 进行groupby和orderby，也就失去了真分页的意义了
 
 MongoDB还在研究如何使用在这个项目中存放和读取video，目前video是假设存在本地的文件路径。
+
+02/13
+点击改变当前course的statue的button功能只能绑定一个对象，若要动态绑定onclick对象没有实现
+
+点击显示当前course的chapter功能，success回调函数没有接受到返回的Json对象

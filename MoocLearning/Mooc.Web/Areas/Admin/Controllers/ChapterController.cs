@@ -43,15 +43,27 @@ namespace Mooc.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult PageList(int pageIndex, int pageSize)
+        public JsonResult GetChapterList(int pageIndex, int pageSize)
         {
             PageResult<ChapterView> result = new PageResult<ChapterView>() { data = new List<ChapterView>(), PageIndex = pageIndex, PageSize = pageSize };
             int current = (pageIndex - 1) * pageSize;
-            var _chapter = _dataContext.Chapters;//.Include(m => m.Course).Include(m => m.Video);
-            var list = _chapter.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
-            var chapterview = AutoMapper.Mapper.Map<List<ChapterView>>(list);
-            result.data = chapterview;
-            result.Count = _chapter.Count();
+
+            var list = (from a in _dataContext.Chapters
+                        join b in _dataContext.Courses on a.CourseId equals b.ID
+                        select new ChapterView
+                        {
+                            ID = a.ID,
+                            ChapterName = a.ChapterName,
+                            ChapterDetails = a.ChapterDetails,
+                            CourseName = b.CourseName,
+                            UpdateTime = a.UpdateTime,
+                            VideoGuid = a.VideoGuid
+
+                        });
+            var viewList = list.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
+            //var chapterview = AutoMapper.Mapper.Map<List<ChapterView>>(list);
+            result.data = viewList;
+            result.Count = list.Count();
 
             return Json(result);
         }
@@ -60,7 +72,9 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
         public ActionResult CreateNew()
         {
+            // ViewBag.CourseList = selectOptions.GetCourseSelectOptions();
             ViewBag.CourseSelectOption = new SelectList(selectOptions.GetCourseSelectOptions(), "Value", "Text");
+            //ViewBag.CourseId = new SelectList(_dataContext.Courses, "ID", "CourseName");
             var model = new ChapterView() { ID = 0 };
             return View(model);
         }
@@ -71,56 +85,144 @@ namespace Mooc.Web.Areas.Admin.Controllers
         {
             ViewBag.CourseSelectOption = new SelectList(selectOptions.GetCourseSelectOptions(), "Value", "Text");
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            var file = model.Video;
+            string fileExtension = Path.GetExtension(file.FileName);
+            string[] filetype = { ".mp4", ".flv", ".rmvb", ".mpeg", ".mov", ".wmv" }; //文件允许格式    rmvb、mpeg、mov、wmv、avi、mkv、mp4、flv、vob、f4v
+            bool checkType = Array.IndexOf(filetype, fileExtension) == -1;
+            if (checkType)
             {
-                var file = model.Video;
-                string fileExtension = Path.GetExtension(file.FileName);
-                string[] filetype = { ".mp4", ".flv", ".rmvb", ".mpeg", ".mov", ".wmv" }; //文件允许格式    rmvb、mpeg、mov、wmv、avi、mkv、mp4、flv、vob、f4v
-                bool checkType = Array.IndexOf(filetype, fileExtension) == -1;
-                if (checkType)
-                {
-                    ModelState.AddModelError("", "视频格式错误");
-                    return View("CreateNew", model);
-                }
-                
-                if (file.ContentLength >= 1000 * 1024 * 1024)//1000MB
-                {
-
-                    ModelState.AddModelError("", "上传视频大小不能超过1000MB");
-                    return View("CreateNew", model);
-                }
-
-                string fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
-                try
-                {
-                    string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Upload/Video");
-                    if (!Directory.Exists(savaFile))
-                    {
-                        Directory.CreateDirectory(savaFile);
-                    }
-                    var filePath = Path.Combine(savaFile, fileName);
-                    file.SaveAs(filePath);
-
-                    Chapter chapter = new Chapter
-                    {
-                        Name = model.Name,
-                        Details = model.Details,
-                        VideoGuid = fileName,
-                        CourseId = model.CourseId,
-                    };
-                    _dataContext.Chapters.Add(chapter);
-                    _dataContext.SaveChanges();
-                }
-                catch (Exception e)
-                {
-
-                    return View("CreateNew", model);
-                }
-                
-                return RedirectToAction("List");
+                ModelState.AddModelError("", "视频格式错误");
+                return View("CreateNew", model);
             }
-            return View("CreateNew", model);
+
+            if (file.ContentLength >= 1000 * 1024 * 1024)//1000MB
+            {
+
+                ModelState.AddModelError("", "上传视频大小不能超过1000MB");
+                return View("CreateNew", model);
+            }
+
+            string fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
+            try
+            {
+                string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Upload/Video");
+                if (!Directory.Exists(savaFile))
+                {
+                    Directory.CreateDirectory(savaFile);
+                }
+                var filePath = Path.Combine(savaFile, fileName);
+                file.SaveAs(filePath);
+
+                Chapter chapter = new Chapter
+                {
+                    ChapterName = model.ChapterName,
+                    ChapterDetails = model.ChapterDetails,
+                    VideoGuid = fileName,
+                    CourseId = model.CourseId,
+                    UpdateTime = DateTime.Now
+                };
+                _dataContext.Chapters.Add(chapter);
+                _dataContext.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                return View("CreateNew", model);
+            }
+
+            return RedirectToAction("List");
+            //}
+            //return View("CreateNew", model);
         }
+
+        public ActionResult EditNew(long? id)
+        {
+            Chapter chapter = _dataContext.Chapters.Find(id);
+            if (chapter == null)
+            {
+                return Json(new { code = 1, msg = "更新的chapter不存在" });
+            }
+            // ViewBag.VideoId = new SelectList(_dataContext.Videos, "ID", "VideoName");
+            // ViewBag.CourseId = new SelectList(_dataContext.Courses, "ID", "CourseName");
+            var chapterview = AutoMapper.Mapper.Map<ChapterView>(chapter);
+            ViewBag.CourseSelectOption = new SelectList(selectOptions.GetCourseSelectOptions(), "Value", "Text");
+            return View(chapterview);
+        }
+
+        public ActionResult SaveEdit(ChapterView model)
+        {
+            //if (ModelState.IsValid)
+            //{}
+            Chapter chapter = _dataContext.Chapters.Find(model.ID);
+
+            if (chapter != null)
+            {
+                if (model.Video==null)
+                {
+                    chapter.ChapterName = model.ChapterName;
+                    chapter.ChapterDetails = model.ChapterDetails;
+                    chapter.CourseId = model.CourseId;
+                    chapter.UpdateTime = DateTime.Now;
+                    _dataContext.SaveChanges();
+                    return RedirectToAction("List");
+                }
+
+                if (model.Video!=null)
+                {
+                    var file = model.Video;
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    string[] filetype = { ".mp4", ".flv", ".rmvb", ".mpeg", ".mov", ".wmv" }; //文件允许格式    rmvb、mpeg、mov、wmv、avi、mkv、mp4、flv、vob、f4v
+                    bool checkType = Array.IndexOf(filetype, fileExtension) == -1;
+                    if (checkType)
+                    {
+                        ModelState.AddModelError("", "视频格式错误");
+                        return View("EditNew", model);
+                    }
+
+                    if (file.ContentLength >= 1000 * 1024 * 1024)//1000MB
+                    {
+
+                        ModelState.AddModelError("", "上传视频大小不能超过1000MB");
+                        return View("CreateNew", model);
+                    }
+
+                    string fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
+                    try
+                    {
+                        string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Upload/Video");
+                        if (!Directory.Exists(savaFile))
+                        {
+                            Directory.CreateDirectory(savaFile);
+                        }
+                        var filePath = Path.Combine(savaFile, fileName);
+                        file.SaveAs(filePath);
+
+                        chapter.ChapterName = model.ChapterName;
+                        chapter.ChapterDetails = model.ChapterDetails;
+                        chapter.CourseId = model.CourseId;
+                        chapter.UpdateTime = DateTime.Now;
+                        chapter.VideoGuid = model.VideoGuid;
+
+                        _dataContext.SaveChanges();
+                        return RedirectToAction("List");
+
+                    }
+                    catch (Exception)
+                    {
+
+                        return View("EditNew", model);
+                    }
+                }
+
+
+
+            }
+            return RedirectToAction("List");
+        }
+
+
 
         [Route("Video/Show/{fileName}")]
         public ActionResult Show(string fileName)
@@ -169,8 +271,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
         {
             Chapter chapter = new Chapter()
             {
-                Name = model.Name,
-                Details = model.Details,
+                ChapterName = model.ChapterName,
+                ChapterDetails = model.ChapterDetails,
                 CourseId = model.CourseId,
                 //VideoId = model.VideoId,
                 UpdateTime = DateTime.Now
@@ -218,8 +320,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
                     return Json(new { code = 1, msg = "当前chapter不存在" });
                 }
 
-                model.Name = chapter.Name;
-                model.Details = chapter.Details;
+                model.ChapterName = chapter.ChapterName;
+                model.ChapterDetails = chapter.ChapterDetails;
                 model.CourseId = chapter.CourseId;
                 //model.VideoId = chapter.VideoId;
                 model.UpdateTime = DateTime.Now;

@@ -18,8 +18,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
     [CheckAdminLogin]
     public class CourseController : Controller
     {
-        // private DataContext _dataContext = new DataContext();实例化对象
-        
+         
         private TeacherOption _option = new TeacherOption();
 
         private readonly DataContext _dataContext;//声明这个变量
@@ -73,11 +72,12 @@ namespace Mooc.Web.Areas.Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.TeacherList = _option.GetTeacherSelectOptions();
-           // ViewBag.CategoryId = new SelectList(_dataContext.Categorys, "ID", "CategoryName");
-            //ViewBag.TeacherId = new SelectList(_dataContext.Teachers, "ID", "TeacherName");
+            ViewBag.CategoryId = new SelectList(_dataContext.Categorys, "ID", "CategoryName");
+            ViewBag.TeacherId = new SelectList(_dataContext.Teachers, "ID", "TeacherName");
             var model = new CourseView() { ID = 0 };
             return View(model);
         }
+
 
         //[HttpPost]
         //public ActionResult Save(string CourseName, string CourseDetail, int TeacherId, int CategoryId, int Status)
@@ -177,6 +177,55 @@ namespace Mooc.Web.Areas.Admin.Controllers
         {
             return Json(new { code = 1, msg = "出错" });
 
+        }
+
+        [HttpPost]
+        public JsonResult ChangeStatus(long? ID)
+        {
+            if (ID!=null)
+            {
+                Course course = _dataContext.Courses.Find(ID);
+                if (course.Status == 0)
+                {
+                    course.Status = 1;
+                    _dataContext.SaveChanges();
+                    return Json(new { code = 0, changestatue = 1 });
+                }
+
+                if (course.Status == 1)
+                {
+                    course.Status = 2;
+                    _dataContext.SaveChanges();
+                    return Json(new { code = 0, changestatue = 2 });
+                }
+
+                if (course.Status == 2)
+                {
+                    course.Status = 1;
+                    _dataContext.SaveChanges();
+                    return Json(new { code = 0, changestatue = 1 });
+                }
+
+                else
+                {
+                    return Json(new { code = 1, msg = "出错" });
+                }
+            }
+            return Json(new { code = 1, msg = "出错" });
+        }
+
+
+        [HttpPost]
+        public JsonResult SearchChapter(int ID)
+        {
+            int id = ID;
+            int chaptercount = _dataContext.Chapters.Count(c => c.CourseId == id);
+            if(chaptercount > 0)
+            {
+                var chapters = _dataContext.Chapters.Where(m => m.CourseId == ID).ToList();
+                return Json(chapters);
+            }
+            return Json(new { code = 1});
         }
     }
 }

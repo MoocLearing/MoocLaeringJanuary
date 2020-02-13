@@ -50,6 +50,18 @@
             <div>
                 <ul id="divPagination" class="pagination" style="margin:10px 0px;"></ul>
             </div>
+
+
+            <table class="table  table-striped" id="example-1">
+                <thead>
+                    <tr>
+                        
+                    </tr>
+                </thead>
+                <tbody class="middle-align" id="chapterbind"></tbody>
+            </table>
+
+
         </div>
     </div>
 </div>
@@ -89,16 +101,21 @@
                         _html += "<td>" + item.CourseDetail + "</td>";
                         _html += "<td>" + item.TeacherName + "</td>";
                         _html += "<td>" + item.CategoryName + "</td>";
-                        _html += "<td>" + item.CourseStatus + "</td>";
-                        _html += "<td>" + item.CreateDate + "</td>";
+                        _html += "<td><button id='statuebutton' onclick='ChangeStatue(" + item.ID + ")'>" + item.CourseStatus + "</button></td>";
+                        
+
+                        
+                         _html += "<td>" + item.CreateDate + "</td>";
 
                         _html += "<td><a href='@Url.Content("~/Admin/Course/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
 
-                       // _html += "<a href='@Url.Content("~/Admin/Course/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
-
-                        //_html += "<a href='javascript:void(0);' onclick=\"Delete('" + item.ID + "')\" class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                        _html += "<a href='javascript:void(0);' onclick='SearchChapter(" + item.ID + ")' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a>";
+                     
                         _html += "<a href='javascript:void(0);' onclick='Delete(" + item.ID + ")' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                      
                         _html += "</tr>";
+                        _html += "</BR>";
+
                        
 
                     }
@@ -107,6 +124,74 @@
                          }
                })
     }
+
+
+
+    function SearchChapter(id) {
+        
+            $.ajax({
+                url: "@Url.Content("~/Admin/course/searchchapter")",
+                data: {"ID":id},
+                type: "POST", dataType: 'json',
+                success: function (res) {
+                   
+                    var _chtml = "";
+                    for (var i = 0; i < res.chapters.length; i++) {
+
+                        var item = res.chapters[i];
+                        
+
+                        _chtml += "<tr>";
+                        _chtml += "<td>" + item.ChapterName + "</td>";
+                        _chtml += "<td>" + item.ChapterDetails + "</td>";
+                        _chtml += "<td>" + item.CourseName + "</td>";
+                        _chtml += "<td>" + item.UpdateDate + "</td>";
+                        _chtml += "<td>" + item.VideoGuid + "</td>";
+                        _chtml += "<td>" + item.CreateDate + "</td>";
+                        
+                        _chtml += "</tr>";
+                    }
+
+                    $("#chapterbind").html(_chtml);
+                         }
+               })
+    }
+
+
+
+
+    function ChangeStatue(id) {
+
+
+         $.ajax({
+            url: "@Url.Content("~/Admin/Course/ChangeStatus")",
+            data: { "ID":id},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+
+                    if (data.changestatue == 1) {
+                        document.getElementById('statuebutton').innerHTML = "已上架";
+                        document.getElementById('statuebutton').style.color = "green";
+                        
+                    }
+
+                    if (data.changestatue == 2) {
+                       document.getElementById('statuebutton').innerHTML = "已下架";
+                       document.getElementById('statuebutton').style.color = "red";
+                        
+                    }
+
+
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+    };
+
 
     function Delete(id) {
 

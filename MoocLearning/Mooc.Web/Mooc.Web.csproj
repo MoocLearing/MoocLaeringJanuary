@@ -164,6 +164,7 @@
     <Compile Include="Areas\Admin\Controllers\RazorAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\RazorTeacherController.cs" />
     <Compile Include="Areas\Admin\Controllers\TeacherController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UploadTestController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\VideosController.cs" />
     <Compile Include="Attribute\CheckLoginAttribute.cs" />
@@ -259,6 +260,8 @@
     <Content Include="Areas\Admin\Views\Chapter\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Chapter\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Chapter\CreateNew.cshtml" />
+    <Content Include="Areas\Admin\Views\UploadTest\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Chapter\EditNew.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jqPaginator.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

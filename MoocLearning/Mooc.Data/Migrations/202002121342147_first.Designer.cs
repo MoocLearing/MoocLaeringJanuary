@@ -7,13 +7,13 @@ namespace Mooc.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class video : IMigrationMetadata
+    public sealed partial class first : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(video));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(first));
         
         string IMigrationMetadata.Id
         {
-            get { return "202002100450021_video"; }
+            get { return "202002121342147_first"; }
         }
         
         string IMigrationMetadata.Source

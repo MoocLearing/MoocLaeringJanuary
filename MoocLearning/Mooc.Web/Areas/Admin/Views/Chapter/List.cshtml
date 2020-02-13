@@ -9,7 +9,7 @@
             <h3 class="panel-title">chapter列表</h3>
             <div class="panel-options">
 
-                <a href="~/Admin/chapter/Create" class="btn btn-gray">添加chapter</a>
+                <a href="~/Admin/chapter/Createnew" class="btn btn-gray">添加chapter</a>
             </div>
         </div>
         <div class="panel-body">
@@ -27,17 +27,18 @@
                         </th>
                         <th>
 
-                            
-                            Course Name
-                        </th>
-                        <th>
 
-                            Video Name
+                            Course Name
                         </th>
                         <th>
 
                             Update Time
                         </th>
+                        <th>
+
+                            Video Name
+                        </th>
+
                         <th>
 
                             Add Time
@@ -65,7 +66,7 @@
 
             var pageIndex = $("#PageIndex").val();
             $.ajax({
-                url: "@Url.Content("~/Admin/chapter/PageList")",
+                url: "@Url.Content("~/Admin/chapter/GetChapterList")",
                 data: { "pageIndex": pageIndex, "pageSize": pageSize },
                 type: "POST", dataType: 'json',
                 success: function (res) {
@@ -86,13 +87,13 @@
 
                         var item = res.data[i];
                         _html += "<tr>";
-                        _html += "<td>" + item.Name + "</td>";
-                        _html += "<td>" + item.Details + "</td>";
-                        _html += "<td>" + item.Course.CourseName + "</td>";
-                        _html += "<td>" + item.Video.VideoName + "</td>";
+                        _html += "<td>" + item.ChapterName + "</td>";
+                        _html += "<td>" + item.ChapterDetails + "</td>";
+                        _html += "<td>" + item.CourseName + "</td>";
                         _html += "<td>" + item.UpdateDate + "</td>";
+                        _html += "<td>" + item.VideoGuid + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
-                        _html += "<td><a href='@Url.Content("~/Admin/chapter/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
+                        _html += "<td><a href='@Url.Content("~/Admin/chapter/EditNew/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
 
                         _html += "<a href='@Url.Content("~/Admin/Chapter/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
                         _html += "</tr>";
