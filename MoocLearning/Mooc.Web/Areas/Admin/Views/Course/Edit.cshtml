@@ -6,16 +6,15 @@
 
 <div class="row">
 
-    <div class="panel panel-default col-md-6 col-md-push-3">
-        <div class="panel-heading">
+    <div class="panel panel-default col-md-6 col-md-push-3" >
+        <div class="panel-heading" style="margin-bottom: 20px;">
             <h3 class="panel-title">更新课程</h3>
         </div>
 
         <div class="form-horizontal">
-            <hr />
-
+ 
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseName)
+                @Html.LabelFor(m => m.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(m => m.CourseName, new { htmlAttributes = new { @class = "form-control", id = "coursename" } })
                     @Html.ValidationMessageFor(m => m.CourseName)
@@ -23,7 +22,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseDetail)
+                @Html.LabelFor(m => m.CourseDetail, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(m => m.CourseDetail, new { htmlAttributes = new { @class = "form-control", id = "coursedetail" } })
                     @Html.ValidationMessageFor(m => m.CourseDetail)
@@ -31,7 +30,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.TeacherId, "TeacherNames", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(m => m.TeacherId,htmlAttributes: new { @class = "control-label col-md-2" })
+                @*@Html.LabelFor(model => model.TeacherId, "TeacherNames", htmlAttributes: new { @class = "control-label col-md-2" })*@
                 <div class="col-md-10">
                     @Html.DropDownList("TeacherId", null, htmlAttributes: new { @class = "form-control", id = "teacherid" })
 
@@ -39,20 +39,20 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CategoryId, "CategoryNames", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(m => m.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", id = "categoryid" })
 
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.LabelFor(m => m.Status)
                 <div class="col-md-10">
                     @Html.EditorFor(m => m.Status, new { htmlAttributes = new { @class = "form-control", id = "status" } })
                     @Html.ValidationMessageFor(m => m.Status)
                 </div>
-            </div>
+            </div>*@
 
             <div class="form-group" style="padding-top: 20px;">
                 <div class="col-md-offset-2 col-md-10">

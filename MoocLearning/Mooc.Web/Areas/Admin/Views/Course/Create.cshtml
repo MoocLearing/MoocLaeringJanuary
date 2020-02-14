@@ -12,10 +12,8 @@
         </div>
 
         <div class="form-horizontal">
-            <hr />
-
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseName)
+                @Html.LabelFor(m => m.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <input type="text" id="CourseName" class="form-control" placeholder="请输入课程名称" />
                     @*@Html.ValidationMessageFor(m => m.CourseName)*@
@@ -23,7 +21,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseDetail)
+                @Html.LabelFor(m => m.CourseDetail, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <input type="text" id="CourseDetail" class="form-control" placeholder="请输入课程简介" />
                     @*@Html.ValidationMessageFor(m => m.CourseDetail)*@
@@ -69,7 +67,7 @@
     </div>
 
 </div>
-<script>
+<script>ou m
     function back() {
         window.location.href = "@Url.Content("~/Admin/Course/List")";
     }

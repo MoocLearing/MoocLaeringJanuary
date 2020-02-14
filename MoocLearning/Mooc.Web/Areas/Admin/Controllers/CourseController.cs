@@ -15,7 +15,7 @@ using Mooc.Web.Models;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-    [CheckAdminLogin]
+   // [CheckAdminLogin]
     public class CourseController : Controller
     {
          
@@ -57,8 +57,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
                             TeacherName = b.TeacherName,
                             CategoryName = c.CategoryName,
                             AddTime = a.AddTime,
-                            Status = a.Status
-
+                            Status = a.Status,
+                            
                         });
 
             var viewList = list.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
@@ -180,38 +180,51 @@ namespace Mooc.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult ChangeStatus(long? ID)
+        public JsonResult ChangeStatus(long ID)
         {
-            if (ID!=null)
+            Course course = _dataContext.Courses.Find(ID);
+            if(course==null)
+                return Json(new { code = 1, msg = "参数错误" });
+            if (course.Status != 1)
             {
-                Course course = _dataContext.Courses.Find(ID);
-                if (course.Status == 0)
-                {
-                    course.Status = 1;
-                    _dataContext.SaveChanges();
-                    return Json(new { code = 0, changestatue = 1 });
-                }
-
-                if (course.Status == 1)
-                {
-                    course.Status = 2;
-                    _dataContext.SaveChanges();
-                    return Json(new { code = 0, changestatue = 2 });
-                }
-
-                if (course.Status == 2)
-                {
-                    course.Status = 1;
-                    _dataContext.SaveChanges();
-                    return Json(new { code = 0, changestatue = 1 });
-                }
-
-                else
-                {
-                    return Json(new { code = 1, msg = "出错" });
-                }
+                int iCount = _dataContext.Chapters.Count(p => p.CourseId == ID && !string.IsNullOrEmpty(p.VideoGuid));
+                if (iCount <= 0)
+                    return Json(new { code = 0, msg = "当前课程暂无课程视频" });
             }
-            return Json(new { code = 1, msg = "出错" });
+            else {
+                //暂时不加--如果有学生正在学习该课程并且未结课 不能下架
+            }
+            course.Status = course.Status == 1 ? 2 : 1;
+            _dataContext.SaveChanges();
+            return Json(new { code = 0, msg = course.Status == 1 ? "上架成功" : "下架成功" });
+
+            //if (course.Status == 0)
+            //{
+            //    course.Status = 1;
+            //    _dataContext.SaveChanges();
+            //    return Json(new { code = 0, changestatue = 1 });
+            //}
+
+            //if (course.Status == 1)
+            //{
+            //    course.Status = 2;
+            //    _dataContext.SaveChanges();
+            //    return Json(new { code = 0, changestatue = 2 });
+            //}
+
+            //if (course.Status == 2)
+            //{
+            //    course.Status = 1;
+            //    _dataContext.SaveChanges();
+            //    return Json(new { code = 0, changestatue = 1 });
+            //}
+
+            //else
+            //{
+            //    return Json(new { code = 1, msg = "出错" });
+            //}
+
+
         }
 
 

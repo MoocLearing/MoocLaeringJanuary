@@ -33,23 +33,27 @@ namespace Mooc.Web.Areas.Admin.Controllers
         // GET: Admin/Chapter
         public ActionResult Index()
         {
-            return View("List");
+            return Content("Index");
         }
 
         //改变呈现，groupby courseID
-        public ActionResult List()
+        public ActionResult List(long? id)
         {
+            if (id == null)
+                return HttpNotFound("参数错误");
+            ViewBag.CourseId = id;
             return View();
         }
 
         [HttpPost]
-        public JsonResult GetChapterList(int pageIndex, int pageSize)
+        public JsonResult GetChapterList(long courseId, int pageIndex, int pageSize)
         {
             PageResult<ChapterView> result = new PageResult<ChapterView>() { data = new List<ChapterView>(), PageIndex = pageIndex, PageSize = pageSize };
             int current = (pageIndex - 1) * pageSize;
 
             var list = (from a in _dataContext.Chapters
                         join b in _dataContext.Courses on a.CourseId equals b.ID
+                        where a.CourseId == courseId
                         select new ChapterView
                         {
                             ID = a.ID,
@@ -159,7 +163,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
             if (chapter != null)
             {
-                if (model.Video==null)
+                if (model.Video == null)
                 {
                     chapter.ChapterName = model.ChapterName;
                     chapter.ChapterDetails = model.ChapterDetails;
@@ -169,7 +173,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
                     return RedirectToAction("List");
                 }
 
-                if (model.Video!=null)
+                if (model.Video != null)
                 {
                     var file = model.Video;
                     string fileExtension = Path.GetExtension(file.FileName);
@@ -223,8 +227,22 @@ namespace Mooc.Web.Areas.Admin.Controllers
         }
 
 
+       // [Route("Video/play/{id}")]
+        public ActionResult Play(long? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+            var model = _dataContext.Chapters.Find(id);
+            if (model == null)
+                return HttpNotFound();
+            if (string.IsNullOrEmpty(model.VideoGuid))
+                return Content("未上传视频");
+            return View(model);
+        }
 
-        [Route("Video/Show/{fileName}")]
+
+
+       // [Route("Video/Show/{fileName}")]
         public ActionResult Show(string fileName)
         {
             string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Upload/Video");

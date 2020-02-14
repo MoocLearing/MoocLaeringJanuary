@@ -1,0 +1,17 @@
+﻿@model Mooc.Data.Entities.Chapter
+
+
+@{
+    ViewBag.Title = "Play";
+    Layout = "~/Areas/Admin/Views/Shared/_Main.cshtml";
+    string filename = Model.VideoGuid;
+}
+
+
+<div>
+    <h3>@Model.ChapterName</h3>
+    <video width="800" height="600" controls>
+        <source src="@Url.Content("~/admin/Chapter/Show?fileName="+Model.VideoGuid)">
+        Your browser does not support HTML5 video.
+    </video>
+</div>

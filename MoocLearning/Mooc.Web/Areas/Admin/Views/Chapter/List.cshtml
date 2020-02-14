@@ -59,15 +59,15 @@
 <script src="~/Scripts/jqPaginator.js"></script>
 <script>
 
+    var courseId = "@ViewBag.CourseId";
     var pageSize = 2;
-    search();
 
         function search() {
 
             var pageIndex = $("#PageIndex").val();
             $.ajax({
                 url: "@Url.Content("~/Admin/chapter/GetChapterList")",
-                data: { "pageIndex": pageIndex, "pageSize": pageSize },
+                data: { "courseId": courseId, "pageIndex": pageIndex, "pageSize": pageSize },
                 type: "POST", dataType: 'json',
                 success: function (res) {
                     var pageCount = res.PageCount == 0 ? 1 : res.PageCount;
@@ -93,8 +93,8 @@
                         _html += "<td>" + item.UpdateDate + "</td>";
                         _html += "<td>" + item.VideoGuid + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
-                        _html += "<td><a href='@Url.Content("~/Admin/chapter/EditNew/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
-
+                        _html += "<td><a href='@Url.Content("~/Admin/Chapter/play/")" + item.ID + "' class = 'fa-file-video-o' style = 'font-size:20px'></a>";
+                        _html += "<a href='@Url.Content("~/Admin/Chapter/EditNew/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px;margin-left:10px;' ></a>";
                         _html += "<a href='@Url.Content("~/Admin/Chapter/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
                         _html += "</tr>";
                     }
@@ -102,5 +102,7 @@
                     $("#dataBind").html(_html);
                          }
                })
-        }
+    }
+
+    search();
 </script>

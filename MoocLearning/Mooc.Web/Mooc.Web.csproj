@@ -262,6 +262,7 @@
     <Content Include="Areas\Admin\Views\Chapter\CreateNew.cshtml" />
     <Content Include="Areas\Admin\Views\UploadTest\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Chapter\EditNew.cshtml" />
+    <Content Include="Areas\Admin\Views\Chapter\Play.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jqPaginator.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
