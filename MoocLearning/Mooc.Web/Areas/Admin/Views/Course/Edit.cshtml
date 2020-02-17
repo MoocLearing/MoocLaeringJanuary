@@ -12,25 +12,17 @@
         </div>
 
         <div class="form-horizontal">
- 
+
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseName,"课程名称", htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.EditorFor(m => m.CourseName, new { htmlAttributes = new { @class = "form-control", id = "coursename" } })
-                    @Html.ValidationMessageFor(m => m.CourseName)
+                @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
+                    
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseDetail,"课程详情", htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextAreaFor(m => m.CourseDetail, new { htmlAttributes = new { @class = "form-control", id = "coursedetail" } })
-                    @Html.ValidationMessageFor(m => m.CourseDetail)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.TeacherId,htmlAttributes: new { @class = "control-label col-md-3" })
+                @Html.LabelFor(m => m.TeacherId, htmlAttributes: new { @class = "control-label" })
                 @*@Html.LabelFor(model => model.TeacherId, "TeacherNames", htmlAttributes: new { @class = "control-label col-md-2" })*@
                 <div class="col-md-9">
                     @Html.DropDownList("TeacherId", null, htmlAttributes: new { @class = "form-control", id = "teacherid" })
@@ -39,20 +31,29 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CategoryId, htmlAttributes: new { @class = "control-label col-md-3" })
+                @Html.LabelFor(m => m.CategoryId, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-9">
                     @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", id = "categoryid" })
 
                 </div>
             </div>
 
-            @*<div class="form-group">
-                @Html.LabelFor(m => m.Status)
+            <div class="form-group">
+                @Html.LabelFor(m => m.CourseDetail, "课程详情", htmlAttributes: new { @class = "control-label " })
                 <div class="col-md-9">
-                    @Html.EditorFor(m => m.Status, new { htmlAttributes = new { @class = "form-control", id = "status" } })
-                    @Html.ValidationMessageFor(m => m.Status)
+                    @Html.TextAreaFor(m => m.CourseDetail, new { htmlAttributes = new { @class = "form-control", id = "coursedetail" } })
+                    @Html.ValidationMessageFor(m => m.CourseDetail)
                 </div>
-            </div>*@
+            </div>
+
+
+            @*<div class="form-group">
+            @Html.LabelFor(m => m.Status)
+            <div class="col-md-9">
+                @Html.EditorFor(m => m.Status, new { htmlAttributes = new { @class = "form-control", id = "status" } })
+                @Html.ValidationMessageFor(m => m.Status)
+            </div>
+        </div>*@
 
             <div class="form-group" style="padding-top: 20px;">
                 <div class="col-md-offset-2 col-md-9">
@@ -74,7 +75,7 @@
 
     function submit() {
 
-        var coursename = $.trim($("#coursename").val());
+        var coursename = $.trim($("#CourseName").val());
 
         var coursedetail = $.trim($("#coursedetail").val());
 

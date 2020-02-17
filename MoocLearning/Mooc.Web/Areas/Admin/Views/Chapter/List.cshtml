@@ -62,8 +62,8 @@
     var courseId = "@ViewBag.CourseId";
     var pageSize = 2;
 
-        function search() {
-
+    function search() {
+        var status = parseInt("@ViewBag.CourseStatus");
             var pageIndex = $("#PageIndex").val();
             $.ajax({
                 url: "@Url.Content("~/Admin/chapter/GetChapterList")",
@@ -94,9 +94,11 @@
                         _html += "<td>" + item.VideoGuid + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
                         _html += "<td><a href='@Url.Content("~/Admin/Chapter/play/")" + item.ID + "' class = 'fa-file-video-o' style = 'font-size:20px'></a>";
+                        if (status != 1) {
                         _html += "<a href='@Url.Content("~/Admin/Chapter/EditNew/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px;margin-left:10px;' ></a>";
                         _html += "<a href='@Url.Content("~/Admin/Chapter/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
-                        _html += "</tr>";
+                       }
+                    _html += "</tr>";
                     }
 
                     $("#dataBind").html(_html);

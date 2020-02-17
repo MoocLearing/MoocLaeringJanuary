@@ -11,19 +11,12 @@
             <h3 class="panel-title">添加课程</h3>
         </div>
 
-        <div class="form-horizontal">
+        <div class="form-horizontal" style="margin-top:20px;">
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseName, "课程名称", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(m => m.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(p => p.CourseName, new { @Class="form-control", @id = "CourseName"})
-                    
-                </div>
-            </div>
+                    @Html.EditorFor(p => p.CourseName, new { htmlAttributes = new { @class = "form-control" } })
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.CourseDetail,"课程详情", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(p=>p.CourseDetail,new { @Class="form-control", @id = "CourseDetail"})
 
                 </div>
             </div>
@@ -45,13 +38,21 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                @Html.LabelFor(m => m.CourseDetail, "课程详情", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(p => p.CourseDetail, new { @class = "form-control", @id = "CourseDetail" })
+
+                </div>
+            </div>
+
             @*<div class="form-group">
-                    @Html.LabelFor(m => m.Status)
-                    <div class="col-md-10">
-                        <input type="text" id="status" class="form-control" placeholder="课程状态" />
-                        @Html.ValidationMessageFor(m => m.Status)
-                    </div>
-                </div>*@
+            @Html.LabelFor(m => m.Status)
+            <div class="col-md-10">
+                <input type="text" id="status" class="form-control" placeholder="课程状态" />
+                @Html.ValidationMessageFor(m => m.Status)
+            </div>
+        </div>*@
 
             <div class="form-group" style="padding-top: 20px;">
                 <div class="col-md-offset-2 col-md-10">
@@ -64,7 +65,7 @@
     </div>
 
 </div>
-<script>ou m
+<script>
     function back() {
         window.location.href = "@Url.Content("~/Admin/Course/List")";
     }

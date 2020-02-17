@@ -125,9 +125,14 @@
 
                         //_html += "<a href='javascript:void(0);' class='" + color + " fa fa-toggle-down' onclick='ChangeStatue(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;' title='" + item.CourseStatus + "'></a>";
 
-                        _html += "<a href='javascript:void(0);' class=' fa fa-toggle-down' onclick='ChangeStatuedown(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;color:"+color+"'; title='下架'></a>";
+                        if (item.Status == 1) {
+                            _html += "<a href='javascript:void(0);' class=' fa fa-toggle-down' onclick='ChangeStatuedown(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;color:" + color + "'; title='下架'></a>";
+                        } else {
 
-                        _html += "<a href='javascript:void(0);' class=' fa fa-toggle-up' onclick='ChangeStatueup(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;color:"+color+"';' title='上架'></a>";
+                            _html += "<a href='javascript:void(0);' class=' fa fa-toggle-up' onclick='ChangeStatueup(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;color:" + color + "';' title='上架'></a>";
+                        }
+                      
+
 
                         _html += "</td></tr>";
                     }
@@ -215,7 +220,7 @@
 
 function ChangeStatuedown(id, status) {
     if (status == 1 && id != null) {
-        if (confirm("确定要删除课程及相关章节吗？")) {
+        if (confirm("是否下架该课程？")) {
             $.ajax({
                 url: "@Url.Content("~/Admin/Course/ChangeStatus")",
                 data: { "ID": id },
@@ -243,7 +248,7 @@ function ChangeStatuedown(id, status) {
 
 function ChangeStatueup(id, status) {
     if (status != 1) {
-        if (confirm("确定要上架课程及相关章节吗？")) {
+        if (confirm("是否上架该课程？")) {
             $.ajax({
                 url: "@Url.Content("~/Admin/Course/ChangeStatus")",
                 data: { "ID": id },

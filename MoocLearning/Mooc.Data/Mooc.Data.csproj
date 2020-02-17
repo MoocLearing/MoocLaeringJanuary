@@ -74,25 +74,15 @@
     <Compile Include="Context\DataContext.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Category.cs" />
-    <Compile Include="Entities\CategoryType.cs" />
     <Compile Include="Entities\Chapter.cs" />
     <Compile Include="Entities\Course.cs" />
-    <Compile Include="Entities\SubjectCategory.cs" />
     <Compile Include="Entities\Teacher.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Enums\EnumModel.cs" />
-    <Compile Include="Migrations\202002152323159_first.cs" />
-    <Compile Include="Migrations\202002152323159_first.designer.cs">
-      <DependentUpon>202002152323159_first.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002170043070_addimgupload.cs" />
-    <Compile Include="Migrations\202002170043070_addimgupload.designer.cs">
-      <DependentUpon>202002170043070_addimgupload.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002170118386_addmore.cs" />
-    <Compile Include="Migrations\202002170118386_addmore.designer.cs">
-      <DependentUpon>202002170118386_addmore.cs</DependentUpon>
+    <Compile Include="Migrations\202002171249439_test008.cs" />
+    <Compile Include="Migrations\202002171249439_test008.designer.cs">
+      <DependentUpon>202002171249439_test008.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,14 +111,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002152323159_first.resx">
-      <DependentUpon>202002152323159_first.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002170043070_addimgupload.resx">
-      <DependentUpon>202002170043070_addimgupload.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002170118386_addmore.resx">
-      <DependentUpon>202002170118386_addmore.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002171249439_test008.resx">
+      <DependentUpon>202002171249439_test008.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

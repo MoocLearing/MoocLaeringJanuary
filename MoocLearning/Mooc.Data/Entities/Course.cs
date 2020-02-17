@@ -10,10 +10,10 @@ namespace Mooc.Data.Entities
 {
     public class Course:BaseEntity
     {
-        [Display(Name = "用户")]
+        [Display(Name = "课程名称")]
         public string CourseName { get; set; }
 
-        [Display(Name ="用户详情")]
+        [Display(Name ="课程详情")]
         public string CourseDetail { get; set; }
 
         // [ForeignKey(nameof(Teacher))]
@@ -28,5 +28,7 @@ namespace Mooc.Data.Entities
        // public Category Category { get; set; }
 
         public int Status { get; set; }
+        [Display(Name = "课程封面")]
+        public string CoverPic{ get; set; }
     }
 }
