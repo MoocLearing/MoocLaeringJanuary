@@ -3,8 +3,14 @@
     ViewBag.Title = "List";
 }
 <style>
-    .red{color:red;};
-    .green{color:green;}
+    .red {
+        color: red;
+    }
+
+    ;
+    .green {
+        color: green;
+    }
 </style>
 
 <div class="row">
@@ -23,11 +29,11 @@
                     <tr>
                         <th>
 
-                            CourseName
+                            Course Name
                         </th>
                         <th>
 
-                            CourseDetail
+                            Course Detail
                         </th>
                         <th>
 
@@ -59,7 +65,6 @@
             <table class="table  table-striped" id="example-1">
                 <thead>
                     <tr>
-                        
                     </tr>
                 </thead>
                 <tbody class="middle-align" id="chapterbind"></tbody>
@@ -101,25 +106,29 @@
 
                         var item = res.data[i];
                         var color = item.Status == 0 ? "" : item.Status == 1 ? "green" : "red";
-                  
+
                         _html += "<tr>";
                         _html += "<td>" + item.CourseName + "</td>";
                         _html += "<td>" + item.CourseDetail + "</td>";
                         _html += "<td>" + item.TeacherName + "</td>";
                         _html += "<td>" + item.CategoryName + "</td>";
-                      
+
                         _html += "<td>" + item.CourseStatus + "</td>";
                          _html += "<td>" + item.CreateDate + "</td>";
 
                         _html += "<td><a href='@Url.Content("~/Admin/Course/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px' title='编辑课程'></a>";
 
-                        
+
                         _html += "<a href='javascript:void(0);' onclick='Delete(" + item.ID + "," + item.Status + ")' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;' title='删除课程'></a>";
 
-                        _html += "<a href='javascript:void(0);' onclick='Chapter(" + item.ID + ")' class = 'fa-credit-card' style = 'font-size:20px;margin-left:10px;' title='查看章节'></a>";
+                        _html += "<a href='javascript:void(0);' onclick='Chapter(" + item.ID + ")' class = 'fa fa-bars' style = 'font-size:20px;margin-left:10px;' title='查看章节'></a>";
 
-                        _html += "<a href='javascript:void(0);' class='" + color + " fa-close ' onclick='ChangeStatue(" + item.ID + "," + item.Status + ")' style = 'font-size:14px;margin-left:10px;' title='" + item.CourseStatus+"'></a>";   
-                        
+                        //_html += "<a href='javascript:void(0);' class='" + color + " fa fa-toggle-down' onclick='ChangeStatue(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;' title='" + item.CourseStatus + "'></a>";
+
+                        _html += "<a href='javascript:void(0);' class=' fa fa-toggle-down' onclick='ChangeStatuedown(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;color:"+color+"'; title='下架'></a>";
+
+                        _html += "<a href='javascript:void(0);' class=' fa fa-toggle-up' onclick='ChangeStatueup(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;color:"+color+"';' title='上架'></a>";
+
                         _html += "</td></tr>";
                     }
 
@@ -131,18 +140,18 @@
 
 
     function Chapter(id) {
-        
+
             @*$.ajax({
                 url: "@Url.Content("~/Admin/course/searchchapter")",
                 data: {"ID":id},
                 type: "POST", dataType: 'json',
                 success: function (res) {
-                   
+
                     var _chtml = "";
                     for (var i = 0; i < res.chapters.length; i++) {
 
                         var item = res.chapters[i];
-                        
+
 
                         _chtml += "<tr>";
                         _chtml += "<td>" + item.ChapterName + "</td>";
@@ -151,7 +160,7 @@
                         _chtml += "<td>" + item.UpdateDate + "</td>";
                         _chtml += "<td>" + item.VideoGuid + "</td>";
                         _chtml += "<td>" + item.CreateDate + "</td>";
-                        
+
                         _chtml += "</tr>";
                     }
 
@@ -162,7 +171,7 @@
         window.location = "@Url.Content("~/Admin/Chapter/List/")"+id;
     }
 
-    function ChangeStatue(id, status) {
+    @*function ChangeStatue(id, status) {
         var mes=status==1?"是否下架该课程?":"是否上架该课程?";
         if (confirm(mes)) {
             $.ajax({
@@ -202,7 +211,61 @@
                 }
             })
             }
-    };
+    };*@
+
+function ChangeStatuedown(id, status) {
+    if (status == 1 && id != null) {
+        if (confirm("确定要删除课程及相关章节吗？")) {
+            $.ajax({
+                url: "@Url.Content("~/Admin/Course/ChangeStatus")",
+                data: { "ID": id },
+                type: "POST",
+                dataType: 'json',
+                success: function (data) {
+
+                    if (data.code == 0) {
+                        alert(data.msg);
+                        search();
+                    }
+                    else {
+                        alert(data.msg);
+                        return false;
+                    }
+
+                }
+            })
+        }
+    }
+
+};
+
+
+
+function ChangeStatueup(id, status) {
+    if (status != 1) {
+        if (confirm("确定要上架课程及相关章节吗？")) {
+            $.ajax({
+                url: "@Url.Content("~/Admin/Course/ChangeStatus")",
+                data: { "ID": id },
+                type: "POST",
+                dataType: 'json',
+                success: function (data) {
+
+                    if (data.code == 0) {
+                        alert(data.msg);
+                        search();
+                    }
+                    else {
+                        alert(data.msg);
+                        return false;
+                    }
+
+                }
+            })
+        }
+    }
+    
+};
 
 
     function Delete(id,status) {
@@ -211,10 +274,24 @@
             alert("该课程已上架，无法删除")
             return false;
         }
-            
-        if (confirm("确定删除当前课程及课程下的所有章节么?")) {
 
-            
+        if (confirm("确定删除当前课程及课程下的所有章节么?")) {
+             $.ajax({
+            url: "@Url.Content("~/Admin/Course/DeleteCourse")",
+            data: {"DeleteID":id},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    alert("课程删除成功");
+                    window.location = "@Url.Content("~/Admin/Course/List")";
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
 
             //确定删除当前课程，课程下的章节需要一起删除
         }

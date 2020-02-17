@@ -75,9 +75,10 @@
                     for (var i = 0; i < res.data.length; i++) {
 
                         var item = res.data[i];
+                        alert(item.TeacherDepartmentToString);
                         _html += "<tr>";
                         _html += "<td>" + item.TeacherName + "</td>";
-                        _html += "<td>" + item.TeacherDepartment + "</td>";
+                        _html += "<td>" + item.TeacherDepartmentToString + "</td>";
                         _html += "<td>" + item.TeacherProfile + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
 

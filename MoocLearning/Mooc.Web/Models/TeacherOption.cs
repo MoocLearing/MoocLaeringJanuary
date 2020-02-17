@@ -9,35 +9,35 @@ using System.Web.Mvc;
 
 namespace Mooc.Web.Models
 {
-    public class TeacherOption
-    {
-        public IEnumerable<TeacherSelectOption> GetTeachers()
-        {
-            using (DataContext db = new DataContext())
-            {
-                return db.Teachers.OrderByDescending(p => p.AddTime).Select(p => new TeacherSelectOption { ID = p.ID, TeacherName = p.TeacherName });
-            }
+    //public class TeacherOption
+    //{
+    //    public IEnumerable<TeacherSelectOption> GetTeachers()
+    //    {
+    //        using (DataContext db = new DataContext())
+    //        {
+    //            return db.Teachers.OrderByDescending(p => p.AddTime).Select(p => new TeacherSelectOption { ID = p.ID, TeacherName = p.TeacherName });
+    //        }
 
-            //    List<TeacherSelectOption> list = new List<TeacherSelectOption>() {
-            //    new TeacherSelectOption{ ID=1,TeacherName="Lily" },
-            //    new TeacherSelectOption{ID=2,TeacherName="Tom"}
-            //};
-            // return list;
-        }
+    //        //    List<TeacherSelectOption> list = new List<TeacherSelectOption>() {
+    //        //    new TeacherSelectOption{ ID=1,TeacherName="Lily" },
+    //        //    new TeacherSelectOption{ID=2,TeacherName="Tom"}
+    //        //};
+    //        // return list;
+    //    }
 
-        public IEnumerable<SelectListItem> GetTeacherSelectOptions()
-        {
-            var itemlist = GetTeachers().Select(r => new SelectListItem
-            {
-                Text = r.TeacherName,
-                Value = r.ID.ToString(),
-                // Selected = r.TeacherName == "中国" ? true : false
-            });
-            return itemlist;
-        }
+    //    public IEnumerable<SelectListItem> GetTeacherSelectOptions()
+    //    {
+    //        var itemlist = GetTeachers().Select(r => new SelectListItem
+    //        {
+    //            Text = r.TeacherName,
+    //            Value = r.ID.ToString(),
+    //            // Selected = r.TeacherName == "中国" ? true : false
+    //        });
+    //        return itemlist;
+    //    }
 
 
-    }
+    //}
 
     public class SelectOptions
     {
@@ -73,5 +73,37 @@ namespace Mooc.Web.Models
         }
     }
 
+
+    public class CategoryOption
+    {
+        public IEnumerable<SelectListItem> GetCategorySelectOptions()
+        {
+            using (DataContext db = new DataContext())
+            {
+                var list = db.Categorys.OrderByDescending(p => p.AddTime).Select(r => new SelectListItem
+                {
+                    Text = r.CategoryName,
+                    Value = r.ID.ToString(),
+                }).ToList();
+                return list;
+            }
+        }
+    }
+
+    public class TeacherOption
+    {
+        public IEnumerable<SelectListItem> GetTeacherSelectOptions()
+        {
+            using (DataContext db = new DataContext())
+            {
+                var list = db.Teachers.OrderByDescending(p => p.AddTime).Select(r => new SelectListItem
+                {
+                    Text = r.TeacherName,
+                    Value = r.ID.ToString(),
+                }).ToList();
+                return list;
+            }
+        }
+    }
 
 }

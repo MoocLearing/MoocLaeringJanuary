@@ -136,7 +136,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 return View("CreateNew", model);
             }
 
-            return RedirectToAction("List");
+            return RedirectToAction("List","Course");
             //}
             //return View("CreateNew", model);
         }

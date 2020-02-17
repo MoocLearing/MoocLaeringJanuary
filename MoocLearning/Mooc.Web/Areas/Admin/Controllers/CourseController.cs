@@ -15,11 +15,13 @@ using Mooc.Web.Models;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-   // [CheckAdminLogin]
+    // [CheckAdminLogin]
     public class CourseController : Controller
     {
-         
-        private TeacherOption _option = new TeacherOption();
+
+        private TeacherOption _teacheroption = new TeacherOption();
+
+        private CategoryOption _categoryoption = new CategoryOption();
 
         private readonly DataContext _dataContext;//声明这个变量
         public CourseController(DataContext dataContext)
@@ -58,7 +60,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
                             CategoryName = c.CategoryName,
                             AddTime = a.AddTime,
                             Status = a.Status,
-                            
+
                         });
 
             var viewList = list.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
@@ -71,9 +73,11 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.TeacherList = _option.GetTeacherSelectOptions();
-            ViewBag.CategoryId = new SelectList(_dataContext.Categorys, "ID", "CategoryName");
-            ViewBag.TeacherId = new SelectList(_dataContext.Teachers, "ID", "TeacherName");
+            //dropdownlist还是要用正宗写法
+            ViewBag.TeacherList = _teacheroption.GetTeacherSelectOptions();
+            ViewBag.CategoryList = _categoryoption.GetCategorySelectOptions();
+            //ViewBag.CategoryId = new SelectList(_dataContext.Categorys, "ID", "CategoryName");
+            //ViewBag.TeacherId = new SelectList(_dataContext.Teachers, "ID", "TeacherName");
             var model = new CourseView() { ID = 0 };
             return View(model);
         }
@@ -173,9 +177,23 @@ namespace Mooc.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteCourse(long? id)
+        public JsonResult DeleteCourse(long? DeleteID)
         {
-            return Json(new { code = 1, msg = "出错" });
+            if (DeleteID != null)
+            {
+                IEnumerable<Chapter> list = _dataContext.Chapters.ToList().Where(p => p.CourseId == DeleteID);
+                foreach (var cap in list)
+                {
+                    _dataContext.Chapters.Remove(cap);
+                }
+                var course = _dataContext.Courses.Find(DeleteID);
+                _dataContext.Courses.Remove(course);
+
+                _dataContext.SaveChanges();
+
+                return Json(new { code = 0 });
+            }
+            return Json(new { code = 1, msg = "该课程不存在" });
 
         }
 
@@ -183,15 +201,16 @@ namespace Mooc.Web.Areas.Admin.Controllers
         public JsonResult ChangeStatus(long ID)
         {
             Course course = _dataContext.Courses.Find(ID);
-            if(course==null)
+            if (course == null)
                 return Json(new { code = 1, msg = "参数错误" });
             if (course.Status != 1)
             {
                 int iCount = _dataContext.Chapters.Count(p => p.CourseId == ID && !string.IsNullOrEmpty(p.VideoGuid));
                 if (iCount <= 0)
-                    return Json(new { code = 0, msg = "当前课程暂无课程视频" });
+                return Json(new { code = 0, msg = "当前课程暂无课程视频" });
             }
-            else {
+            else
+            {
                 //暂时不加--如果有学生正在学习该课程并且未结课 不能下架
             }
             course.Status = course.Status == 1 ? 2 : 1;
@@ -233,12 +252,12 @@ namespace Mooc.Web.Areas.Admin.Controllers
         {
             int id = ID;
             int chaptercount = _dataContext.Chapters.Count(c => c.CourseId == id);
-            if(chaptercount > 0)
+            if (chaptercount > 0)
             {
                 var chapters = _dataContext.Chapters.Where(m => m.CourseId == ID).ToList();
                 return Json(chapters);
             }
-            return Json(new { code = 1});
+            return Json(new { code = 1 });
         }
     }
 }

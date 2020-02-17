@@ -13,37 +13,34 @@
 
         <div class="form-horizontal">
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(m => m.CourseName, "课程名称", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <input type="text" id="CourseName" class="form-control" placeholder="请输入课程名称" />
-                    @*@Html.ValidationMessageFor(m => m.CourseName)*@
+                    @Html.EditorFor(p => p.CourseName, new { @Class="form-control", @id = "CourseName"})
+                    
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseDetail, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(m => m.CourseDetail,"课程详情", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <input type="text" id="CourseDetail" class="form-control" placeholder="请输入课程简介" />
-                    @*@Html.ValidationMessageFor(m => m.CourseDetail)*@
+                    @Html.TextAreaFor(p=>p.CourseDetail,new { @Class="form-control", @id = "CourseDetail"})
+
                 </div>
             </div>
 
             <div class="form-group">
-                @*@Html.LabelFor(model => model.TeacherId, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                @Html.LabelFor(model => model.TeacherId, "TeacherNames", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.TeacherId, "教师名", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @*@Html.DropDownList("TeacherId", null, htmlAttributes: new { @class = "form-control", id = "teacherid" })*@
                     @*@Html.DropDownListFor(m => m.TeacherId, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control",@id="TeacherId" })*@
-                    @Html.DropDownListFor(m => m.TeacherId, ViewBag.TeacherId as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control", @id = "TeacherId" })
+                    @Html.DropDownListFor(m => m.TeacherId, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "TeacherId" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CategoryId, "CategoryNames", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.CategoryId, "课程类型", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-
-                    @Html.DropDownListFor(m => m.CategoryId, ViewBag.CategoryId as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control", @id = "CategoryId" })
-                    @*@Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", id = "teacherid" })*@
+                    @Html.DropDownListFor(m => m.CategoryId, ViewBag.CategoryList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "CategoryId" })
 
                 </div>
             </div>

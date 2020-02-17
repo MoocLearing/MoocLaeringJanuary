@@ -6,8 +6,10 @@ using Mooc.Data.ViewModels;
 using Mooc.Utils;
 using Mooc.Web.Areas.Admin.Attribute;
 using Mooc.Web.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -108,6 +110,47 @@ namespace Mooc.Web.Areas.Admin.Controllers
                         //return RedirectToAction("Create", model);
                         return View("Create", model);
                     }
+
+                    //保存上传图片！！
+                    var file = model.Img;
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    string[] filetype = { ".jpg", ".gif", ".bmp", ".png" }; //文件允许格式 ".jpg", ".gif", ".bmp",".png"
+                    bool checkType = Array.IndexOf(filetype, fileExtension) == -1;
+                    if (checkType)
+                    {
+                        ModelState.AddModelError("", "图片文件格式错误");
+                        return View("Create", model);
+                    }
+
+                    if (file.ContentLength >= 10 * 1024 * 1024)//1000MB
+                    {
+
+                        ModelState.AddModelError("", "图片文件大小不能超过10MB");
+                        return View("Create", model);
+                    }
+
+                    string fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
+                    try
+                    {
+                        string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Areas/Admin/Images/");
+                        if (!Directory.Exists(savaFile))
+                        {
+                            Directory.CreateDirectory(savaFile);
+                        }
+                        var filePath = Path.Combine(savaFile, fileName);
+                        file.SaveAs(filePath);
+
+                        user = AutoMapper.Mapper.Map<User>(model);
+                        user.UserState = (int)StatusEnum.Normal;
+                        user.RoleType = model.RoleName.ToInt(3);
+                        user.ImgGuid = fileName;
+
+                    }
+                    catch (Exception)
+                    {
+
+                        return View("Create", model);
+                    }
                     user = AutoMapper.Mapper.Map<User>(model);
                     user.UserState = (int)StatusEnum.Normal;
                     user.RoleType = model.RoleName.ToInt(3);
@@ -121,15 +164,52 @@ namespace Mooc.Web.Areas.Admin.Controllers
                         // return RedirectToAction("Create", model);
                         return View("Create", model);
                     }
-                    user = AutoMapper.Mapper.Map<User>(model);
-                    user.UserState = (int)StatusEnum.Normal;
-                    user.RoleType = model.RoleName.ToInt(model.RoleType);
-                    _dataContext.Users.Add(user);
+                    //保存上传图片！！
+                    var file = model.Img;
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    string[] filetype = { ".jpg", ".gif", ".bmp", ".png" }; //文件允许格式 ".jpg", ".gif", ".bmp",".png"
+                    bool checkType = Array.IndexOf(filetype, fileExtension) == -1;
+                    if (checkType)
+                    {
+                        ModelState.AddModelError("", "图片文件格式错误");
+                        return View("Create", model);
+                    }
+
+                    if (file.ContentLength >= 10 * 1024 * 1024)//1000MB
+                    {
+
+                        ModelState.AddModelError("", "图片文件大小不能超过10MB");
+                        return View("Create", model);
+                    }
+
+                    string fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
+                    try
+                    {
+                        string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Areas/Admin/Images/");
+                        if (!Directory.Exists(savaFile))
+                        {
+                            Directory.CreateDirectory(savaFile);
+                        }
+                        var filePath = Path.Combine(savaFile, fileName);
+                        file.SaveAs(filePath);
+
+                        user = AutoMapper.Mapper.Map<User>(model);
+                        user.ImgGuid = fileName;
+                        user.UserState = (int)StatusEnum.Normal;
+                        user.RoleType = model.RoleName.ToInt(model.RoleType);
+                        _dataContext.Users.Add(user);
+
+                    }
+                    catch (Exception)
+                    {
+
+                        return View("Create", model);
+                    }
 
                 }
 
                 _dataContext.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
 
             }
 

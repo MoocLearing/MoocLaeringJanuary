@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Mooc.Data.ViewModels
 {
@@ -30,7 +31,11 @@ namespace Mooc.Data.ViewModels
         public string StatusName => Enum.GetName(typeof(StatusEnum), UserState);
         [Display(Name = "创建时间")]
         public string DisplayDate =>Convert.ToDateTime( AddTime).ToString("yyyy-MM-dd");
-       
+
+        [Display(Name = "用户图片")]
+        [Required(ErrorMessage = "图片不能为空")]
+        public HttpPostedFileBase Img { get; set; }
+
 
     } 
 }

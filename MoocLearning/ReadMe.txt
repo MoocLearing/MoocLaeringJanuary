@@ -37,3 +37,10 @@ MongoDB还在研究如何使用在这个项目中存放和读取video，目前vi
 点击改变当前course的statue的button功能只能绑定一个对象，若要动态绑定onclick对象没有实现
 
 点击显示当前course的chapter功能，success回调函数没有接受到返回的Json对象
+
+02/16
+对于用enum类来编译int属性的问题：
+模仿course里的viewmodel写出teacher里的编译enum的viewmodel，目的是列出的teacher对象显示在HTML上的是teacherdepartment的文字，
+而不是数字。
+public string TeacherDepartmentToString => Enum.GetName(typeof(TeacherDepartmentEnum), TeacherDepartment);
+在HTML里读取的传来的TeacherViewModel中的TeacherDepartmentToString结果为undefined？？？

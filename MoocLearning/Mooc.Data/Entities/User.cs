@@ -55,6 +55,9 @@ namespace Mooc.Data.Entities
         [Display(Name = "角色")]
         public int RoleType { get; set; }
 
+        [Display(Name = "图片文件")]
+        public string ImgGuid { get; set; }
+
 
     }
 }
