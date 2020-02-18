@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 using Mooc.Data.Context;
 using Mooc.Data.Entities;
 using Mooc.Data.Enums;
+using Mooc.Data.Mongo;
 using Mooc.Data.ViewModels;
 using Mooc.Web.Areas.Admin.Attribute;
 using Mooc.Web.Models;
@@ -60,6 +62,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
                             CategoryName = c.CategoryName,
                             AddTime = a.AddTime,
                             Status = a.Status,
+                            CoverPic=a.CoverPic
 
                         });
 
@@ -138,8 +141,8 @@ namespace Mooc.Web.Areas.Admin.Controllers
             var courseview = AutoMapper.Mapper.Map<CourseView>(course);
             return View(courseview);
 
-
         }
+
         [HttpPost]
         public JsonResult EditCourse(Course course)
         {
@@ -207,7 +210,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
             {
                 int iCount = _dataContext.Chapters.Count(p => p.CourseId == ID && !string.IsNullOrEmpty(p.VideoGuid));
                 if (iCount <= 0)
-                return Json(new { code = 0, msg = "当前课程暂无课程视频" });
+                    return Json(new { code = 0, msg = "当前课程暂无课程视频" });
             }
             else
             {
@@ -258,6 +261,62 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 return Json(chapters);
             }
             return Json(new { code = 1 });
+        }
+
+        [HttpPost]
+        public JsonResult SaveBase64(string base64)
+        {
+            if (string.IsNullOrEmpty(base64))
+                return Json(new { code = 1, msg = "图片不存在" });
+
+            try
+            {
+                //string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Upload/Cover");
+                //if (!Directory.Exists(savaFile))
+                //{
+                //    Directory.CreateDirectory(savaFile);
+                //}
+                string fileName = $"{Guid.NewGuid().ToString("N")}.jpg";
+                //var filePath = Path.Combine(savaFile, fileName);
+
+                string data = base64.Substring(base64.IndexOf(",") + 1);      //将‘，’以前的多余字符串删除
+                byte[] arr = Convert.FromBase64String(data);
+
+
+                //System.IO.MemoryStream ms = new System.IO.MemoryStream(arr);//转换成无法调整大小的MemoryStream对象
+                //System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(ms);//将MemoryStream对象转换成Bitmap对象
+                //bmp.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);//保存到服务器路径
+                //return Json(new { code = 0, msg = "上传成功", fileName = fileName });
+
+
+                string uploadId = MongoDBHelper.Upload(fileName, arr);
+                if (string.IsNullOrEmpty(uploadId))
+                    return Json(new { code = 1, msg = "图片不存在" });
+                return Json(new { code = 0, msg = "上传成功", fileName = fileName, objectId = uploadId });
+            }
+            catch (Exception e)
+            {
+
+                return Json(new { code = 1, msg = e.Message });
+            }
+        }
+
+        public ActionResult Show(string filename)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(filename))
+                    return Content("参数错误");
+
+                var bytes =MongoDBHelper.down(filename);
+                if (bytes == null || bytes.Length == 0)
+                    return Content("图片不存在");
+                return File(bytes, "image/jpeg", filename);
+            }
+            catch (Exception e)
+            {
+                return Content("出错："+e.Message);
+            }
         }
     }
 }

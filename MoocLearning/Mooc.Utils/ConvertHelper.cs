@@ -19,5 +19,17 @@ namespace Mooc.Utils
                 return defaultValue;
             }
         }
+
+        public static string GetConfigValue(string sKey)
+        {
+            string sValue = null;
+            if ((sValue = System.Configuration.ConfigurationManager.AppSettings[sKey]) == null)
+            {
+                sValue = "";
+            }
+            return sValue;
+        }
+
+
     }
 }

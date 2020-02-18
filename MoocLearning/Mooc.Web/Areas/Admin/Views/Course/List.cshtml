@@ -49,6 +49,10 @@
                         </th>
                         <th>
 
+                            Course Cover
+                        </th>
+                        <th>
+
                             Add Time
                         </th>
 
@@ -106,7 +110,7 @@
 
                         var item = res.data[i];
                         var color = item.Status == 0 ? "" : item.Status == 1 ? "green" : "red";
-
+                        var imageUrl = "@Url.Content("~/Admin/Course/Show?filename=")" + item.CoverPic;
                         _html += "<tr>";
                         _html += "<td>" + item.CourseName + "</td>";
                         _html += "<td>" + item.CourseDetail + "</td>";
@@ -114,6 +118,7 @@
                         _html += "<td>" + item.CategoryName + "</td>";
 
                         _html += "<td>" + item.CourseStatus + "</td>";
+                        _html += "<td><img src='" + imageUrl+"' width='60' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >";
                          _html += "<td>" + item.CreateDate + "</td>";
 
                         _html += "<td><a href='@Url.Content("~/Admin/Course/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px' title='编辑课程'></a>";
@@ -131,8 +136,6 @@
 
                             _html += "<a href='javascript:void(0);' class=' fa fa-toggle-up' onclick='ChangeStatueup(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;color:" + color + "';' title='上架'></a>";
                         }
-                      
-
 
                         _html += "</td></tr>";
                     }
