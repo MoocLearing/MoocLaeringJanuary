@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "ListAll";
+}
+
+<div class="row">
+    <div class="panel panel-default panel-full">
+        <div class="panel-heading panel-heading-padding">
+            <h3 class="panel-title">chapter列表</h3>
+            <a href="~/Admin/course/list" class="btn btn-gray" style="margin-left:30px;">返回课程列表</a>
+            <div class="panel-options">
+
+                <a href="~/Admin/chapter/AjCreate" class="btn btn-gray">添加chapter</a>
+
+
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <table class="table  table-striped" id="example-1">
+                <thead>
+                    <tr>
+                        <th>
+
+                            课程名称
+                        </th>
+                        <th>
+
+                            章节名称
+                        </th>
+                        <th>
+
+
+                            章节介绍
+                        </th>
+                        <th>
+
+                            创建时间
+                        </th>
+                        <th>
+
+                            更新时间
+                        </th>
+                        <th>
+
+                            视频播放
+                        </th>
+
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody class="middle-align" id="dataBind"></tbody>
+            </table>
+            <div>
+                <ul id="divPagination" class="pagination" style="margin:10px 0px;"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="PageIndex" value="1" />
+<script src="~/Scripts/jqPaginator.js"></script>
+<script>
+
+    var courseId = "@ViewBag.CourseId";
+    var pageSize = 5;
+
+    function search() {
+        var status = parseInt("@ViewBag.CourseStatus");
+            var pageIndex = $("#PageIndex").val();
+            $.ajax({
+                url: "@Url.Content("~/Admin/chapter/ListAll")",
+                data: { "pageIndex": pageIndex, "pageSize": pageSize },
+                type: "POST", dataType: 'json',
+                success: function (res) {
+                    var pageCount = res.PageCount == 0 ? 1 : res.PageCount;
+                    $("#divPagination").jqPaginator({
+                        totalPages: parseInt(pageCount),
+                        visiblePages: 10,
+                        currentPage: parseInt(pageIndex),
+                        onPageChange: function (num, type) {
+                            $('#PageIndex').val(num);
+                            if ($('#divPagination .active').eq(0).attr('jp-data') !== num.toString()) {
+                                search();
+                            }
+                        }
+                    });
+                    var _html = "";
+                    for (var i = 0; i < res.data.length; i++) {
+
+                        var item = res.data[i];
+                        _html += "<tr>";
+                        _html += "<td>" + item.CourseName + "</td>";
+                        _html += "<td>" + item.ChapterName + "</td>";
+                        _html += "<td>" + item.ChapterDetails + "</td>";
+                        _html += "<td>" + item.CreateDate + "</td>";
+                        _html += "<td>" + item.UpdateDate + "</td>";
+                        _html += "<td><a href='@Url.Content("~/Admin/Chapter/play/")" + item.ID + "'  style = 'font-size:16px'>查看视频</a></td>";
+                        _html += "<td><a href='@Url.Content("~/Admin/Chapter/play/")" + item.ID + "' class = 'fa-file-video-o' style = 'font-size:20px'></a>";
+                        if (status != 1) {
+                        _html += "<a href='@Url.Content("~/Admin/Chapter/AjEdit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px;margin-left:10px;' ></a>";
+                        _html += "<a href='@Url.Content("~/Admin/Chapter/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                       }
+                    _html += "</tr>";
+                    }
+
+                    $("#dataBind").html(_html);
+                         }
+               })
+    }
+
+    search();
+</script>
+

@@ -128,9 +128,9 @@ namespace Mooc.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteCategory(long id)
+        public JsonResult DeleteCategory(long DeleteID)
         {
-            var model = _dataContext.Categorys.Find(id);
+            var model = _dataContext.Categorys.Find(DeleteID);
             if (model == null)
                 return Json(new { code = 1, msg = "当前类别不存在" });
             if (model.Type == 1)

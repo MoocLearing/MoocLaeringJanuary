@@ -6,10 +6,10 @@
 <div class="row">
     <div class="panel panel-default panel-full">
         <div class="panel-heading panel-heading-padding">
-            <h3 class="panel-title">教师列表</h3>
+            <h3 class="panel-title">用户列表</h3>
             <div class="panel-options">
 
-                <a href="~/Admin/user/Create" class="btn btn-gray">添加</a>
+                <a href="~/Admin/user/ajCreate" class="btn btn-gray">添加</a>
             </div>
         </div>
         <div class="panel-body">
@@ -19,35 +19,41 @@
                     <tr>
                         <th>
 
-                            User Name
+                            用户
                         </th>
                         <th>
 
-                            Email
+                            邮箱
                         </th>
                         <th>
 
-                            Student No
+                            学号
                         </th>
                         <th>
 
-                            Teacher Id
+                            教师
                         </th>
                         <th>
 
-                            Category Id
+                            类别
+                        </th>
+
+                        <th>
+
+                            性别
                         </th>
                         <th>
 
-                            Gender
+                            用户状态
+                        </th>
+
+                        <th>
+
+                            角色
                         </th>
                         <th>
 
-                            User State
-                        </th>
-                        <th>
-
-                            Profile img
+                            用户图片
                         </th>
                         <th>操作</th>
                     </tr>
@@ -64,7 +70,7 @@
 <script src="~/Scripts/jqPaginator.js"></script>
 <script>
 
-    var pageSize = 2;
+    var pageSize = 5;
     search();
 
         function search() {
@@ -91,24 +97,50 @@
                     for (var i = 0; i < res.data.length; i++) {
 
                         var item = res.data[i];
+                        var imageUrl = "@Url.Content("~/Admin/User/Show?filename=")" + item.ImgGuid;
                         _html += "<tr>";
                         _html += "<td>" + item.UserName + "</td>";
                         _html += "<td>" + item.Email + "</td>";
                         _html += "<td>" + item.StudentNo + "</td>";
-                        _html += "<td>" + item.TeacherId + "</td>";
-                        _html += "<td>" + item.CategoryId + "</td>";
-                        _html += "<td>" + item.Gender + "</td>";
-                        _html += "<td>" + item.UserState + "</td>";
-                        _html += "<td><img src='/Areas/Admin/Images/" + item.ImgGuid + "' alt='" + item.UserName + "' style='width: 100px;' /></td>";
-                        _html += "<td><a href='@Url.Content("~/Admin/User/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
-                        //_html += "<td>" + item.RoleType + "</td>";
-                        
-                        _html += "<a href='~/Admin/User/Delete/" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                        _html += "<td>" + item.TeacherName + "</td>";
+                        _html += "<td>" + item.CategoryName + "</td>";
+                        _html += "<td>" + item.GenderName + "</td>";
+                        _html += "<td>" + item.StatusName + "</td>";
+                        _html += "<td>" + item.RoleName + "</td>";
+                        _html += "<td><img src='" + imageUrl + "' width='80' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >";
+
+
+                        _html += "<td><a href='@Url.Content("~/Admin/User/AjEdit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
+                        _html += "<a href='javascript:void(0);' onclick='Delete(" + item.ID + ")' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;' title='删除课程'></a></td>"; 
                         _html += "</tr>";
                     }
 
                     $("#dataBind").html(_html);
                          }
                })
+    }
+
+    
+    function Delete(id) {
+
+        if (confirm("确定删除当前学员么?")) {
+             $.ajax({
+            url: "@Url.Content("~/Admin/User/DeleteUser")",
+            data: {"DeleteID":id},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    alert("学员删除成功");
+                    window.location = "@Url.Content("~/Admin/User/List")";
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
         }
+
+    }
 </script>

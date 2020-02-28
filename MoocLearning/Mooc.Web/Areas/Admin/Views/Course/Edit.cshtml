@@ -6,57 +6,65 @@
 
 <div class="row">
 
-    <div class="panel panel-default col-md-6 col-md-push-3" >
-        <div class="panel-heading" style="margin-bottom: 20px;">
+    <div class="panel panel-default col-md-6 col-md-push-3">
+        <div class="panel-heading">
             <h3 class="panel-title">更新课程</h3>
         </div>
 
-        <div class="form-horizontal">
-
+        <div class="form-horizontal" style="margin-top:20px;">
             <div class="form-group">
-                @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(m => m.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
-                    
-                </div>
-            </div>
+                    @Html.EditorFor(p => p.CourseName, new { htmlAttributes = new { @class = "form-control" } })
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.TeacherId, htmlAttributes: new { @class = "control-label" })
-                @*@Html.LabelFor(model => model.TeacherId, "TeacherNames", htmlAttributes: new { @class = "control-label col-md-2" })*@
-                <div class="col-md-9">
-                    @Html.DropDownList("TeacherId", null, htmlAttributes: new { @class = "form-control", id = "teacherid" })
 
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CategoryId, htmlAttributes: new { @class = "control-label" })
-                <div class="col-md-9">
-                    @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", id = "categoryid" })
-
+                @Html.LabelFor(model => model.TeacherId, "教师名", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.TeacherId, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "TeacherId" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseDetail, "课程详情", htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-9">
-                    @Html.TextAreaFor(m => m.CourseDetail, new { htmlAttributes = new { @class = "form-control", id = "coursedetail" } })
-                    @Html.ValidationMessageFor(m => m.CourseDetail)
+                @Html.LabelFor(model => model.CategoryId, "课程类型", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.CategoryId, ViewBag.CategoryList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "CategoryId" })
+
+                </div>
+            </div>
+         
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.CoverPic, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*base64上传文件的关键*@
+                    <input type="file" onchange="uploadFile(this)" class="form-control" accept="image/*" />
+                    <input type="hidden" value="@Model.CoverPic" id="fileName" />
+                </div>
+                @if (!string.IsNullOrEmpty(Model.CoverPic))
+                {
+                    <div class="col-md-10 col-md-push-2" style="margin-top: 20px;">
+                        <img src="@Url.Content("~/Admin/Course/Show?filename="+Model.CoverPic)" style="width:50%;" />
+                    </div>
+                }
+
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.CourseDetail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(p => p.CourseDetail, new { @class = "form-control", @id = "CourseDetail" })
+
                 </div>
             </div>
 
-
-            @*<div class="form-group">
-            @Html.LabelFor(m => m.Status)
-            <div class="col-md-9">
-                @Html.EditorFor(m => m.Status, new { htmlAttributes = new { @class = "form-control", id = "status" } })
-                @Html.ValidationMessageFor(m => m.Status)
-            </div>
-        </div>*@
 
             <div class="form-group" style="padding-top: 20px;">
-                <div class="col-md-offset-2 col-md-9">
+                <div class="col-md-offset-2 col-md-10">
                     <input type="button" value="提交" onclick="submit()" class="btn btn-success btn-submit" />
                     <input type="button" value="返回" onclick="back()" class="btn btn-danger btn-margin" />
                 </div>
@@ -66,9 +74,56 @@
     </div>
 
 </div>
+
 <script>
+    var uploadFile = function (obj) {
+
+        var files = obj.files;
+        if (files.length > 0) {
+            var file = files[0];
+            //判断类型是不是图片
+            if (!/image\/\w+/.test(file.type)) {
+                alert("请上传jpg、jpeg、gif、png格式的图片！");
+                return false;
+            }
+            if (window.FileReader) {
+                debugger;
+                var fr = new FileReader();
+                fr.onloadend = function (e) {
+                    var base64 = e.target.result;
+                    console.log("此张图片base64=" + base64)
+                    //上传
+                    ajaxUpLoad(base64);
+                };
+                fr.readAsDataURL(file);
+            }
+        } else {
+            alert("请选择图片")
+        }
+    }
     function back() {
         window.location.href = "@Url.Content("~/Admin/Course/List")";
+    }
+
+    function ajaxUpLoad(base64) {
+
+         $.ajax({
+            url: "@Url.Content("~/Admin/Course/SaveBase64")",
+             data: { "base64": base64},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    $("#fileName").val(data.fileName)
+                    alert("上传成功")
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+
     }
 </script>
 <script>
@@ -76,19 +131,39 @@
     function submit() {
 
         var coursename = $.trim($("#CourseName").val());
+        if (coursename == "") {
+            alert("课程名称不能为空")
+            return;
+        }
 
-        var coursedetail = $.trim($("#coursedetail").val());
+        var coursedetail = $.trim($("#CourseDetail").val());
+        if (coursedetail == "") {
+            alert("课程描述不能为空")
+            return;
+        }
 
-        var teacherid = $.trim($("#teacherid").val());
+        var teacherid = $("#TeacherId").val();
+        if (!teacherid) {
+            alert("请选择课程讲师")
+            return;
+        }
 
-        var categoryid = $.trim($("#categoryid").val());
+        var categoryid = $("#CategoryId").val();
+        if (!categoryid) {
+        alert("请选择课程类别")
+        return;
+        }
 
-        var status = $.trim($("#status").val());
-
+       var fileName= $("#fileName").val()
+        if (!fileName) {
+            alert("请上传课程封面")
+            return;
+        }
+       // var status = $.trim($("#status").val());
 
         $.ajax({
-            url: "@Url.Content("~/Admin/Course/EditCourse")",
-            data: {"Id":@Model.ID,"CourseName":coursename,"CourseDetail":coursedetail,"TeacherId":teacherid,"CategoryId":categoryid,"Status":status},
+            url: "@Url.Content("~/Admin/Course/SaveEdit")",
+            data: { "CourseName": coursename, "CourseDetail": coursedetail, "TeacherId": teacherid, "CategoryId": categoryid, "CoverPic": fileName, "ID":@Model.ID},
             type: "POST",
             dataType: 'json',
             success: function(data) {
@@ -103,4 +178,6 @@
 
     }
 </script>
+
+
 

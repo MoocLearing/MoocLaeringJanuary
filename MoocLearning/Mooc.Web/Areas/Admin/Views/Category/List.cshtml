@@ -19,23 +19,23 @@
                     <tr>
                         <th>
 
-                            Category Name
+                            类型名称
                         </th>
                         <th>
 
-                            Parent Id
+                            二级分类所属类型
+                        </th>
+                        <th>
+                            1/2级分类
+                            
                         </th>
                         <th>
 
-                            Type
+                            备注
                         </th>
                         <th>
 
-                            Remark
-                        </th>
-                        <th>
-
-                            Add Time
+                            添加时间
                         </th>
                         <th>操作</th>
                     </tr>
@@ -52,7 +52,7 @@
 <script src="~/Scripts/jqPaginator.js"></script>
 <script>
 
-    var pageSize = 2;
+    var pageSize = 5;
     search();
 
         function search() {
@@ -86,14 +86,41 @@
                         _html += "<td>" + item.Remark + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
 
-                        _html += "<td><a href='@Url.Content("~/Admin/Category/Edit")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
+                        _html += "<td><a href='@Url.Content("~/Admin/Category/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
 
-                        _html += "<a href='@Url.Content("~/Admin/Category/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                        _html += "<a href='javascript:void(0);' onclick='Delete(" + item.ID + ")' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;' title='删除类别'></a></td>";
                         _html += "</tr>";
                     }
 
                     $("#dataBind").html(_html);
                          }
                })
+    }
+
+
+        function Delete(id) {
+
+        if (confirm("确定删除当前类型么?")) {
+             $.ajax({
+            url: "@Url.Content("~/Admin/Category/DeleteCategory")",
+            data: {"DeleteID":id},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    alert("类别删除成功");
+                    window.location = "@Url.Content("~/Admin/Category/List")";
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
         }
+
+    }
+
+
+
 </script>

@@ -62,7 +62,7 @@ namespace Mooc.Web.Controllers
                 }
                 User user = AutoMapper.Mapper.Map<User>(userView);
                 user.UserState = 0;
-                user.TeacherId =Convert.ToInt32( userView.TeacherIds);
+                user.TeacherId =Convert.ToInt32( userView.TeacherId);
                 user.RoleType = (int)RoleTypeEnum.Student;
                 int i = _userService.Regist(user);
 

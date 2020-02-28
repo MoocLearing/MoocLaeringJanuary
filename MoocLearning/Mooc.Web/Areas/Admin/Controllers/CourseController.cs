@@ -12,6 +12,7 @@ using Mooc.Data.Entities;
 using Mooc.Data.Enums;
 using Mooc.Data.Mongo;
 using Mooc.Data.ViewModels;
+
 using Mooc.Web.Areas.Admin.Attribute;
 using Mooc.Web.Models;
 
@@ -62,7 +63,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
                             CategoryName = c.CategoryName,
                             AddTime = a.AddTime,
                             Status = a.Status,
-                            CoverPic=a.CoverPic
+                            CoverPic = a.CoverPic
 
                         });
 
@@ -120,28 +121,57 @@ namespace Mooc.Web.Areas.Admin.Controllers
             //};
             if (course != null)
             {
-                course.Status = (int)CourseStatusEnum.未上架;
-                _dataContext.Courses.Add(course);
-                _dataContext.SaveChanges();
-                return Json(new { code = 0 });
+                if (course.ID == 0 || course.ID.ToString() == null)
+                {
+                    course.Status = (int)CourseStatusEnum.未上架;
+                    _dataContext.Courses.Add(course);
+                    _dataContext.SaveChanges();
+                    return Json(new { code = 0 });
+                }
+
             }
             return Json(new { code = 1, msg = "出错" });
         }
+
 
 
         public ActionResult Edit(long? id)
         {
             Course course = _dataContext.Courses.Find(id);
             if (course == null)
-            {
-                return null;
-            }
+                return HttpNotFound();
+
+            //Ajax里面这用dropdownlist没错，但表单razor提交就完蛋
             ViewBag.CategoryId = new SelectList(_dataContext.Categorys, "ID", "CategoryName");
             ViewBag.TeacherId = new SelectList(_dataContext.Teachers, "ID", "TeacherName");
             var courseview = AutoMapper.Mapper.Map<CourseView>(course);
             return View(courseview);
 
         }
+
+        [HttpPost]
+        public JsonResult SaveEdit(Course course)
+        {
+            if (course != null)
+            {
+                var exist = _dataContext.Courses.Find(course.ID);
+                if (exist != null)
+                {
+                    exist.CourseName = course.CourseName;
+                    exist.CourseDetail = course.CourseDetail;
+                    exist.TeacherId = course.TeacherId;
+                    exist.CategoryId = course.CategoryId;
+                    exist.Status = course.Status;
+                    exist.CoverPic = course.CoverPic;
+                    _dataContext.SaveChanges();
+                    return Json(new { code = 0 });
+                }
+
+            }
+            return Json(new { code = 1, msg = "错误" });
+
+        }
+
 
         [HttpPost]
         public JsonResult EditCourse(Course course)
@@ -308,15 +338,58 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(filename))
                     return Content("参数错误");
 
-                var bytes =MongoDBHelper.down(filename);
+                var bytes = MongoDBHelper.down(filename);
                 if (bytes == null || bytes.Length == 0)
                     return Content("图片不存在");
                 return File(bytes, "image/jpeg", filename);
             }
             catch (Exception e)
             {
-                return Content("出错："+e.Message);
+                return Content("出错：" + e.Message);
             }
+        }
+
+
+        [HttpPost]
+        public JsonResult UploadImg()
+        {
+            HttpFileCollection Files = System.Web.HttpContext.Current.Request.Files;
+            if (Files.Count > 0)
+            {
+                try
+                {
+                    //多个for循环
+                    HttpPostedFile file = Files[0];
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    string[] filetype = { ".jpg", ".jpeg", ".gif", ".png" }; //文件允许格式jpg、jpeg、gif、png
+                    bool checkType = Array.IndexOf(filetype, fileExtension) == -1;
+                    if (checkType)
+                    {
+                        return Json(new { code = 1, msg = "图片格式错误" });
+                    }
+
+                    if (file.ContentLength >= 50 * 1024 * 1024)
+                    {
+                        return Json(new { code = 1, msg = "上传视频大小不能超过50MB" });
+
+                    }
+
+                    string fileName = $"v_{Guid.NewGuid().ToString("N")}{fileExtension}";
+
+                    string uploadId = MongoDBHelper.Upload(fileName, file.InputStream);
+                    if (string.IsNullOrEmpty(uploadId))
+                        return Json(new { code = 1, msg = "图片不存在" });
+                    return Json(new { code = 0, msg = "上传成功", fileName = fileName, objectId = uploadId });
+                }
+                catch (Exception e)
+                {
+                    return Json(new { code = 1, msg = e.Message });
+                }
+
+            }
+
+            return Json(new { code = 1, msg = "请选择图片" });
+
         }
     }
 }

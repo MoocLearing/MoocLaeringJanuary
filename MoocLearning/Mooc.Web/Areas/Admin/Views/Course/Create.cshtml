@@ -38,11 +38,20 @@
                 </div>
             </div>
 
+            @*<div class="form-group">
+            @Html.LabelFor(m => m.CoverPic, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                base64上传文件的关键
+                <input type="file" onchange="uploadFile(this)" class="form-control" accept="image/*" />
+                <input type="hidden" value="" id="fileName" />
+            </div>
+        </div>*@
+
             <div class="form-group">
                 @Html.LabelFor(m => m.CoverPic, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <input type="file"  onchange="uploadFile(this)" class = "form-control"  accept="image/*" />
-
+                    <a id="uploadimg" class="btn btn-primary">上传用户照片</a>
+                    <input type="hidden" value="" id="fileName" />
                 </div>
             </div>
 
@@ -66,7 +75,81 @@
     </div>
 
 </div>
-<input type="hidden" value="" id="fileName" />
+
+<script src="~/Scripts/plupload/plupload.full.min.js"></script>
+<script>
+    function initUpload() {
+
+        var uploader_file = new plupload.Uploader({//创建实例的构造方法
+            runtimes: 'gears,html5,html4,flash', //上传插件初始化选用那种方式的优先级顺序
+            browse_button: "uploadimg", // 上传按钮
+            url: "@Url.Content("~/Admin/Course/UploadImg")", //远程上传地址
+            @*flash_swf_url: "@Url.Content("~/Scripts/plupload/Moxie.swf")",*@
+            filters: {
+                max_file_size: '50mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+                mime_types: [//允许文件上传类型
+                    { title: "图片文件", extensions: "jpg,jpeg,gif,png" }//"mp4,flv,rmvb,mpeg,mov,wmv"
+                ]
+            },
+            multipart_params: {  'type': '1' },//往后台传参数
+            multi_selection: false, //true:ctrl多文件上传, false 单文件上传
+            init: {
+                FilesAdded: function (up, files) { //文件上传前
+
+                    uploader_file.start();
+
+                },
+
+                UploadProgress: function (up, file) { //上传中，显示进度条
+
+                },
+                FileUploaded: function (up, file, info) { //文件上传成功的时候触发
+                    var data = eval("(" + info.response + ")");//解析返回的json数据
+                    if (data && data.code == 0) {
+                        $("#fileName").val(data.fileName);
+                        alert("上传成功")
+                    }
+                    else {
+                        //这两个alert拼写错了，所以一直没跑起来
+                        alert(data.msg);
+                    }
+                },
+                UploadComplete: function (uploader, files) {
+                    console.log("UploadComplete", files);
+
+                },
+                Error: function (up, err) { //上传出错的时候触发
+                    $("#upload-program").hide();
+                    var errorCode = err.code;
+                    switch (errorCode) {
+                        case -600:
+                            alert("抱歉，上传失败！您所上传的视频超过50mb！");
+                            break;
+                        case -601:
+                            alert("请上传 jpg、jpeg、gif、png 格式文件！");
+                            break;
+                        case -602:
+                            alert("文件选择重复! ");
+                            break;
+                        case -200:
+                            alert("发生http网络错误! ");
+                            break;
+                        case -400:
+                            alert("发生安全问题而产生的错误! ");
+                            break;
+                        default:
+                            alert("上传失败! ");
+                            break;
+                    }
+                }
+            }
+        });
+        uploader_file.init();
+    }
+    initUpload();
+
+</script>
+
 <script>
     var uploadFile = function (obj) {
 

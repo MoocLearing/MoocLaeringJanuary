@@ -23,7 +23,14 @@ namespace Mooc.Data.ViewModels
 
         [Required(ErrorMessage = "请选择教师")]
         [Display(Name = "教师")]
-        public string TeacherIds { get; set; }
+        public string TeacherName { get; set; }
+
+        [Required(ErrorMessage = "请选择类型")]
+        [Display(Name = "类型")]
+        public string CategoryName { get; set; }
+
+        [Display(Name = "性别")]
+        public string GenderName => Enum.GetName(typeof(GenderEnum), Gender);
 
         [Display(Name = "角色")]
         public string RoleName => Enum.GetName(typeof(RoleTypeEnum), RoleType);

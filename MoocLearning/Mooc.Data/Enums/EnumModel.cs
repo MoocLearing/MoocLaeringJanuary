@@ -48,4 +48,11 @@ namespace Mooc.Data.Enums
         已下架=2
     }
 
+    public enum GenderEnum
+    {
+        不男不女 = 0,
+        男 = 1,
+        女 = 2
+    }
+
 }

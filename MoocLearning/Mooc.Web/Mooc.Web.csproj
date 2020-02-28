@@ -163,18 +163,21 @@
     <Compile Include="Areas\Admin\Controllers\CourseController.cs" />
     <Compile Include="Areas\Admin\Controllers\RazorAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\RazorTeacherController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ScheduleController.cs" />
     <Compile Include="Areas\Admin\Controllers\TeacherController.cs" />
     <Compile Include="Areas\Admin\Controllers\UploadTestController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\VideosController.cs" />
     <Compile Include="Attribute\CheckLoginAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CoursesApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\TeachersController.cs" />
     <Compile Include="Controllers\UserListController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\VideoApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -184,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
+    <Content Include="assets\css\layer.css" />
     <Content Include="assets\css\reset.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\supersized.css" />
@@ -263,6 +267,13 @@
     <Content Include="Areas\Admin\Views\UploadTest\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Chapter\EditNew.cshtml" />
     <Content Include="Areas\Admin\Views\Chapter\Play.cshtml" />
+    <Content Include="Areas\Admin\Views\User\AjCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\User\AjEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Chapter\AjCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Chapter\AjEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Chapter\ListAll.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_DialogPartial.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jqPaginator.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -274,7 +285,25 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\layer\layer.js" />
+    <Content Include="Scripts\layer\mobile\layer.js" />
+    <Content Include="Scripts\layer\mobile\need\layer.css" />
+    <Content Include="Scripts\layer\theme\default\icon-ext.png" />
+    <Content Include="Scripts\layer\theme\default\icon.png" />
+    <Content Include="Scripts\layer\theme\default\layer.css" />
+    <Content Include="Scripts\layer\theme\default\loading-0.gif" />
+    <Content Include="Scripts\layer\theme\default\loading-1.gif" />
+    <Content Include="Scripts\layer\theme\default\loading-2.gif" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\plupload\expressInstall.swf" />
+    <Content Include="Scripts\plupload\ins.jpg" />
+    <Content Include="Scripts\plupload\Moxie.swf" />
+    <Content Include="Scripts\plupload\nianjian.jpg" />
+    <Content Include="Scripts\plupload\plupload.full.min.js" />
+    <Content Include="Scripts\plupload\swfuploadbtn.jpg" />
+    <Content Include="Scripts\plupload\TaoCheWangEditor.swf" />
+    <Content Include="Scripts\plupload\videobutton.jpg" />
+    <Content Include="Scripts\plupload\zh_CN.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

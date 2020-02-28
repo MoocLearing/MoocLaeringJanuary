@@ -1,0 +1,69 @@
+﻿
+@{
+    Layout = null;
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+</head>
+<body>
+    我是内容
+    <br />
+    起始日期<input id='daystart' type='date'  style='margin:15px'>
+    <br />
+    结束日期<input id='dayend' type='date'  style='margin:15px'>
+    <br />
+    备注
+    <input type="text" placeholder="请输入备注" id="remark" style='margin:15px' />
+
+    <div class="form-group" style="padding-top: 20px;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="提交" onclick="submit()" class="btn btn-success btn-submit" />
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+     function submit() {
+
+        var daystart = $("#daystart").val();
+        if (daystart == "") {
+            alert("起始日期不能为空")
+            return;
+         }
+
+        var dayend = $.trim($("#dayend").val());
+        if (dayend == "") {
+            alert("结束日期不能为空")
+            return;
+         }
+
+        var remark = $.trim($("#remark").val());
+
+         var CourseId = @ViewBag.id
+        $.ajax({
+            url: "@Url.Content("~/Admin/Schedule/SaveSchedule")",
+            data: { "StartTime": daystart, "EndTime": dayend, "CourseId": CourseId, "Remark":remark},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    layer.closeAll()
+                    alert("课程号为：《"+CourseId+"》 的课程已经添加安排");
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+    }
+</script>

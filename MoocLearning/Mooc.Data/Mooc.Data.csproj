@@ -40,22 +40,55 @@
     <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="Crc32C.NET, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="DnsClient, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.2.0\lib\net45\DnsClient.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.10.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.10.2\lib\net452\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.10.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.10.2\lib\net452\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.10.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.10.2\lib\net452\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.GridFS, Version=2.10.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.GridFS.2.10.2\lib\net452\MongoDB.Driver.GridFS.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Libmongocrypt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Libmongocrypt.1.0.0\lib\net452\MongoDB.Libmongocrypt.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SharpCompress, Version=0.23.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.23.0\lib\net45\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="Snappy.NET, Version=1.1.1.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Snappy.NET.1.1.1.8\lib\net45\Snappy.NET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -76,20 +109,23 @@
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Chapter.cs" />
     <Compile Include="Entities\Course.cs" />
+    <Compile Include="Entities\Schedule.cs" />
     <Compile Include="Entities\Teacher.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Enums\EnumModel.cs" />
-    <Compile Include="Migrations\202002171249439_test008.cs" />
-    <Compile Include="Migrations\202002171249439_test008.designer.cs">
-      <DependentUpon>202002171249439_test008.cs</DependentUpon>
+    <Compile Include="Migrations\202002261330487_test001.cs" />
+    <Compile Include="Migrations\202002261330487_test001.designer.cs">
+      <DependentUpon>202002261330487_test001.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Mongo\MongoDBHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IDependency.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="ViewModels\AdminUserViewModel.cs" />
+    <Compile Include="ViewModels\BaseResult.cs" />
     <Compile Include="ViewModels\CategoryPageView.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\ChapterView.cs" />
@@ -108,11 +144,62 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="bin\Debug\Mooc.Data.dll.config" />
+    <None Include="bin\Debug\Mooc.Utils.dll.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002171249439_test008.resx">
-      <DependentUpon>202002171249439_test008.cs</DependentUpon>
+    <ProjectReference Include="..\Mooc.Utils\Mooc.Utils.csproj">
+      <Project>{be0dc4db-3e3e-4c7d-99c1-b272d0f8def4}</Project>
+      <Name>Mooc.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Autofac.dll" />
+    <Content Include="bin\Debug\Autofac.xml" />
+    <Content Include="bin\Debug\AutoMapper.dll" />
+    <Content Include="bin\Debug\AutoMapper.xml" />
+    <Content Include="bin\Debug\Crc32C.NET.dll" />
+    <Content Include="bin\Debug\Crc32C.NET.xml" />
+    <Content Include="bin\Debug\DnsClient.dll" />
+    <Content Include="bin\Debug\DnsClient.xml" />
+    <Content Include="bin\Debug\EntityFramework.dll" />
+    <Content Include="bin\Debug\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\Debug\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\Debug\EntityFramework.xml" />
+    <Content Include="bin\Debug\mongocrypt.dll" />
+    <Content Include="bin\Debug\MongoDB.Bson.dll" />
+    <Content Include="bin\Debug\MongoDB.Bson.xml" />
+    <Content Include="bin\Debug\MongoDB.Driver.Core.dll" />
+    <Content Include="bin\Debug\MongoDB.Driver.Core.xml" />
+    <Content Include="bin\Debug\MongoDB.Driver.dll" />
+    <Content Include="bin\Debug\MongoDB.Driver.GridFS.dll" />
+    <Content Include="bin\Debug\MongoDB.Driver.GridFS.xml" />
+    <Content Include="bin\Debug\MongoDB.Driver.xml" />
+    <Content Include="bin\Debug\MongoDB.Libmongocrypt.dll" />
+    <Content Include="bin\Debug\Mooc.Data.dll" />
+    <Content Include="bin\Debug\Mooc.Data.pdb" />
+    <Content Include="bin\Debug\Mooc.Utils.dll" />
+    <Content Include="bin\Debug\Mooc.Utils.pdb" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\SharpCompress.dll" />
+    <Content Include="bin\Debug\Snappy.NET.dll" />
+    <Content Include="bin\Debug\Snappy.NET.xml" />
+    <Content Include="bin\Debug\System.Buffers.dll" />
+    <Content Include="bin\Debug\System.Buffers.xml" />
+    <Content Include="bin\Debug\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\Debug\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll" />
+    <Content Include="bin\Debug\System.Web.Http.dll" />
+    <Content Include="bin\Debug\System.Web.Http.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202002261330487_test001.resx">
+      <DependentUpon>202002261330487_test001.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -122,6 +209,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\MongoDB.Libmongocrypt.1.0.0\build\MongoDB.Libmongocrypt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MongoDB.Libmongocrypt.1.0.0\build\MongoDB.Libmongocrypt.targets'))" />
   </Target>
   <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+  <Import Project="..\packages\MongoDB.Libmongocrypt.1.0.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.0.0\build\MongoDB.Libmongocrypt.targets')" />
 </Project>

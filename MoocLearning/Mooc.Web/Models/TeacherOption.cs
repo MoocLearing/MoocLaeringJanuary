@@ -49,6 +49,13 @@ namespace Mooc.Web.Models
             return enumsList;
         }
 
+        public static IEnumerable<SelectListItem> GetGenderSelectOptions()
+        {
+            IEnumerable<SelectListItem> enumsList = ((GenderEnum[])Enum.GetValues(typeof(GenderEnum))).Select(c => new SelectListItem() { Value = ((int)c).ToString(), Text = c.ToString() }).ToList();
+
+            return enumsList;
+        }
+
         public List<SelectListItem> GetCourseSelectOptions()
         {
             using (DataContext db = new DataContext())
@@ -89,6 +96,7 @@ namespace Mooc.Web.Models
             }
         }
     }
+
 
     public class TeacherOption
     {

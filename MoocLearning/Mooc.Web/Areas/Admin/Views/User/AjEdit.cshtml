@@ -1,0 +1,259 @@
+﻿@model Mooc.Data.ViewModels.UserViewModel
+@{
+    ViewBag.Title = "修改学员";
+}
+
+<div class="row">
+
+    <div class="panel panel-default col-md-6 col-md-push-3">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加学员</h3>
+        </div>
+
+        <div class="form-horizontal" style="margin-top:20px;">
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(p => p.UserName, new { htmlAttributes = new { @class = "form-control", @id = "UserName" } })
+                    @Html.ValidationMessageFor(p => p.UserName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PassWord, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.PassWord, new { htmlAttributes = new { @class = "form-control", @id = "Password" } })
+                    @Html.ValidationMessageFor(p => p.PassWord)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @id = "ConfirmPassword" } })
+                    @Html.ValidationMessageFor(p => p.ConfirmPassword)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", @id = "Email" } })
+                    @Html.ValidationMessageFor(p => p.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => m.StudentNo, new { htmlAttributes = new { @class = "form-control", @id = "StudentNo" } })
+                    @Html.ValidationMessageFor(p => p.StudentNo)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TeacherId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.TeacherId, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "TeacherId" })
+                    @Html.ValidationMessageFor(p => p.TeacherId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.CategoryId, ViewBag.CategoryList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "CategoryId" })
+                    @Html.ValidationMessageFor(p => p.CategoryId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.Gender, ViewBag.GenderList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "Gender" })
+                    @Html.ValidationMessageFor(p => p.Gender)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoleType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.RoleType, ViewBag.RoleList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "RoleType" })
+                    @Html.ValidationMessageFor(p => p.RoleType)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ImgGuid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*base64上传文件的关键*@
+                    <input type="file" onchange="uploadFile(this)" class="form-control" accept="image/*" />
+                    <input type="hidden" value="@Model.ImgGuid" id="fileName" />
+                </div>
+                @if (!string.IsNullOrEmpty(Model.ImgGuid))
+                {
+                    <div class="col-md-10 col-md-push-2" style="margin-top: 20px;">
+                        <img src="@Url.Content("~/Admin/Course/Show?filename="+Model.ImgGuid)" style="width:50%;" />
+                    </div>
+                }
+            </div>
+
+
+            <div class="form-group" style="padding-top: 20px;">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="提交" onclick="submit()" class="btn btn-success btn-submit" />
+                    <input type="button" value="返回" onclick="back()" class="btn btn-danger btn-margin" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    var uploadFile = function (obj) {
+
+        var files = obj.files;
+        if (files.length > 0) {
+            var file = files[0];
+            //判断类型是不是图片
+            if (!/image\/\w+/.test(file.type)) {
+                alert("请上传jpg、jpeg、gif、png格式的图片！");
+                return false;
+            }
+            if (window.FileReader) {
+                debugger;
+                var fr = new FileReader();
+                fr.onloadend = function (e) {
+                    var base64 = e.target.result;
+                    console.log("此张图片base64=" + base64)
+                    //上传
+                    ajaxUpLoad(base64);
+                };
+                fr.readAsDataURL(file);
+            }
+        } else {
+            alert("请选择图片")
+        }
+    }
+    function back() {
+        window.location.href = "@Url.Content("~/Admin/User/List")";
+    }
+
+    function ajaxUpLoad(base64) {
+
+         $.ajax({
+            url: "@Url.Content("~/Admin/User/SaveBase64")",
+             data: { "base64": base64},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    $("#fileName").val(data.fileName)
+                    alert("上传成功")
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+
+    }
+</script>
+<script>
+
+    function submit() {
+
+        var username = $.trim($("#UserName").val());
+        if (username == "") {
+            alert("用户名不能为空")
+            return;
+        }
+
+        var password = $.trim($("#Password").val());
+        if (password == "") {
+            alert("密码不能为空")
+            return;
+        }
+
+        var ConfirmPassword = $.trim($("#ConfirmPassword").val());
+        if (ConfirmPassword == "") {
+            alert("确认密码不能为空")
+            return;
+        }
+
+        if (password != ConfirmPassword) {
+            alert("密码和确认密码不一致")
+            return;
+        }
+
+        var Email = $("#Email").val();
+        if (Email=="") {
+            alert("邮箱不能为空")
+            return;
+        }
+
+        var StudentNo = $("#StudentNo").val();
+        if (StudentNo=="") {
+            alert("学号不能为空")
+            return;
+        }
+
+
+        var teacherid = $("#TeacherId").val();
+        if (!teacherid) {
+            alert("请选择课程讲师")
+            return;
+        }
+
+
+        var categoryid = $("#CategoryId").val();
+        if (!categoryid) {
+        alert("请选择课程类别")
+        return;
+        }
+
+        var Gender = $("#Gender").val();
+        if (!Gender) {
+        alert("请选择课性别")
+        return;
+        }
+
+        var RoleType = $("#RoleType").val();
+        if (!RoleType) {
+        alert("请选择角色类型")
+        return;
+        }
+
+
+        //没更新图片就走一个ajax，更新了图片走另外一个
+
+       var fileName= $("#fileName").val()
+        if (!fileName) {
+            alert("请上传用户头像")
+            return;
+        }
+
+
+        $.ajax({
+            url: "@Url.Content("~/Admin/User/AjSaveEdit")",
+            data: { "UserName": username, "Password": password, "Email": Email, "StudentNo": StudentNo, "Teacherid":teacherid, "CategoryId":categoryid, "Gender":Gender, "RoleType":RoleType, "ImgGuid": fileName, "ID":@Model.ID},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    window.location = "@Url.Content("~/Admin/User/List")";
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+    }
+</script>
+
+
+

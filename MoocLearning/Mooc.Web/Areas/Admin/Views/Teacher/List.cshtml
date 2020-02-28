@@ -19,19 +19,19 @@
                     <tr>
                         <th>
 
-                            Teacher Name
+                            教师名
                         </th>
                         <th>
 
-                            Teacher Department
+                            教师部门
                         </th>
                         <th>
 
-                            Teacher Profile
+                            教师简介
                         </th>
                         <th>
 
-                            Add Time
+                            添加时间
                         </th>
                         <th>操作</th>
                     </tr>
@@ -48,7 +48,7 @@
 <script src="~/Scripts/jqPaginator.js"></script>
 <script>
 
-    var pageSize = 2;
+    var pageSize = 5;
     search();
 
         function search() {
@@ -75,21 +75,45 @@
                     for (var i = 0; i < res.data.length; i++) {
 
                         var item = res.data[i];
-                        alert(item.TeacherDepartmentToString);
+                        
                         _html += "<tr>";
                         _html += "<td>" + item.TeacherName + "</td>";
                         _html += "<td>" + item.TeacherDepartmentToString + "</td>";
                         _html += "<td>" + item.TeacherProfile + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
 
-                        _html += "<td><a href='@Url.Content("~/Admin/Teacher/EditNew")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
+                        _html += "<td><a href='@Url.Content("~/Admin/Teacher/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";
 
-                        _html += "<a href='~/Admin/Teacher/Delete/" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
+                        _html += "<a href='javascript:void(0);' onclick='Delete(" + item.ID + ")' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;' title='删除教师'></a></td>";
                         _html += "</tr>";
                     }
 
                     $("#dataBind").html(_html);
                          }
                })
+    }
+
+
+     function Delete(id) {
+
+        if (confirm("确定删除当前教师么?")) {
+             $.ajax({
+            url: "@Url.Content("~/Admin/Teacher/DeleteTeacher")",
+            data: {"DeleteID":id},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    alert("教师删除成功");
+                    window.location = "@Url.Content("~/Admin/Teacher/List")";
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
         }
+
+    }
 </script>

@@ -13,6 +13,7 @@ namespace Mooc.Data.ViewModels
     [NotMapped]
     public class TeacherViewModel:Teacher
     {
+        
         public string CreateDate => Convert.ToDateTime(AddTime).ToString("yyyy-MM-dd");
 
         public string TeacherDepartmentToString => Enum.GetName(typeof(TeacherDepartmentEnum), TeacherDepartment);

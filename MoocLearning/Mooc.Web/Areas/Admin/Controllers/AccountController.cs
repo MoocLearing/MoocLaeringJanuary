@@ -1,7 +1,9 @@
 ﻿using Mooc.Data.Context;
 using Mooc.Data.Entities;
+using Mooc.Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -33,17 +35,28 @@ namespace Mooc.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Login(string username, string password, string checkme)
         {
-            User user = _dataContext.Users.FirstOrDefault(m => m.UserName == username && m.PassWord == password);
+
+            User user = _dataContext.Users.FirstOrDefault(m => m.UserName == username);
 
             if (user != null)
             {
+                string Password = MD5Help.MD5Decrypt(user.PassWord, ConfigurationManager.AppSettings["sKey"].ToString());
+                if (Password == password)
+                {
+                    Response.Cookies.Add(new HttpCookie("username")
+                    {
+                        Value = user.UserName,
+                        Expires = DateTime.Now.AddDays(7)
+                    });
+
+                }
+                else
+                {
+                    return Json(new { code = 1, msg = "用户名密码不存在" });
+                }
                 //if (checkme == "checked")
                 //{
-                Response.Cookies.Add(new HttpCookie("username")
-                {
-                    Value = user.UserName,
-                    Expires = DateTime.Now.AddDays(7)
-                });
+                
 
                 //}
                 //else

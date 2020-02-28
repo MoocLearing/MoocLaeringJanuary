@@ -25,8 +25,8 @@ namespace Mooc.Web.App_Start
             var baseType = typeof(IDependency);
             var assemblys = BuildManager.GetReferencedAssemblies().Cast<Assembly>();
             builder.RegisterAssemblyTypes(assemblys.ToArray()).Where(t => baseType.IsAssignableFrom(t) && t != baseType).AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());//if autofac can be used in mvc
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());//if autofac can be used in webapi
             builder.RegisterType<DataContext>();//注入方法类
             var container = builder.Build();
 

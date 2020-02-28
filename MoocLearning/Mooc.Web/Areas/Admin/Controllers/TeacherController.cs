@@ -35,34 +35,36 @@ namespace Mooc.Web.Areas.Admin.Controllers
         public ActionResult Index()
         {
 
-            int pagesize = 3;
-            int curpage = 1;
-            int totalpage = 1;
+            //int pagesize = 3;
+            //int curpage = 1;
+            //int totalpage = 1;
 
-            int totalcount = _dataContext.Teachers.Count();
+            //int totalcount = _dataContext.Teachers.Count();
 
-            if (totalcount % pagesize == 0)
-            {
-                totalpage = totalcount / pagesize;
-            }
-            else
-            {
-                totalpage = System.Convert.ToInt32((totalcount / pagesize) + 1);
-            }
+            //if (totalcount % pagesize == 0)
+            //{
+            //    totalpage = totalcount / pagesize;
+            //}
+            //else
+            //{
+            //    totalpage = System.Convert.ToInt32((totalcount / pagesize) + 1);
+            //}
 
 
-            var list = _dataContext.Teachers.Take(pagesize);
-            ListTeacherPage listTeacherPage = new ListTeacherPage()
-            {
-                teachers = list,
-                TotalCount = totalcount,
-                TotalPage = totalpage,
-                CurrentPage = curpage,
-                PageSize = 3
+            //var list = _dataContext.Teachers.Take(pagesize);
+            //ListTeacherPage listTeacherPage = new ListTeacherPage()
+            //{
+            //    teachers = list,
+            //    TotalCount = totalcount,
+            //    TotalPage = totalpage,
+            //    CurrentPage = curpage,
+            //    PageSize = 3
 
-            };
-            ViewBag.username = Session["username"];
-            return View(listTeacherPage);
+            //};
+            //ViewBag.username = Session["username"];
+            //return View(listTeacherPage);
+
+            return View("List");
 
         }
 
@@ -142,13 +144,13 @@ namespace Mooc.Web.Areas.Admin.Controllers
         public ActionResult Edit(long? id)
         {
             Teacher teacher = _dataContext.Teachers.Find(id);
-            if (teacher == null)
+            if (teacher != null)
             {
-                return null;
+                ViewBag.TeacherDepartmentList = _departments.GetDepartments();
+                var teacherView = AutoMapper.Mapper.Map<TeacherViewModel>(teacher);
+                return View(teacherView);
             }
-            ViewBag.TeacherDepartmentList = _departments.GetDepartments();
-            var teacherView = AutoMapper.Mapper.Map<Teacher, TeacherViewModel>(teacher);
-            return View(teacherView);
+            return HttpNotFound();
 
 
         }
@@ -174,9 +176,9 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public JsonResult Delete(long? id)
+        public JsonResult DeleteTeacher(long? DeleteID)
         {
-            Teacher teacher = _dataContext.Teachers.Find(id);
+            Teacher teacher = _dataContext.Teachers.Find(DeleteID);
             if (teacher == null)
             {
                 return Json(new { code = 1, msg = "当前教师不存在" });

@@ -39,6 +39,7 @@ namespace Mooc.Data.Mongo
             var client = GetDatabaseName();
             var bucket = new GridFSBucket(client, new GridFSBucketOptions
             {
+                //不同的业务有不同的bucket
                 BucketName = "my_bucket",         //设置根节点名
                 ChunkSizeBytes = 1024 * 1024,   //设置块的大小为1M
                 WriteConcern = WriteConcern.WMajority,     //写入确认级别为majority
@@ -55,6 +56,24 @@ namespace Mooc.Data.Mongo
 
                 GridFSBucket bucket = GetGridFSBucket();
                 var objectId = bucket.UploadFromBytes(filename, byties);
+                return objectId.ToString();
+            }
+            catch (Exception e)
+            {
+
+                throw (e);
+            }
+
+        }
+
+         public static string Upload(string filename,Stream stream)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(filename)||stream==null) return null;
+
+                GridFSBucket bucket = GetGridFSBucket();
+                var objectId = bucket.UploadFromStream(filename, stream);
                 return objectId.ToString();
             }
             catch (Exception e)

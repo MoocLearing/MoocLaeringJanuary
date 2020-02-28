@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Mooc.Data.Context;
 using Mooc.Data.Entities;
+using Mooc.Data.Mongo;
 using Mooc.Data.ViewModels;
 using Mooc.Web.Areas.Admin.Attribute;
 using Mooc.Web.Models;
@@ -33,7 +34,41 @@ namespace Mooc.Web.Areas.Admin.Controllers
         // GET: Admin/Chapter
         public ActionResult Index()
         {
-            return Content("Index");
+            return View("ListAll");
+        }
+
+        public ActionResult ListAll()
+        {
+            
+            return View();
+        }
+
+
+        [HttpPost]
+        public JsonResult ListAll(int pageIndex, int pageSize)
+        {
+            PageResult<ChapterView> result = new PageResult<ChapterView>() { data = new List<ChapterView>(), PageIndex = pageIndex, PageSize = pageSize };
+            int current = (pageIndex - 1) * pageSize;
+
+            var list = (from a in _dataContext.Chapters
+                        join b in _dataContext.Courses on a.CourseId equals b.ID
+                        orderby a.CourseId
+                        select new ChapterView
+                        {
+                            ID = a.ID,
+                            ChapterName = a.ChapterName,
+                            ChapterDetails = a.ChapterDetails,
+                            CourseName = b.CourseName,
+                            UpdateTime = a.UpdateTime,
+                            VideoGuid = a.VideoGuid
+
+                        });
+            var viewList = list.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
+            //var chapterview = AutoMapper.Mapper.Map<List<ChapterView>>(list);
+            result.data = viewList;
+            result.Count = list.Count();
+
+            return Json(result);
         }
 
         //改变呈现，groupby courseID
@@ -88,7 +123,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-
+        //本地文件夹保存文件
         [HttpPost]
         public ActionResult SaveNew(ChapterView model)
         {
@@ -248,14 +283,131 @@ namespace Mooc.Web.Areas.Admin.Controllers
 
 
         // [Route("Video/Show/{fileName}")]
-        public ActionResult Show(string fileName)
+
+        //本地文件保存视频
+        //public ActionResult Show(string fileName)
+        //{
+        //    string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Upload/Video");
+        //    var filePath = Path.Combine(savaFile, fileName);
+        //    if (!System.IO.File.Exists(filePath))
+        //        return Content("视频不存在");
+        //    return File(FileToStream(filePath), "video/mp4", fileName);
+        //}
+
+
+        //mongoDB保存视频
+        public ActionResult AjCreate()
         {
-            string savaFile = System.Web.HttpContext.Current.Server.MapPath("~/Upload/Video");
-            var filePath = Path.Combine(savaFile, fileName);
-            if (!System.IO.File.Exists(filePath))
-                return Content("视频不存在");
-            return File(FileToStream(filePath), "video/mp4", fileName);
+            ViewBag.CourseSelectOption = new SelectList(selectOptions.GetCourseSelectOptions(), "Value", "Text");
+            var model = new ChapterView() { ID = 0 };
+            return View(model);
         }
+
+        [HttpPost]
+        public ActionResult AjSave(Chapter chapter)
+        {
+            if (chapter != null)
+            {
+                if (chapter.ID == 0 || chapter.ID.ToString() == null)
+                {
+                    _dataContext.Chapters.Add(chapter);
+                    _dataContext.SaveChanges();
+                    return Json(new { code = 0 });
+                }
+
+            }
+            return Json(new { code = 1, msg = "出错" });
+        }
+
+        public ActionResult AjEdit(long? id)
+        {
+            Chapter chapter = _dataContext.Chapters.Find(id);
+            if (chapter == null)
+            {
+                return null;
+            }
+
+            ViewBag.CourseSelectOption = new SelectList(selectOptions.GetCourseSelectOptions(), "Value", "Text");
+            var view = AutoMapper.Mapper.Map<ChapterView>(chapter);
+            return View(view);
+
+        }
+
+        [HttpPost]
+        public JsonResult AjSaveEdit(Chapter chapter)
+        {
+            try
+            {
+                var model = _dataContext.Chapters.Find(chapter.ID);
+                if (model == null)
+                    return Json(new { code = 1, msg = "当前章节不存在" });
+
+                model.ChapterName = chapter.ChapterName;
+                model.ChapterDetails = chapter.ChapterDetails;
+                model.CourseId = chapter.CourseId;
+                model.UpdateTime = DateTime.Now;
+                model.VideoGuid = chapter.VideoGuid;
+                _dataContext.SaveChanges();
+
+                return Json(new { code = 0 });
+
+            }
+            catch (System.Exception e)
+            {
+                return Json(new { code = 1, msg = e.Message });
+            }
+
+        }
+
+
+
+        [HttpPost]
+        public JsonResult SaveBase64(string base64)
+        {
+            if (string.IsNullOrEmpty(base64))
+                return Json(new { code = 1, msg = "图片不存在" });
+
+            try
+            {
+                string fileName = $"{Guid.NewGuid().ToString("N")}.mp4";
+
+                string data = base64.Substring(base64.IndexOf(",") + 1);      //将‘，’以前的多余字符串删除
+                byte[] arr = Convert.FromBase64String(data);
+
+                string uploadId = MongoDBHelper.Upload(fileName, arr);
+                if (string.IsNullOrEmpty(uploadId))
+                    return Json(new { code = 1, msg = "图片不存在" });
+                return Json(new { code = 0, msg = "上传成功", fileName = fileName, objectId = uploadId });
+            }
+            catch (Exception e)
+            {
+
+                return Json(new { code = 1, msg = e.Message });
+            }
+        }
+
+
+
+        public ActionResult Show(string filename)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(filename))
+                    return Content("参数错误");
+
+                var bytes = MongoDBHelper.down(filename);
+                if (bytes == null || bytes.Length == 0)
+                    return Content("视频不存在");
+                return File(bytes, "video/mp4", filename);
+            }
+            catch (Exception e)
+            {
+                return Content("出错：" + e.Message);
+            }
+        }
+
+
+
 
         public Stream FileToStream(string fileName)
         {
@@ -376,9 +528,51 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 _dataContext.Chapters.Remove(chapter);
                 _dataContext.SaveChanges();
 
-                return Redirect("~/Admin/Chapter/List");
+                return Redirect("~/Admin/Course/List");
             }
             return Content("此chapter不存在！！！");
+        }
+
+        [HttpPost]
+        public JsonResult UploadVideo()
+        {
+            HttpFileCollection Files = System.Web.HttpContext.Current.Request.Files;
+            if (Files.Count > 0)
+            {
+                try
+                {
+                    //多个for循环
+                    HttpPostedFile file = Files[0];
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    string[] filetype = { ".mp4", ".flv", ".rmvb", ".mpeg", ".mov", ".wmv" }; //文件允许格式    rmvb、mpeg、mov、wmv、avi、mkv、mp4、flv、vob、f4v
+                    bool checkType = Array.IndexOf(filetype, fileExtension) == -1;
+                    if (checkType)
+                    {
+                        return Json(new { code = 1, msg = "视频格式错误" });
+                    }
+
+                    if (file.ContentLength >= 500 * 1024 * 1024)
+                    {
+                        return Json(new { code = 1, msg = "上传视频大小不能超过500MB" });
+
+                    }
+
+                    string fileName = $"v_{Guid.NewGuid().ToString("N")}{fileExtension}";
+
+                    string uploadId = MongoDBHelper.Upload(fileName, file.InputStream);
+                    if (string.IsNullOrEmpty(uploadId))
+                        return Json(new { code = 1, msg = "视频不存在" });
+                    return Json(new { code = 0, msg = "上传成功", fileName = fileName, objectId = uploadId });
+                }
+                catch (Exception e)
+                {
+                    return Json(new { code = 1, msg = e.Message });
+                }
+
+            }
+
+            return Json(new { code = 1, msg = "请选择视频" });
+
         }
     }
 }

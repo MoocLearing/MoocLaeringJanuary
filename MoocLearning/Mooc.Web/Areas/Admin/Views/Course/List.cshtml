@@ -1,13 +1,26 @@
 ﻿
 @{
     ViewBag.Title = "List";
+    <script src="~/Scripts/layer/layer.js"></script>
+    //不联网的情况下是没有schedule这个功能的，因为这个fa必须从网上那个引，要不不显示
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 }
+
+
+@*若不加这个css引用链接，有些fa能用有些fa不能用*@
+@*<head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/layer.js"></script>
+        <link href="~/assets/css/layer.css" rel="stylesheet" type="text/css" />
+    </head>*@
 <style>
     .red {
         color: red;
     }
 
-    ;
     .green {
         color: green;
     }
@@ -20,6 +33,7 @@
             <div class="panel-options">
 
                 <a href="~/Admin/Course/Create" class="btn btn-gray">添加课程</a>
+                <a href="~/Admin/Chapter/ListAll" class="btn btn-gray">查看全部章节列表</a>
             </div>
         </div>
         <div class="panel-body">
@@ -29,31 +43,31 @@
                     <tr>
                         <th>
 
-                            Course Name
+                            课程名称
                         </th>
                         <th>
 
-                            Course Detail
+                            课程详情
                         </th>
                         <th>
 
-                            Teacher Name
+                            教师名
                         </th>
                         <th>
 
-                            Category Name
+                            类别名
                         </th>
                         <th>
 
-                            Status
+                            状态
                         </th>
                         <th>
 
-                            Course Cover
+                            添加时间
                         </th>
                         <th>
 
-                            Add Time
+                            课程图片
                         </th>
 
                         <th>操作</th>
@@ -79,10 +93,82 @@
     </div>
 </div>
 <input type="hidden" id="PageIndex" value="1" />
+
+@section sectionDialog{
+
+    @Html.Partial("_DialogPartial")
+
+}
+
+
+
+
+
+@*<div id='info' style="display : none">
+        我是内容
+        <br />
+        起始日期<input id='daystart' type='date' class='layui-layer-input' style='margin:15px'>
+        <br />
+        结束日期<input id='dayend' type='date' class='layui-layer-input' style='margin:15px'>
+
+        <div class="form-group" style="padding-top: 20px;">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="提交" onclick="submit()" class="btn btn-success btn-submit" />
+                <input type="button" value="返回" onclick="back()" class="btn btn-danger btn-margin" />
+            </div>
+        </div>
+
+        <script>
+
+        function back() {
+            layer.closeAll();
+            }
+
+        function submit() {
+
+            var startdate = $.trim($("#daystart").val());
+            if (startdate == "") {
+                alert("开始时间不能为空")
+                return;
+            }
+
+            var enddate = $.trim($("#dayend").val());
+            if (enddate == "") {
+                alert("结束时间不能为空")
+                return;
+            }
+
+
+            $.ajax({
+            url: "@Url.Content("~/Admin/Course/schedule")",
+                data: { "Startdate": startdate, "Enddate":enddate, "CourseId":courseid},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    $("#fileName").val(data.fileName)
+                    alert("开课安排成功")
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+
+        }
+
+        </script>
+
+    </div>*@
+
+
+
+
 <script src="~/Scripts/jqPaginator.js"></script>
 <script>
 
-    var pageSize = 2;
+    var pageSize = 5;
     search();
 
         function search() {
@@ -118,8 +204,9 @@
                         _html += "<td>" + item.CategoryName + "</td>";
 
                         _html += "<td>" + item.CourseStatus + "</td>";
-                        _html += "<td><img src='" + imageUrl+"' width='60' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >";
                          _html += "<td>" + item.CreateDate + "</td>";
+                        _html += "<td><img src='" + imageUrl+"' width='60' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >";
+
 
                         _html += "<td><a href='@Url.Content("~/Admin/Course/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px' title='编辑课程'></a>";
 
@@ -132,10 +219,12 @@
 
                         if (item.Status == 1) {
                             _html += "<a href='javascript:void(0);' class=' fa fa-toggle-down' onclick='ChangeStatuedown(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;color:" + color + "'; title='下架'></a>";
+                            _html += "<a href='javascript:void(0);' class='far fa-address-card' onclick='Schedule(" + item.ID + ",\"" + item.CourseName + "\")' style = 'font-size:16px;margin-left:10px;color:" + color + "';' title='开课'></a>";
                         } else {
 
                             _html += "<a href='javascript:void(0);' class=' fa fa-toggle-up' onclick='ChangeStatueup(" + item.ID + "," + item.Status + ")' style = 'font-size:16px;margin-left:10px;color:" + color + "';' title='上架'></a>";
                         }
+
 
                         _html += "</td></tr>";
                     }
@@ -145,7 +234,84 @@
                })
     }
 
+        function Schedule(id, coursename) {
 
+          var index=  layer.open({
+              type: 1
+              ,area: ['520px', '330px']
+              ,title: '开课设置'
+              ,shade: 0.1
+              ,maxmin: false //允许全屏最小化
+              ,content: $('#dialog')
+            });
+
+            $("#saveSchedule").unbind("click").bind("click", function (e) {
+
+               SavePostSchedule(id,coursename,index)
+
+                e.preventDefault;
+                e.stopPropagation;
+            })
+
+            $("#cancel").unbind("click").bind("click", function (e) {
+                if (index)
+                    layer.close(index);
+
+                e.preventDefault;
+                e.stopPropagation;
+            })
+
+        }
+
+
+    function SavePostSchedule(courseId,coursename,index) {
+
+        var daystart = $("#daystart").val();
+        if (daystart == "") {
+            alert("起始日期不能为空")
+            return;
+         }
+
+        var dayend = $.trim($("#dayend").val());
+        if (dayend == "") {
+            alert("结束日期不能为空")
+            return;
+         }
+
+
+        var remark = $.trim($("#remark").val());
+        if (index)
+         layer.close(index);
+        $.ajax({
+            url: "@Url.Content("~/Admin/Schedule/SaveSchedule")",
+            data: { "StartTime": daystart, "EndTime": dayend, "CourseId": courseId, "Remark":remark},
+            type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    alert("课程：《"+coursename+"》已经开课");
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+    }
+
+//    function layertest(id) {
+
+
+//    layer.open({
+//           type: 2,
+//           title: '账户信息详情',
+//           shadeClose: true,
+//           shade: false,
+//           maxmin: true, //开启最大化最小化按钮
+//           area: ['300px', '300px'],
+//           content: 'http://localhost:22312/Admin/schedule?id='+id
+//});
+
+//    }
 
     function Chapter(id) {
 
@@ -245,7 +411,7 @@ function ChangeStatuedown(id, status) {
         }
     }
 
-};
+    };
 
 
 
@@ -272,7 +438,7 @@ function ChangeStatueup(id, status) {
             })
         }
     }
-    
+
 };
 
 

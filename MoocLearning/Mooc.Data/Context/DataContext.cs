@@ -26,12 +26,14 @@ namespace Mooc.Data.Context
 
         public DbSet<Chapter> Chapters { get; set; }
 
-       // public DbSet<Video> Videos { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+
+        // public DbSet<Video> Videos { get; set; }
 
         //public DbSet<SubjectCategory> SubjectCategories { get; set; }
 
-       // public DbSet<CategoryType> CategoryTypes { get; set; }
-        
+        // public DbSet<CategoryType> CategoryTypes { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

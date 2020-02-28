@@ -1,0 +1,166 @@
+﻿@using Mooc.Data.Entities;
+@model Mooc.Data.ViewModels.ChapterView
+@{
+    ViewBag.Title = "修改章节";
+}
+
+<div class="row">
+
+    <div class="panel panel-default col-md-6 col-md-push-3">
+        <div class="panel-heading">
+            <h3 class="panel-title">修改章节</h3>
+        </div>
+
+        <div class="form-horizontal" style="margin-top:20px;">
+            <div class="form-group">
+                @Html.LabelFor(m => m.ChapterName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(p => p.ChapterName, new { htmlAttributes = new { @class = "form-control", @id = "ChapterName" } })
+
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CourseId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.CourseId, ViewBag.CourseSelectOption as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "CourseId" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.VideoGuid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*base64上传文件的关键*@
+                    <input type="file" onchange="uploadFile(this)" class="form-control" accept="video/*" />
+                    <input type="hidden" value="@Model.VideoGuid" id="fileName" />
+                </div>
+                @if (!string.IsNullOrEmpty(Model.VideoGuid))
+                {
+                    <div class="col-md-10 col-md-push-2" style="margin-top: 20px;">
+                        <img src="@Url.Content("~/Admin/Course/Show?filename="+Model.VideoGuid)" style="width:50%;" />
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ChapterDetails, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(p => p.ChapterDetails, new { @class = "form-control", @id = "ChapterDetails" })
+
+                </div>
+            </div>
+
+
+            <div class="form-group" style="padding-top: 20px;">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="提交" onclick="submit()" class="btn btn-success btn-submit" />
+                    <input type="button" value="返回" onclick="back()" class="btn btn-danger btn-margin" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    var uploadFile = function (obj) {
+
+        var files = obj.files;
+        if (files.length > 0) {
+            var file = files[0];
+            //判断类型是不是图片
+            if (!/video\/\w+/.test(file.type)) {
+                alert("请上传mp4格式的视频！");
+                return false;
+            }
+            if (window.FileReader) {
+                debugger;
+                var fr = new FileReader();
+                fr.onloadend = function (e) {
+                    var base64 = e.target.result;
+                    console.log("此视频base64=" + base64)
+                    //上传
+                    ajaxUpLoad(base64);
+                };
+                fr.readAsDataURL(file);
+            }
+        } else {
+            alert("请选择视频")
+        }
+    }
+    function back() {
+        window.location.href = "@Url.Content("~/Admin/Course/List")";
+    }
+
+    function ajaxUpLoad(base64) {
+
+         $.ajax({
+            url: "@Url.Content("~/Admin/Chapter/SaveBase64")",
+             data: { "base64": base64},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    $("#fileName").val(data.fileName)
+                    alert("上传视频成功")
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+
+    }
+</script>
+<script>
+
+    function submit() {
+
+        var ChapterName = $.trim($("#ChapterName").val());
+        if (ChapterName == "") {
+            alert("章节名称不能为空")
+            return;
+        }
+
+        var CourseId = $("#CourseId").val();
+        if (CourseId == "") {
+            alert("请选择课程")
+            return;
+        }
+
+        var ChapterDetails = $.trim($("#ChapterDetails").val());
+        if (!ChapterDetails) {
+            alert("章节描述不能为空")
+            return;
+        }
+
+       var fileName= $("#fileName").val()
+        if (!fileName) {
+            alert("请上传章节视频")
+            return;
+        }
+
+        $.ajax({
+            url: "@Url.Content("~/Admin/chapter/AjSaveEdit")",
+            data: { "ChapterName": ChapterName, "CourseId": CourseId, "ChapterDetails":ChapterDetails, "VideoGuid": fileName, "ID":@Model.ID},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    window.location = "@Url.Content("~/Admin/Course/List")";
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+    }
+</script>
+
+
+
+

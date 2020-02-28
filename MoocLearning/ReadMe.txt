@@ -44,3 +44,7 @@ MongoDB还在研究如何使用在这个项目中存放和读取video，目前vi
 而不是数字。
 public string TeacherDepartmentToString => Enum.GetName(typeof(TeacherDepartmentEnum), TeacherDepartment);
 在HTML里读取的传来的TeacherViewModel中的TeacherDepartmentToString结果为undefined？？？
+
+02/20
+当修改用户时候，如果不上传图片的情况下，把“ImgGuid”: @modle.ImgGuid 参数传回action里，前端submit这里直接报错。
+不知道如何解决上传更新图片不上传保持原始图片这样的分支操作？？？EditCrouse和EditUser都是这个问题
