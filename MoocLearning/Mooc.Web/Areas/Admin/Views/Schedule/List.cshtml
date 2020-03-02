@@ -6,14 +6,10 @@
 <div class="row">
     <div class="panel panel-default panel-full">
         <div class="panel-heading panel-heading-padding">
-            <h3 class="panel-title">chapter列表</h3>
-            
+            <h3 class="panel-title">安排列表</h3>
             <div class="panel-options">
 
-                <a href="~/Admin/chapter/AjCreate" class="btn btn-gray">添加chapter</a>
-                <a href="~/Admin/course/list" class="btn btn-gray" style="margin-left:30px;">返回课程列表</a>
-
-
+                @*<a href="~/Admin/schedule/Create" class="btn btn-gray">添加</a>*@
             </div>
         </div>
         <div class="panel-body">
@@ -27,23 +23,16 @@
                         </th>
                         <th>
 
-                            章节名称
+                            起始时间
                         </th>
                         <th>
 
-
-                            章节介绍
+                            结束时间
                         </th>
                         <th>
 
-                            创建时间
+                            添加时间
                         </th>
-                        <th>
-
-                            更新时间
-                        </th>
-
-
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -59,15 +48,15 @@
 <script src="~/Scripts/jqPaginator.js"></script>
 <script>
 
-    var courseId = "@ViewBag.CourseId";
     var pageSize = 5;
+    search();
 
-    function search() {
-        var status = parseInt("@ViewBag.CourseStatus");
+        function search() {
+
             var pageIndex = $("#PageIndex").val();
             $.ajax({
-                url: "@Url.Content("~/Admin/chapter/GetChapterList")",
-                data: { "courseId": courseId, "pageIndex": pageIndex, "pageSize": pageSize },
+                url: "@Url.Content("~/Admin/schedule/List")",
+                data: { "pageIndex": pageIndex, "pageSize": pageSize },
                 type: "POST", dataType: 'json',
                 success: function (res) {
                     var pageCount = res.PageCount == 0 ? 1 : res.PageCount;
@@ -86,19 +75,17 @@
                     for (var i = 0; i < res.data.length; i++) {
 
                         var item = res.data[i];
+
                         _html += "<tr>";
                         _html += "<td>" + item.CourseName + "</td>";
-                        _html += "<td>" + item.ChapterName + "</td>";
-                        _html += "<td>" + item.ChapterDetails + "</td>";
+                        _html += "<td>" + item.StartFormat + "</td>";
+                        _html += "<td>" + item.EndFormat + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
-                        _html += "<td>" + item.UpdateDate + "</td>";
-                       
-                        _html += "<td><a href='@Url.Content("~/Admin/Chapter/play/")" + item.ID + "' class = 'fa-file-video-o' style = 'font-size:20px'></a>";
-                        if (status != 1) {
-                        _html += "<a href='@Url.Content("~/Admin/Chapter/AjEdit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px;margin-left:10px;' ></a>";
-                        _html += "<a href='@Url.Content("~/Admin/Chapter/Delete/")" + item.ID + "' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;'></a></td>";
-                       }
-                    _html += "</tr>";
+
+                        @*_html += "<td><a href='@Url.Content("~/Admin/Schedule/Edit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px'></a>";*@
+
+                        _html += "<td><a href='javascript:void(0);' onclick='Delete(" + item.ID + ")' class = 'fa-trash' style = 'font-size:20px;margin-left:10px;' title='删除安排'></a></td>";
+                        _html += "</tr>";
                     }
 
                     $("#dataBind").html(_html);
@@ -106,5 +93,28 @@
                })
     }
 
-    search();
+
+     function Delete(id) {
+
+        if (confirm("确定删除当前课程安排么?")) {
+             $.ajax({
+            url: "@Url.Content("~/Admin/Schedule/DeleteSchedule")",
+            data: {"DeleteID":id},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    alert("课程安排删除成功");
+                    window.location = "@Url.Content("~/Admin/schedule/List")";
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+        }
+
+    }
 </script>
+

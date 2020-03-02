@@ -310,6 +310,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
             {
                 if (chapter.ID == 0 || chapter.ID.ToString() == null)
                 {
+                    chapter.UpdateTime = DateTime.Now;
                     _dataContext.Chapters.Add(chapter);
                     _dataContext.SaveChanges();
                     return Json(new { code = 0 });

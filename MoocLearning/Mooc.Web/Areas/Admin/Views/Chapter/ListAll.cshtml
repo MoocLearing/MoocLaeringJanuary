@@ -7,11 +7,11 @@
     <div class="panel panel-default panel-full">
         <div class="panel-heading panel-heading-padding">
             <h3 class="panel-title">chapter列表</h3>
-            <a href="~/Admin/course/list" class="btn btn-gray" style="margin-left:30px;">返回课程列表</a>
+            
             <div class="panel-options">
 
                 <a href="~/Admin/chapter/AjCreate" class="btn btn-gray">添加chapter</a>
-
+                <a href="~/Admin/course/list" class="btn btn-gray">返回课程列表</a>
 
             </div>
         </div>
@@ -40,10 +40,6 @@
                         <th>
 
                             更新时间
-                        </th>
-                        <th>
-
-                            视频播放
                         </th>
 
                         <th>操作</th>
@@ -94,7 +90,6 @@
                         _html += "<td>" + item.ChapterDetails + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
                         _html += "<td>" + item.UpdateDate + "</td>";
-                        _html += "<td><a href='@Url.Content("~/Admin/Chapter/play/")" + item.ID + "'  style = 'font-size:16px'>查看视频</a></td>";
                         _html += "<td><a href='@Url.Content("~/Admin/Chapter/play/")" + item.ID + "' class = 'fa-file-video-o' style = 'font-size:20px'></a>";
                         if (status != 1) {
                         _html += "<a href='@Url.Content("~/Admin/Chapter/AjEdit/")" + item.ID + "' class = 'fa-pencil-square-o' style = 'font-size:20px;margin-left:10px;' ></a>";

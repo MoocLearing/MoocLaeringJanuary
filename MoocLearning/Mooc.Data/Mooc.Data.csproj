@@ -114,11 +114,6 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Enums\EnumModel.cs" />
-    <Compile Include="Migrations\202002261330487_test001.cs" />
-    <Compile Include="Migrations\202002261330487_test001.designer.cs">
-      <DependentUpon>202002261330487_test001.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDBHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IDependency.cs" />
@@ -135,6 +130,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PageResult.cs" />
     <Compile Include="ViewModels\RazorTeacherView.cs" />
+    <Compile Include="ViewModels\ScheduleView.cs" />
     <Compile Include="ViewModels\SelectCategoryOption.cs" />
     <Compile Include="ViewModels\TeacherSelectOption.cs" />
     <Compile Include="ViewModels\TeacherViewModel.cs" />
@@ -196,11 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002261330487_test001.resx">
-      <DependentUpon>202002261330487_test001.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
