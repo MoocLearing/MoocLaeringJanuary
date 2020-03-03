@@ -18,7 +18,7 @@ using System.Web.Mvc;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-    //[CheckAdminLogin]
+   //[CheckAdminLogin]
 
     public class UserController : Controller
     {

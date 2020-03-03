@@ -53,7 +53,7 @@ namespace Mooc.Web.Controllers
                     CookieHelper.SetCookie(loginSessionId, userModel.ID.ToString());
                     CookieHelper.SetCookie(loginSessionName, userModel.UserName);
 
-                    SetSession(loginSessionName, userModel.UserName);
+                   // SetSession(loginSessionName, userModel.UserName);
                     
                     
                     return RedirectToAction("Index", "Home");
