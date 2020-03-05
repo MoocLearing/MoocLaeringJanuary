@@ -15,19 +15,20 @@ namespace Mooc.Data.ViewModels
     [NotMapped]
     public class UserViewModel: User
     {
+        //[Display(Name = "确认密码")]
+        //[Required(ErrorMessage = "确认密码必填")]
+        //[Compare("PassWord", ErrorMessage = "确认密码和密码不匹配")]
+        //[DataType(DataType.Password)]
+        //public string ConfirmPassword { get; set; }
+
         [Display(Name = "确认密码")]
         [Required(ErrorMessage = "确认密码必填")]
-        [Compare("PassWord", ErrorMessage = "确认密码和密码不匹配")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "请选择教师")]
+
         [Display(Name = "教师")]
         public string TeacherName { get; set; }
-
-        [Required(ErrorMessage = "请选择类型")]
-        [Display(Name = "类型")]
-        public string CategoryName { get; set; }
 
         [Display(Name = "性别")]
         public string GenderName => Enum.GetName(typeof(GenderEnum), Gender);

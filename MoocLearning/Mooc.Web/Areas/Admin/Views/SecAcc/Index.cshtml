@@ -22,33 +22,6 @@
             </div>
 
 
-            @*@using (Html.BeginForm("LoginResult", "Login"))
-                {
-                    @Html.AntiForgeryToken()
-                    <ul>
-
-                        <li>
-                            @Html.LabelFor(model => model.UserName, htmlAttributes:null)
-                            @Html.EditorFor(m => m.UserName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.PassWord)
-                        </li>
-
-                        <li>
-                            @Html.LabelFor(model => model.PassWord, htmlAttributes: null)
-                            @Html.EditorFor(m => m.PassWord, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.PassWord)
-                        </li>
-
-                    </ul>
-                    <div class="clear"> </div>
-                    @Html.ValidationSummary(true);
-                    <div class="submit">
-                        <input type="submit" value="登录">
-                        <div class="clear"> </div>
-                    </div>
-                }*@
-
-
             <div class="col-md-10">
                 <label class="control-label col-md-3" style="color:white;">用户名</label>
                 <input type="text" name="username" id="usernametext" class="form-control" style="background-color:azure;margin:25px;">
@@ -90,13 +63,13 @@
 
 
         $.ajax({
-            url: "@Url.Content("~/login/Login")",
+            url: "@Url.Content("~/admin/secacc/login")",
             data: { "UserName": username, "Password": password},
             type: "POST",
             dataType: 'json',
             success: function(data) {
                 if (data.code == 0) {
-                    window.location = "@Url.Content("~/home/index")";
+                    window.location = "@Url.Content("~/admin/user/list")";
                 } else {
                     alert(data.msg)
                     return false;

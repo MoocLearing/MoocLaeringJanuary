@@ -114,6 +114,19 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Enums\EnumModel.cs" />
+    <Compile Include="Migrations\202003040413539_delcategoryinuser.cs" />
+    <Compile Include="Migrations\202003040413539_delcategoryinuser.designer.cs">
+      <DependentUpon>202003040413539_delcategoryinuser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003040417515_second.cs" />
+    <Compile Include="Migrations\202003040417515_second.designer.cs">
+      <DependentUpon>202003040417515_second.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003050638149_third.cs" />
+    <Compile Include="Migrations\202003050638149_third.designer.cs">
+      <DependentUpon>202003050638149_third.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDBHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IDependency.cs" />
@@ -192,6 +205,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202003040413539_delcategoryinuser.resx">
+      <DependentUpon>202003040413539_delcategoryinuser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003040417515_second.resx">
+      <DependentUpon>202003040417515_second.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003050638149_third.resx">
+      <DependentUpon>202003050638149_third.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

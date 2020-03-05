@@ -200,9 +200,9 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 ViewBag.RoleList = SelectOptions.GetRoleSelectOptions();
                 ViewBag.GenderList = SelectOptions.GetGenderSelectOptions();
                 ViewBag.TeacherList = _teacheroption.GetTeacherSelectOptions();
-                ViewBag.CategoryList = _categoryoption.GetCategorySelectOptions();
 
                 User user = _dataContext.Users.Find(id);
+                
                 user.PassWord = MD5Help.MD5Decrypt(user.PassWord, ConfigurationManager.AppSettings["sKey"].ToString());
                 var viewmodel = AutoMapper.Mapper.Map<UserViewModel>(user);
                 
@@ -220,29 +220,30 @@ namespace Mooc.Web.Areas.Admin.Controllers
             var exist = _dataContext.Users.Find(user.ID);
             if (user != null && exist != null)
             {
-                String EncryptPass(String pass)
-                {
-                    System.Security.Cryptography.MD5CryptoServiceProvider md5CSP = new System.Security.Cryptography.MD5CryptoServiceProvider();
-                    byte[] passEncrypt = System.Text.Encoding.Unicode.GetBytes(pass);
-                    byte[] resultEncrypt = md5CSP.ComputeHash(passEncrypt);
-                    string passResult = System.Text.Encoding.Unicode.GetString(resultEncrypt);
-                    return passResult;
-                }
+                    String EncryptPass(String pass)
+                    {
+                        System.Security.Cryptography.MD5CryptoServiceProvider md5CSP = new System.Security.Cryptography.MD5CryptoServiceProvider();
+                        byte[] passEncrypt = System.Text.Encoding.Unicode.GetBytes(pass);
+                        byte[] resultEncrypt = md5CSP.ComputeHash(passEncrypt);
+                        string passResult = System.Text.Encoding.Unicode.GetString(resultEncrypt);
+                        return passResult;
+                    }
 
-                //处理加密
-                exist.PassWord = EncryptPass(user.PassWord);
-                exist.UserName = user.UserName;
-                exist.Email = user.Email;
-                exist.StudentNo = user.StudentNo;
-                exist.TeacherId = user.TeacherId;
-                exist.CategoryId = user.CategoryId;
-                exist.Gender = user.Gender;
-                exist.UserState = user.UserState;
-                exist.RoleType = user.RoleType;
-                exist.ImgGuid = user.ImgGuid;
+                    //处理加密
+                    exist.PassWord = EncryptPass(user.PassWord);
+                    exist.UserName = user.UserName;
+                    exist.Email = user.Email;
+                    exist.StudentNo = user.StudentNo;
+                    exist.TeacherId = user.TeacherId;
+                    exist.Gender = user.Gender;
+                    exist.UserState = user.UserState;
+                    exist.RoleType = user.RoleType;
+                    exist.ImgGuid = user.ImgGuid;
 
-                _dataContext.SaveChanges();
-                return Json(new { code = 0 });
+                    _dataContext.SaveChanges();
+                    return Json(new { code = 0 });
+               
+              
             }
             return Json(new { code = 1, msg = "出错" });
 
@@ -516,9 +517,10 @@ namespace Mooc.Web.Areas.Admin.Controllers
             PageResult<UserViewModel> result = new PageResult<UserViewModel>() { data = new List<UserViewModel>(), PageIndex = pageIndex, PageSize = pageSize };
             int current = (pageIndex - 1) * pageSize;
 
+            //这里必须用左链接，要不然只能查出来有teacherID的user，别的“admin”“student”类型的用户就查不到
             var list = (from a in _dataContext.Users
-                        join b in _dataContext.Categorys on a.CategoryId equals b.ID
-                        join c in _dataContext.Teachers on a.TeacherId equals c.ID
+                        join c in _dataContext.Teachers on a.TeacherId equals c.ID into ps
+                        from c in ps.DefaultIfEmpty()
                         select new UserViewModel
                         {
                             ID = a.ID,
@@ -526,15 +528,17 @@ namespace Mooc.Web.Areas.Admin.Controllers
                             PassWord = a.PassWord,
                             Email = a.Email,
                             StudentNo = a.StudentNo,
-                            TeacherName = c.TeacherName,
-                            CategoryName = b.CategoryName,
+                            TeacherName = c.TeacherName==null?"not teacher":c.TeacherName,
                             Gender = a.Gender,
+
                             UserState = a.UserState,
                             RoleType = a.RoleType,
                             ImgGuid = a.ImgGuid
 
 
-                        });
+                        }); ;
+
+
 
             var listview = list.OrderByDescending(p => p.ID).Skip(current).Take(pageSize).ToList();
             result.data = listview;

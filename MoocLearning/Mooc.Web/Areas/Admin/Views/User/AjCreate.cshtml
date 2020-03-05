@@ -43,15 +43,28 @@
                 </div>
             </div>
 
+
             <div class="form-group">
-                @Html.LabelFor(model => model.StudentNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="control-label col-md-2">角色类型</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(m => m.StudentNo, new { htmlAttributes = new { @class = "form-control", @id = "StudentNo" } })
-                    @Html.ValidationMessageFor(p => p.StudentNo)
+                    <select id="roletypelist" class="form-control" onchange="change()">
+                        <option value="0">选择类型</option>
+                        <option value="1">管理员</option>
+                        <option value="2">老师</option>
+                        <option value="3">学生</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
+            @Html.LabelFor(model => model.RoleType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.RoleType, ViewBag.RoleList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "RoleType" })
+                @Html.ValidationMessageFor(p => p.RoleType)
+            </div>
+        </div>*@
+
+            <div class="form-group" id="teacherList" hidden>
                 @Html.LabelFor(model => model.TeacherId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(m => m.TeacherId, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "TeacherId" })
@@ -59,27 +72,22 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-group" id="studentTag" hidden>
+                @Html.LabelFor(model => model.StudentNo, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.CategoryId, ViewBag.CategoryList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "CategoryId" })
-                    @Html.ValidationMessageFor(p => p.CategoryId)
+                    @Html.EditorFor(m => m.StudentNo, new { htmlAttributes = new { @class = "form-control", @id = "StudentNo" } })
+                    @Html.ValidationMessageFor(p => p.StudentNo)
                 </div>
             </div>
-
             <div class="form-group">
-                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                <label class="control-label col-md-2">性别</label>
                 <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.Gender, ViewBag.GenderList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "Gender" })
-                    @Html.ValidationMessageFor(p => p.Gender)
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.RoleType, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.RoleType, ViewBag.RoleList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "RoleType" })
-                    @Html.ValidationMessageFor(p => p.RoleType)
+                    <select id="gender" class="form-control" onchange="">
+                        <option value="0">选择性别</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                        
+                    </select>
                 </div>
             </div>
 
@@ -95,9 +103,15 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.ImgGuid, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <a id="uploadimg" class="btn btn-default">上传用户照片</a>
+                    <a id="uploadimg" class="btn btn-default" style="border:1px solid">上传用户照片</a>
                     <input type="hidden" value="" id="fileName" />
                 </div>
+
+            </div>
+            @*显示用户长传图片*@
+            <div class="form-group">
+                <label class="control-label col-md-2"></label>
+                <div class="col-md-10" id="dataBind"></div>
             </div>
 
 
@@ -109,11 +123,33 @@
             </div>
         </div>
 
-    </div>
+        </div>
 
 </div>
 
 <script src="~/Scripts/plupload/plupload.full.min.js"></script>
+<script>
+
+    function change() {
+
+        var selectValue = $('select option:selected').val();
+
+        if (selectValue == 1) {
+            $("#teacherList").hide();
+            $("#studentTag").hide();
+        }
+        if (selectValue == 2) {
+            $("#teacherList").show();
+            $("#studentTag").hide();
+        }
+        if (selectValue == 3) {
+            $("#teacherList").hide();
+            $("#studentTag").show();
+        }
+    }
+</script>
+
+
 <script>
     function initUpload() {
 
@@ -145,6 +181,10 @@
                     if (data && data.code == 0) {
                         $("#fileName").val(data.fileName);
                         alert("上传成功")
+                        var _html = "";
+                        var imageUrl = "@Url.Content("~/Admin/User/Show?filename=")" + data.fileName;
+                        _html += "<img src='" + imageUrl + "' width='100' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >";
+                        $("#dataBind").html(_html);
                     }
                     else {
                         //这两个alert拼写错了，所以一直没跑起来
@@ -273,36 +313,35 @@
             return;
         }
 
-        var StudentNo = $("#StudentNo").val();
-        if (StudentNo=="") {
-            alert("学号不能为空")
-            return;
-        }
-
-
-        var teacherid = $("#TeacherId").val();
-        if (!teacherid) {
-            alert("请选择课程讲师")
-            return;
-        }
-
-
-        var categoryid = $("#CategoryId").val();
-        if (!categoryid) {
-        alert("请选择课程类别")
-        return;
-        }
-
-        var Gender = $("#Gender").val();
+        var Gender = $("#gender").val();
         if (!Gender) {
         alert("请选择课性别")
         return;
         }
 
-        var RoleType = $("#RoleType").val();
+        var RoleType = $("#roletypelist").val();
         if (!RoleType) {
         alert("请选择角色类型")
         return;
+        }
+        //默认先给一个数据，为了能往后台传数据
+        var teacherid = 0;
+        var StudentNo = 0;
+
+        if (RoleType == 2) {
+            teacherid = $("#TeacherId").val();
+            if (!teacherid) {
+                alert("请选择课程讲师")
+                return;
+            }
+        }
+
+        if (RoleType == 3) {
+            StudentNo = $("#StudentNo").val();
+            if (StudentNo=="") {
+                alert("学号不能为空")
+                return;
+            }
         }
 
 
@@ -316,7 +355,7 @@
 
         $.ajax({
             url: "@Url.Content("~/Admin/User/AjSave")",
-            data: { "UserName": username, "Password": password, "Email": Email, "StudentNo": StudentNo, "Teacherid":teacherid, "CategoryId":categoryid, "Gender":Gender, "RoleType":RoleType, "ImgGuid": fileName},
+            data: { "UserName": username, "Password": password, "Email": Email, "StudentNo": StudentNo, "Teacherid":teacherid, "Gender":Gender, "RoleType":RoleType, "ImgGuid": fileName},
             type: "POST",
             dataType: 'json',
             success: function(data) {

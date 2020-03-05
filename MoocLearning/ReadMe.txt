@@ -48,3 +48,9 @@ public string TeacherDepartmentToString => Enum.GetName(typeof(TeacherDepartment
 02/20
 当修改用户时候，如果不上传图片的情况下，把“ImgGuid”: @modle.ImgGuid 参数传回action里，前端submit这里直接报错。
 不知道如何解决上传更新图片不上传保持原始图片这样的分支操作？？？EditCrouse和EditUser都是这个问题
+
+03/05
+后台的admin/account/login的登录HTML里面的HTML代码里面有问题，当ajax在action里成功返回view时候，
+永远是显示在页面上{code=0}或{code=1,msg="错误"}这样的信息。我把前台login拿过来一部分一部分做测试，
+发现action里的login方法，和html里的ajax都没错，但就是html代码不一样就出现这样情况。
+花了很久的时间，实在找不到什么问题，只能将前台login代码直接拿到后台来用了。

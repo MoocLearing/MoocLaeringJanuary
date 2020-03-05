@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 
 namespace Mooc.Data.Enums
 {
+    
     public enum RoleTypeEnum
     {
-        Administrator = 1,
-        Teacher = 2,
-        Student = 3
+        管理员 = 1,
+        老师 = 2,
+        学生 = 3
     }
 
     public enum StatusEnum
     {
-        Normal = 0,
-        Locked = 1
+        正常 = 0,
+        锁定 = 1
     }
 
     public enum CategoryTypeEnum
     {
-        FirstCategory=1,
-        SecondCategory=2
+        FirstCategory = 1,
+        SecondCategory = 2
     }
 
     public enum CategoryTypeNameEnum
@@ -33,11 +34,11 @@ namespace Mooc.Data.Enums
 
     public enum TeacherDepartmentEnum
     {   
-        ItDepartment = 1,
+        IT部门 = 1,
 
-        AccountDepartment=2,
+        会计部门=2,
 
-        MarketDepartment = 3
+        市场部门 = 3
 
     }
 

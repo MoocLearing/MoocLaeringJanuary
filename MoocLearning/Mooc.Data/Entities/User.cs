@@ -20,7 +20,7 @@ namespace Mooc.Data.Entities
 
         [Required(ErrorMessage = "密码必填")]
         [Display(Name = "密码")]
-        [StringLength(20, ErrorMessage = "{0} 必须至少包含 {2} 个字符。", MinimumLength = 6)]
+        //[StringLength(20, ErrorMessage = "{0} 必须至少包含 {2} 个字符。", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string PassWord { get; set; }
 
@@ -29,18 +29,15 @@ namespace Mooc.Data.Entities
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "学号必填")]
+
         [Display(Name = "学号")]
+        [DefaultValue(0)]
         public int StudentNo { get; set; }
 
 
         [Display(Name = "教师")]
-        [DefaultValue(1)]
+        [DefaultValue(0)]
         public long TeacherId { get; set; }
-
-        [Display(Name = "类别")]
-        [DefaultValue(1)]
-        public long CategoryId { get; set; }
 
         [Required(ErrorMessage = "请选择性别")]
         [Display(Name = "性别")]

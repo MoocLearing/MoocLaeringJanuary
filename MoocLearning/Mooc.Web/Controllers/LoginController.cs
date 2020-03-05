@@ -1,6 +1,7 @@
 ﻿using Mooc.Data.Context;
 using Mooc.Data.ViewModels;
 using Mooc.Utils;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -27,6 +28,36 @@ namespace Mooc.Web.Controllers
             {
                 return View();
             }
+        }
+
+
+        [HttpPost]
+        public ActionResult Login(string username, string password)
+        {
+
+            var user = _dataContext.Users.FirstOrDefault(m => m.UserName == username);
+
+            if (user != null)
+            {
+                string pwd = MD5Help.MD5Encrypt(password, ConfigurationManager.AppSettings["sKey"].ToString());
+                if (user.PassWord == pwd)
+                {
+                    Session["username"] = user.UserName;
+                    Session["userid"] = user.ID;
+                    return Json(new { code = 0 });
+                }
+                else
+                {
+                    return Json(new { code = 1, msg = "用户名密码不正确" });
+                }
+
+            }
+            else
+            {
+                return Json(new { code = 1, msg = "用户名密码不存在" });
+            }
+
+
         }
 
 

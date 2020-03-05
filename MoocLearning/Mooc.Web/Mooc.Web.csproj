@@ -164,6 +164,7 @@
     <Compile Include="Areas\Admin\Controllers\RazorAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\RazorTeacherController.cs" />
     <Compile Include="Areas\Admin\Controllers\ScheduleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SecAccController.cs" />
     <Compile Include="Areas\Admin\Controllers\TeacherController.cs" />
     <Compile Include="Areas\Admin\Controllers\UploadTestController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
@@ -276,6 +277,7 @@
     <Content Include="Areas\Admin\Views\Shared\_DialogPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Schedule\List.cshtml" />
     <Content Include="Areas\Admin\Views\Schedule\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SecAcc\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jqPaginator.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -327,7 +329,6 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Home\_header.cshtml" />
-    <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\UserList\Create.cshtml" />
     <Content Include="Views\UserList\Delete.cshtml" />
     <Content Include="Views\UserList\Details.cshtml" />
@@ -338,6 +339,7 @@
     <Content Include="Views\Teachers\Details.cshtml" />
     <Content Include="Views\Teachers\Edit.cshtml" />
     <Content Include="Views\Teachers\Index.cshtml" />
+    <Content Include="Views\Register\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

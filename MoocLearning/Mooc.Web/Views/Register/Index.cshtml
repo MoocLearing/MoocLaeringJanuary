@@ -1,86 +1,264 @@
-﻿@*@using SelectListItem = System.Web.WebPages.Html.SelectListItem*@
-@model Mooc.Data.ViewModels.UserViewModel
-
+﻿@model Mooc.Data.ViewModels.UserViewModel
 @{
-    ViewBag.Title = "New UserRegist";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
-
-
+    ViewBag.Title = "添加学员";
+    Layout = null;
 }
-<link href="@Url.Content("~/Content/Regist.css")" rel="stylesheet" type="text/css" />
-<h2>用户注册</h2>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<div class="row">
 
-
-@using (Html.BeginForm("Register", "Register"))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName)
-        @*@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })*@
-
-        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.PassWord)
-        @Html.PasswordFor(m => m.PassWord, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-
-        @Html.LabelFor(m => m.ConfirmPassword)
-        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email)
-        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.StudentNo)
-        @Html.TextBoxFor(m => m.StudentNo, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.StudentNo, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Gender)
-        @Html.RadioButtonFor(m => m.Gender, "1")男
-        @Html.RadioButtonFor(m => m.Gender, "2")女
-        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.TeacherIds)
-        @Html.DropDownListFor(m => m.TeacherIds, ViewBag.TeacherList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.TeacherIds, "", new { @class = "text-danger" })
-
-
-        @*droplist能试的都试遍了*@
-        @*@Html.LabelFor(m=>m.User.CountryId)*@
-        @*@Html.DropDownList("Country",ViewData["Countries"] as SelectList,"请选择国家", new { @class="form-control"})*@
-        @*@Html.DropDownListFor(m=>m.Countries, ViewData["Countries"] as SelectList, "请选择国家", new { @class = "form-control" })*@
-        @*@Html.DropDownListFor(m=>m.User.CountryId, (IEnumerable<SelectListItem>)ViewData["Countries"], "select country",new{@class="form-control"});*@
-        @*@Html.DropDownListFor(m=>m.User.CountryId,new SelectList(Model.Countries,"Id","Name"), "select country", new { @class = "form-control" });*@
-        @*@Html.DropDownListFor(m=>m.User.CountryId,new SelectList(ViewBag.countries,"Id","Name"), "select country", new { @class = "form-control" })*@
-
-
-    </div>
-
-
-    <div class="form-group">
-        <div class="">
-            <button type="submit" value="Regist" class="btn btn-primary">提交</button>
+    <div class="panel panel-default col-md-6 col-md-push-3">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加学员</h3>
         </div>
+
+        <div class="form-horizontal" style="margin-top:20px;">
+            <div class="form-group">
+                <label class="control-label col-md-3">用户名</label>
+
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="username" />
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">密码</label>
+
+                <div class="col-md-8">
+                    <input type="password" class="form-control" id="password" />
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">确认密码</label>
+
+                <div class="col-md-8">
+                    <input type="password" class="form-control" id="confirmpassword" />
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">邮箱</label>
+
+                <div class="col-md-8">
+                    <input type="email" class="form-control" id="email" />
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">性别</label>
+
+                <div class="col-md-8">
+                    <div class="col-md-10">
+                        <select class="form-control" id="gender">
+                            <option value="0">选择性别</option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">学号</label>
+
+                <div class="col-md-8">
+                    <input type="number" class="form-control" id="studentno" />
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ImgGuid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <a id="uploadimg" class="btn btn-default" style="border:1px solid">上传用户照片</a>
+                    <input type="hidden" value="" id="fileName" />
+                </div>
+
+            </div>
+            @*显示用户长传图片*@
+            <div class="form-group">
+                <label class="control-label col-md-2"></label>
+                <div class="col-md-10" id="dataBind"></div>
+            </div>
+
+
+            <div class="form-group" style="padding-top: 20px;">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="提交" onclick="submit()" class="btn btn-success btn-submit" />
+                    <input type="button" value="返回" onclick="back()" class="btn btn-danger btn-margin" />
+                </div>
+            </div>
+        </div>
+
     </div>
 
+</div>
 
-}
+<script src="~/Scripts/plupload/plupload.full.min.js"></script>
+
+<script>
+    function initUpload() {
+
+        var uploader_file = new plupload.Uploader({//创建实例的构造方法
+            runtimes: 'gears,html5,html4,flash', //上传插件初始化选用那种方式的优先级顺序
+            browse_button: "uploadimg", // 上传按钮
+            url: "@Url.Content("~/register/UploadImg")", //远程上传地址
+            @*flash_swf_url: "@Url.Content("~/Scripts/plupload/Moxie.swf")",*@
+            filters: {
+                max_file_size: '50mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+                mime_types: [//允许文件上传类型
+                    { title: "图片文件", extensions: "jpg,jpeg,gif,png" }//"mp4,flv,rmvb,mpeg,mov,wmv"
+                ]
+            },
+            multipart_params: {  'type': '1' },//往后台传参数
+            multi_selection: false, //true:ctrl多文件上传, false 单文件上传
+            init: {
+                FilesAdded: function (up, files) { //文件上传前
+
+                    uploader_file.start();
+
+                },
+
+                UploadProgress: function (up, file) { //上传中，显示进度条
+
+                },
+                FileUploaded: function (up, file, info) { //文件上传成功的时候触发
+                    var data = eval("(" + info.response + ")");//解析返回的json数据
+                    if (data && data.code == 0) {
+                        $("#fileName").val(data.fileName);
+                        alert("上传成功")
+                        var _html = "";
+                        var imageUrl = "@Url.Content("~/register/Show?filename=")" + data.fileName;
+                        _html += "<img src='" + imageUrl + "' width='100' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >";
+                        $("#dataBind").html(_html);
+                    }
+                    else {
+                        //这两个alert拼写错了，所以一直没跑起来
+                        alert(data.msg);
+                    }
+                },
+                UploadComplete: function (uploader, files) {
+                    console.log("UploadComplete", files);
+
+                },
+                Error: function (up, err) { //上传出错的时候触发
+                    $("#upload-program").hide();
+                    var errorCode = err.code;
+                    switch (errorCode) {
+                        case -600:
+                            alert("抱歉，上传失败！您所上传的视频超过50mb！");
+                            break;
+                        case -601:
+                            alert("请上传 jpg、jpeg、gif、png 格式文件！");
+                            break;
+                        case -602:
+                            alert("文件选择重复! ");
+                            break;
+                        case -200:
+                            alert("发生http网络错误! ");
+                            break;
+                        case -400:
+                            alert("发生安全问题而产生的错误! ");
+                            break;
+                        default:
+                            alert("上传失败! ");
+                            break;
+                    }
+                }
+            }
+        });
+        uploader_file.init();
+    }
+    initUpload();
+
+</script>
+
+
+
+<script>
+
+    function back() {
+        window.location.href = "@Url.Content("~/login/index")";
+    }
+</script>
+<script>
+
+    function submit() {
+
+        var username = $.trim($("#username").val());
+        if (username == "") {
+            alert("用户名不能为空")
+            return;
+        }
+
+        var password = $.trim($("#password").val());
+        if (password == "") {
+            alert("密码不能为空")
+            return;
+        }
+
+        var confirmpassword = $.trim($("#confirmpassword").val());
+        if (confirmpassword == "") {
+            alert("确认密码不能为空")
+            return;
+        }
+
+        if (password != confirmpassword) {
+            alert("密码和确认密码不一致")
+            return;
+        }
+
+        var email = $("#email").val();
+        if (email=="") {
+            alert("邮箱不能为空")
+            return;
+        }
+
+        var gender = $("#gender").val();
+        if (!gender) {
+        alert("请选择课性别")
+        return;
+        }
+        var studentno = $("#studentno").val();
+        if (!studentno) {
+        alert("请选择课性别")
+        return;
+        }
+
+        //默认先给一个数据，为了能往后台传数据
+        var teacherid = 0;
+        var roletype = 3;
+
+
+       var fileName= $("#fileName").val()
+        if (!fileName) {
+            alert("请上传用户头像")
+            return;
+        }
+       // var status = $.trim($("#status").val());
+
+        $.ajax({
+            url: "@Url.Content("~/register/Save")",
+            data: { "UserName": username, "Password": password, "Email": email, "StudentNo": studentno, "Teacherid":teacherid, "Gender":gender, "RoleType":roletype, "ImgGuid": fileName, "ID":0},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    window.location = "@Url.Content("~/login/index")";
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+    }
+</script>
 
 

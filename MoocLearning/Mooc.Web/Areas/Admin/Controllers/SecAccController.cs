@@ -10,29 +10,23 @@ using System.Web.Mvc;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-    public class AccountController : Controller
+    public class SecAccController : Controller
     {
-        private DataContext _dataContext;
 
-        public AccountController(DataContext dataContext)
+        private readonly DataContext _dataContext;
+
+        public SecAccController(DataContext data)
         {
-            _dataContext = dataContext;
+            _dataContext = data;
         }
-
-        
+        // GET: Admin/SecAcc
         public ActionResult Index()
-        {
-            return View("List");
-        }
-
-       
-        public ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public JsonResult login(string username, string password)
+        public JsonResult login(string username,string password)
         {
             User user = _dataContext.Users.FirstOrDefault(m => m.UserName == username);
 
@@ -54,20 +48,5 @@ namespace Mooc.Web.Areas.Admin.Controllers
             return Json(new { code = 1, msg = "错误" });
 
         }
-    
-
-
-
-    public ActionResult DeleteCookie()
-        {
-  
-            if (Request.Cookies["username"] != null)
-            {
-                Response.Cookies["username"].Expires = DateTime.Now.AddDays(-1);
-            }
-            return Redirect("~/Admin/Account/Index");
-        }
-
-
     }
 }
