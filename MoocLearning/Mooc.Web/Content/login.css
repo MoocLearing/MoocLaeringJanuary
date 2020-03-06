@@ -45,12 +45,24 @@ a {
 
     
 }
+.col-md-12 {
+ margin-top:25px;
+
+}
+.control-label {
+    
+    display: inline-block;
+    color: white;
+    width: 70px;
+    line-height: 20px;
+    text-align: center;
+}
 
 .txt-rt {
     text-align: right;
 }
 /* text align right */
-.txt-lt {
+    .txt-lt {
     text-align: left;
 }
 /* text align left */
@@ -171,8 +183,8 @@ form {
 
 input[type="text"], input[type="password"] {
     font-family: 'Droid Sans', sans-serif;
-    width: 70%;
-    padding: 0.5em 2em 0.5em 1em;
+    width: 57%;
+    padding: 0.5em;
     color: #2d2929;
     font-size: 20px;
     outline: none;

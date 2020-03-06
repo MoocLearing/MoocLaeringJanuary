@@ -7,13 +7,13 @@ namespace Mooc.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class third : IMigrationMetadata
+    public sealed partial class test101 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(third));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(test101));
         
         string IMigrationMetadata.Id
         {
-            get { return "202003050638149_third"; }
+            get { return "202003051338317_test101"; }
         }
         
         string IMigrationMetadata.Source

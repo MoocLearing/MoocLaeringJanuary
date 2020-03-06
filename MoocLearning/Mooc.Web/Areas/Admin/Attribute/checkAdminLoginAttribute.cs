@@ -34,12 +34,12 @@ namespace Mooc.Web.Areas.Admin.Attribute
             //    });
             //}
 
-            if (!(filterContext.HttpContext.Request.Cookies["username"] != null))
+            if (filterContext.HttpContext.Request.Cookies["username"] == null||filterContext.HttpContext.Request.Cookies["userid"] == null)
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary()
                 {
                     {"controller","Account" },
-                    {"action","Index" }
+                    {"action","Login" }
                 });
             }
 

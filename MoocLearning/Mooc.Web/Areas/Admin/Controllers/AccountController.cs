@@ -19,20 +19,20 @@ namespace Mooc.Web.Areas.Admin.Controllers
             _dataContext = dataContext;
         }
 
-        
+
         public ActionResult Index()
         {
-            return View("List");
+            return View("Login");
         }
 
-       
+
         public ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public JsonResult login(string username, string password)
+        public JsonResult loginPost(string username, string password)
         {
             User user = _dataContext.Users.FirstOrDefault(m => m.UserName == username);
 
@@ -41,11 +41,14 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 string pwd = MD5Help.MD5Encrypt(password, ConfigurationManager.AppSettings["sKey"].ToString());
                 if (user.PassWord == pwd)
                 {
-                    Response.Cookies.Add(new HttpCookie("username")
-                    {
-                        Value = user.UserName,
-                        Expires = DateTime.Now.AddDays(7)
-                    });
+                    //Response.Cookies.Add(new HttpCookie("username")
+                    //{
+                    //    Value = user.UserName,
+                    //    Expires = DateTime.Now.AddDays(7)
+                    //});
+
+                    CookieHelper.SetCookie("username", user.UserName, DateTime.Now.AddDays(7));
+                    CookieHelper.SetCookie("userid", user.ID.ToString(), DateTime.Now.AddDays(7));
                     return Json(new { code = 0 });
 
                 }
@@ -54,17 +57,18 @@ namespace Mooc.Web.Areas.Admin.Controllers
             return Json(new { code = 1, msg = "错误" });
 
         }
-    
 
 
 
-    public ActionResult DeleteCookie()
+
+        public ActionResult DeleteCookie()
         {
-  
-            if (Request.Cookies["username"] != null)
-            {
-                Response.Cookies["username"].Expires = DateTime.Now.AddDays(-1);
-            }
+            CookieHelper.DeleteCookie("username");
+            CookieHelper.DeleteCookie("userid");
+            //if (Request.Cookies["username"] != null)
+            //{
+            //    Response.Cookies["username"].Expires = DateTime.Now.AddDays(-1);
+            //}
             return Redirect("~/Admin/Account/Index");
         }
 

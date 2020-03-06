@@ -1,51 +1,51 @@
-﻿@*@model Mooc.Data.Entities.User
-    @{
+﻿@model Mooc.Data.Entities.User
+@{
 
-        Layout = null;
-    }
-
-
-    <!DOCTYPE html>
-    <html lang="en" class="no-js">
-    <head>
-
-        <meta charset="utf-8">
-        <title>后台登录</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link rel="stylesheet" href="~/assets/css/reset.css">
-        <link rel="stylesheet" href="~/assets/css/supersized.css">
-        <link rel="stylesheet" href="~/assets/css/style.css" />
-    </head>
-
-    <body>
-
-        <div class="page-container">
-            <h1>后台登录</h1>
-            <form action="" method="post">
-                <input type="text" name="username" class="username" placeholder="用户名" id="usernametext">
-
-                <input type="password" name="password" class="password" placeholder="密码" id="passwordtext">
+    Layout = null;
+}
 
 
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
 
-                <button type="submit" onclick="submit()">登录</button>
-                <div class="error"><span>+</span></div>
-            </form>
+    <meta charset="utf-8">
+    <title>后台登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="~/assets/css/reset.css">
+    <link rel="stylesheet" href="~/assets/css/supersized.css">
+    <link rel="stylesheet" href="~/assets/css/style.css" />
+</head>
+
+<body>
+
+    <div class="page-container">
+        <h1>后台登录</h1>
+        <div class="form">
+            <input type="text" name="username" class="username" placeholder="用户名" id="usernametext">
+
+            <input type="password" name="password" class="password" placeholder="密码" id="passwordtext">
+
+
+
+            <button  onclick="submit()">登录</button>
+            <div class="error"><span>+</span></div>
         </div>
 
-         Javascript
-        <script src="~/assets/js/jquery-1.8.2.min.js"></script>
-        <script src="~/assets/js/supersized.3.2.7.min.js"></script>
-        <script src="~/assets/js/supersized-init.js"></script>
-        <script src="~/assets/js/scripts.js"></script>
+    </div>
 
-    </body>
+    
+    <script src="~/assets/js/jquery-1.8.2.min.js"></script>
+    <script src="~/assets/js/supersized.3.2.7.min.js"></script>
+    <script src="~/assets/js/supersized-init.js"></script>
+    <script src="~/assets/js/scripts.js"></script>
 
-    </html>
+</body>
 
-    <script>
+</html>
+
+<script>
         init();
         function init() {
 
@@ -68,105 +68,101 @@
             }
 
         $.ajax({
-                url: "@Url.Content("~/Admin/Account/Login/")",
-            data: { "Username": username, "Password": password},
+                url: "@Url.Content("~/Admin/Account/LoginPost")",
+                data: { "Username": username, "Password": password},
                 type: "POST", dataType: 'json',
                 success: function (data) {
-
                     if (data.code == 0) {
+                        localStorage.setItem("username",username);
                         window.location = "@Url.Content("~/Admin/User/list")";
-
-                        // window.location.reload(); //当前页面重新刷新
                     }
                     else {
                         alert(data.msg)
                         return false;
                     }
+                }
+            })
+        }
+</script>
+
+
+
+@*@{
+        ViewBag.Title = "登录";
+        Layout = null;
+    }
+    <!DOCTYPE HTML>
+    <html>
+    <head>
+        <title>后台登录</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="@Url.Content("~/Content/login.css")" rel="stylesheet" type="text/css" />
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+    </head>
+    <body>
+
+        <div class="message warning">
+            <div class="inset">
+                <div class="login-head">
+                    <h1>后台登录</h1>
+                </div>
+
+
+                <div class="col-md-10">
+                    <label class="control-label col-md-3" style="color:white;">用户名</label>
+                    <input type="text" name="username" id="usernametext" class="form-control" style="background-color:azure;margin:25px;">
+                </div>
+
+                <div class="col-md-10">
+                    <label class="control-label col-md-3" style="color:white">密码</label>
+                    <input type="password" name="password" id="passwordtext" class="form-control" style="background-color:azure;margin:25px;">
+                </div>
+
+                <div class="form-group" style="padding-top: 20px;">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="登录" onclick="submit()" class="btn btn-success btn-submit" style="margin:10px;height:40px;width:100px;font-size:18px" />
+                        <input type="button" value="注册" onclick="back()" class="btn btn-danger btn-margin" style="margin:10px;height:40px;width:100px;font-size:18px" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="clear"> </div>
+
+    </body>
+    </html>
+
+    <script>
+        function submit() {
+
+            var username = $.trim($("#usernametext").val());
+            if (username == "") {
+                alert("用户名不能为空")
+                return;
+            }
+
+            var password = $.trim($("#passwordtext").val());
+            if (password == "") {
+                alert("密码不能为空")
+                return;
             }
 
 
+            $.ajax({
+                url: "@Url.Content("~/admin/account/loginPost")",
+                data: { "UserName": username, "Password": password},
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.code == 0) {
+                        window.location = "@Url.Content("~/admin/user/list")";
+                    } else {
+                        alert(data.msg)
+                        return false;
+                    }
+                }
             })
         }
     </script>*@
-
-
-
-@{
-    ViewBag.Title = "登录";
-    Layout = null;
-}
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>后台登录</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href="@Url.Content("~/Content/login.css")" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-
-</head>
-<body>
-
-    <div class="message warning">
-        <div class="inset">
-            <div class="login-head">
-                <h1>后台登录</h1>
-            </div>
-
-
-            <div class="col-md-10">
-                <label class="control-label col-md-3" style="color:white;">用户名</label>
-                <input type="text" name="username" id="usernametext" class="form-control" style="background-color:azure;margin:25px;">
-            </div>
-
-            <div class="col-md-10">
-                <label class="control-label col-md-3" style="color:white">密码</label>
-                <input type="password" name="password" id="passwordtext" class="form-control" style="background-color:azure;margin:25px;">
-            </div>
-
-            <div class="form-group" style="padding-top: 20px;">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="登录" onclick="submit()" class="btn btn-success btn-submit" style="margin:10px;height:40px;width:100px;font-size:18px" />
-                    <input type="button" value="注册" onclick="back()" class="btn btn-danger btn-margin" style="margin:10px;height:40px;width:100px;font-size:18px" />
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="clear"> </div>
-
-</body>
-</html>
-
-<script>
-    function submit() {
-
-        var username = $.trim($("#usernametext").val());
-        if (username == "") {
-            alert("用户名不能为空")
-            return;
-        }
-
-        var password = $.trim($("#passwordtext").val());
-        if (password == "") {
-            alert("密码不能为空")
-            return;
-        }
-
-
-        $.ajax({
-            url: "@Url.Content("~/admin/account/login")",
-            data: { "UserName": username, "Password": password},
-            type: "POST",
-            dataType: 'json',
-            success: function(data) {
-                if (data.code == 0) {
-                    window.location = "@Url.Content("~/admin/user/list")";
-                } else {
-                    alert(data.msg)
-                    return false;
-                }
-            }
-        })
-    }
-</script>

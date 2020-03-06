@@ -22,47 +22,22 @@
             </div>
 
 
-            @*@using (Html.BeginForm("LoginResult", "Login"))
-                {
-                    @Html.AntiForgeryToken()
-                    <ul>
-
-                        <li>
-                            @Html.LabelFor(model => model.UserName, htmlAttributes:null)
-                            @Html.EditorFor(m => m.UserName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.PassWord)
-                        </li>
-
-                        <li>
-                            @Html.LabelFor(model => model.PassWord, htmlAttributes: null)
-                            @Html.EditorFor(m => m.PassWord, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.PassWord)
-                        </li>
-
-                    </ul>
-                    <div class="clear"> </div>
-                    @Html.ValidationSummary(true);
-                    <div class="submit">
-                        <input type="submit" value="登录">
-                        <div class="clear"> </div>
-                    </div>
-                }*@
-
-
-            <div class="col-md-10">
-                <label class="control-label col-md-3" style="color:white;">用户名</label>
-                <input type="text" name="username" id="usernametext" class="form-control" style="background-color:azure;margin:25px;">
+            <div class="col-md-12">
+                <label class="control-label" style="color:white;">用户名</label>
+                
+                <input type="text" name="username" id="usernametext" class="form-control" style="background-color:azure;">
             </div>
 
-            <div class="col-md-10">
-                <label class="control-label col-md-3" style="color:white">密码</label>
-                <input type="password" name="password" id="passwordtext" class="form-control" style="background-color:azure;margin:25px;">
+            <div class="col-md-12">
+                <label class="control-label" style="color:white">密码</label>
+                <input type="password" name="password" id="passwordtext" class="form-control" style="background-color:azure;">
             </div>
 
-            <div class="form-group" style="padding-top: 20px;">
-                <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-12">
+                <div style="padding-bottom: 10px;">
                     <input type="button" value="登录" onclick="submit()" class="btn btn-success btn-submit" style="margin:10px;height:40px;width:100px;font-size:18px" />
-                    <input type="button" value="注册" onclick="back()" class="btn btn-danger btn-margin" style="margin:10px;height:40px;width:100px;font-size:18px" />
+                    
+                <a class="btn btn-danger btn-margin" href="@Url.Content("~/Register/Index")">注册</a>
                 </div>
             </div>
 

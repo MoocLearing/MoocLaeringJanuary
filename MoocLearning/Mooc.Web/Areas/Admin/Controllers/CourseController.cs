@@ -18,7 +18,7 @@ using Mooc.Web.Models;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-    // [CheckAdminLogin]
+    [CheckAdminLogin]
     public class CourseController : Controller
     {
 

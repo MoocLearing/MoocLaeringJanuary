@@ -19,15 +19,12 @@ namespace Mooc.Web.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            if (!string.IsNullOrEmpty(GetSession<string>(loginSessionName)))
-            {
-                return RedirectToAction("Index", "Home");
+            //if (!string.IsNullOrEmpty(GetSession<string>(loginSessionName)))
+            //{
+            //    return RedirectToAction("Index", "Home");
 
-            }
-            else
-            {
-                return View();
-            }
+            //}
+           return View();
         }
 
 
@@ -48,13 +45,13 @@ namespace Mooc.Web.Controllers
                 }
                 else
                 {
-                    return Json(new { code = 1, msg = "用户名密码不正确" });
+                    return Json(new { code = 1, msg = "密码不正确" });
                 }
 
             }
             else
             {
-                return Json(new { code = 1, msg = "用户名密码不存在" });
+                return Json(new { code = 1, msg = "用户不存在" });
             }
 
 
