@@ -1,6 +1,7 @@
 ﻿using Mooc.Data.Context;
 using Mooc.Data.Entities;
 using Mooc.Data.ViewModels;
+using Mooc.Web.Areas.Admin.Attribute;
 using Mooc.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace Mooc.Web.Areas.Admin.Controllers
 {
+    [CheckAdminLogin]
     public class ScheduleController : Controller
     {
         private readonly DataContext _dataContext;
