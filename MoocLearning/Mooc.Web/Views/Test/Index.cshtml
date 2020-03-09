@@ -1,0 +1,36 @@
+﻿@{
+
+    int len = 35;
+}
+
+
+    @for (int i = 1; i <= len; i++)
+    {
+        if (i % 5 == 1)
+        {
+            @:<div class="xx">
+            }
+            <span>@i</span>
+            if (i % 5 == 0 || (i % 5 != 0 && i == len))
+            {
+            @:</div>
+        }
+    }
+
+
+@*<div>
+        <span>2</span>
+        <span>2</span>
+        <span>2</span>
+
+    </div>
+    <div>
+        <span>2</span>
+        <span>2</span>
+        <span>2</span>
+    </div>
+
+    <div>
+
+        <span>2</span>
+    </div>*@
