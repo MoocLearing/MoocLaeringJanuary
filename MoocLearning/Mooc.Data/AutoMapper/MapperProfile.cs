@@ -28,6 +28,9 @@ namespace Mooc.Data.AutoMapper
 
             CreateMap<Chapter, ChapterView>();
             CreateMap<ChapterView, Chapter>();
+
+            CreateMap<Course, CourseAddView>();
+            CreateMap<CourseAddView,Course>();
         }
     }
 }

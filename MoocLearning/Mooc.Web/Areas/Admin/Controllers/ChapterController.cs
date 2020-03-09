@@ -18,7 +18,7 @@ using Mooc.Web.Models;
 //一旦引用的类库不对，系统也不给纠正
 namespace Mooc.Web.Areas.Admin.Controllers
 {
-    // [CheckAdminLogin]
+    [CheckAdminLogin]
 
     public class ChapterController : Controller
     {

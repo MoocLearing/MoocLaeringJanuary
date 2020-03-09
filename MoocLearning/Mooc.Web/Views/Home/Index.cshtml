@@ -1,4 +1,5 @@
 ﻿
+
 @{
     Layout = null;
 }
@@ -9,10 +10,12 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
-    <script type="text/javascript" src="js/jquery.js"></script>
+    @*<script type="text/javascript" src="js/jquery.js"></script>*@
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="~/Content/muke.css">
-    <script type="text/javascript" src="~/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.SuperSlide.2.1.1.js"></script>
+
 </head>
 
 <body class="backg_huibai">
@@ -45,7 +48,7 @@
                     <img src="~/Images/uiz5.png">
                 </div>
                 <div class="float_l margin_l40">
-                    <img src="~/Images/uiz3.png">
+                    @*<img src="~/Images/uiz3.png">*@
                 </div>
                 <div class="float_l margin_l35">
                     <img src="~/Images/uiz6.png">
@@ -333,8 +336,9 @@
     </script>
 
     <!-- 学习课程 -->
-    <div class="width100 float_l margin_b40">
+    <div class="width100 float_l margin_b20">
         <div class="width_1200 margin_auto">
+
 
             <div class="width100 float_l margin_b20">
                 <div class="float_l">
@@ -342,87 +346,93 @@
                 </div>
 
             </div>
+
+            @*这里一个DIV标签查看全部的课程，并且每5个一组展现，有多少course展现多少*@
+
+            <div id="dataBind"></div>
             <!-- 学习课程1 -->
-            <div class="width100 float_l">
-                <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
-                    </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                    </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
-                    </div>
-                </div>
-
-                <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
-                    </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                    </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
-                    </div>
-                </div>
-
-                <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
-                    </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                    </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
-                    </div>
-                </div>
-
-                <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
-                    </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                    </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
-                    </div>
-                </div>
-
-                <div class="width_224 height172 float_l border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
-                    </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                    </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
-                    </div>
-                </div>
+            @*<div class="width100 float_l">
+        <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+            <div class="width100 float_l img_100 z_inx_1">
+                <img src="~/Images/uiz7.jpg">
             </div>
+            <div class="img_backg2 donghua">
+                <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+            </div>
+            <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                <span class="float_l color_red">￥88.00</span>
+                <span class="float_r color_gray"><span>499</span>人在学</span>
+            </div>
+        </div>*@
+            @*<div id="dataBind"></div>*@
+
+            @*<div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+            <div class="width100 float_l img_100 z_inx_1">
+                <img src="~/Images/uiz7.jpg">
+            </div>
+            <div class="img_backg2 donghua">
+                <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+            </div>
+            <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                <span class="float_l color_red">￥88.00</span>
+                <span class="float_r color_gray"><span>499</span>人在学</span>
+            </div>
+        </div>
+
+        <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+            <div class="width100 float_l img_100 z_inx_1">
+                <img src="~/Images/uiz7.jpg">
+
+            </div>
+            <div class="img_backg2 donghua">
+                <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+            </div>
+            <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                <span class="float_l color_red">￥88.00</span>
+                <span class="float_r color_gray"><span>499</span>人在学</span>
+            </div>
+        </div>
+
+        <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+            <div class="width100 float_l img_100 z_inx_1">
+                <img src="~/Images/uiz7.jpg">
+            </div>
+            <div class="img_backg2 donghua">
+                <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+            </div>
+            <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                <span class="float_l color_red">￥88.00</span>
+                <span class="float_r color_gray"><span>499</span>人在学</span>
+            </div>
+        </div>
+
+        <div class="width_224 height172 float_l border_shadow jingguoxianshi over_pos bianshou">
+            <div class="width100 float_l img_100 z_inx_1">
+                <img src="~/Images/uiz7.jpg">
+            </div>
+            <div class="img_backg2 donghua">
+                <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+            </div>
+            <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                <span class="float_l color_red">￥88.00</span>
+                <span class="float_r color_gray"><span>499</span>人在学</span>
+            </div>
+        </div>*@
+            @*</div>*@
 
         </div>
     </div>
 
     <!-- 学习课程2 -->
-    <div class="width100 float_l margin_b40">
-        <div class="width_1200 margin_auto">
+    @*<div class="width100 float_l margin_b40">
+        <div class="width_1200 margin_auto">*@
 
-            <div class="width100 float_l">
+            @*<div class="width100 float_l">
                 <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
                     <div class="width100 float_l img_100 z_inx_1">
                         <img src="~/Images/uiz7.jpg">
@@ -435,79 +445,143 @@
                         <span class="float_l color_red">￥88.00</span>
                         <span class="float_r color_gray"><span>499</span>人在学</span>
                     </div>
-                </div>
-
-                @*<div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
-                    </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                    </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
-                    </div>
                 </div>*@
 
-                @*<div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
-                    </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                    </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
-                    </div>
-                </div>*@
+                @*<div id="dataBind2"></div>
+            </div>*@
+
+
+
 
                 @*<div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="~/Images/uiz7.jpg">
+                        </div>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                        </div>
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">￥88.00</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
                     </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+
+                    <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="~/Images/uiz7.jpg">
+
+                        </div>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                        </div>
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">￥88.00</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
                     </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
+
+                    <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="~/Images/uiz7.jpg">
+                        </div>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                        </div>
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">￥88.00</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
                     </div>
-                </div>*@
+
+                    <div class="width_224 height172 float_l border_shadow jingguoxianshi over_pos bianshou">
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="~/Images/uiz7.jpg">
+                        </div>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                        </div>
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">￥88.00</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
+                    </div>
+            </div>*@
+
+                @*<div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="~/Images/uiz7.jpg">
+                        </div>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                        </div>
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">￥88.00</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
+                    </div>*@
+
+                @*<div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="~/Images/uiz7.jpg">
+                        </div>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                        </div>
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">￥88.00</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
+                    </div>*@
+
+                @*<div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="~/Images/uiz7.jpg">
+                        </div>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                        </div>
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">￥88.00</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
+                    </div>*@
 
                 @*<div class="width_224 height172 float_l border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
-                    </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                    </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
-                    </div>
-                </div>*@
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="~/Images/uiz7.jpg">
+                        </div>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                        </div>
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">￥88.00</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
+                    </div>*@
 
                 @*<div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
-                    <div class="width100 float_l img_100 z_inx_1">
-                        <img src="~/Images/uiz7.jpg">
-                    </div>
-                    <div class="img_backg2 donghua">
-                        <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
-                        <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
-                    </div>
-                    <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                        <span class="float_l color_red">￥88.00</span>
-                        <span class="float_r color_gray"><span>499</span>人在学</span>
-                    </div>
-                </div>*@
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="~/Images/uiz7.jpg">
+                        </div>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">飞速上手的跨平台App开发</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>
+                        </div>
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">￥88.00</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
+                    </div>*@
 
-                <div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+                @*<div class="width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
                     <div class="width100 float_l img_100 z_inx_1">
                         <img src="~/Images/uiz7.jpg">
                     </div>
@@ -561,11 +635,11 @@
                         <span class="float_l color_red">￥88.00</span>
                         <span class="float_r color_gray"><span>499</span>人在学</span>
                     </div>
-                </div>
-            </div>
+                </div>*@
+            @*</div>*@
 
-        </div>
-    </div>
+        @*</div>
+    </div>*@
 
     <!-- web 前端工程师 -->
     <div class="width100 float_l padding_tb45 backg_qiangray">
@@ -1134,3 +1208,127 @@
 </body>
 
 </html>
+
+
+@*只显示两行course*@
+<script>
+    search();
+
+        function search() {
+
+            $.ajax({
+                url: "@Url.Content("~/Home/GetCourse")",
+                data: null,
+                type: "POST", dataType: 'json',
+                success: function (res) {
+
+                    var spArray = function(N,Q)
+                        {
+                            var R = [],F;
+                            for (F = 0;F < Q.length;) {
+                                R.push(Q.slice(F,F += N))
+                            }
+                            return R
+                    }
+
+                    var list5 = spArray(5, res);
+                    var _html = "";
+                    for (var i = 0; i < list5.length; i++) {
+
+                        _html += "<div class='width100 float_l margin_b40'>";
+                        _html += "<div class='width_1200 margin_auto'>";
+                        _html += "<div class='width100 float_l'>";
+
+                        for (var j = 0; j < list5[i].length; j++) {
+                            //这里便利出了每一个course，之后用拼接html方法展现
+                            //一行凑不满5个course就不显示
+                            if (list5[i].length != 5) {
+                                break;
+                            }
+                             var item = res[j];
+                            var imageUrl = "@Url.Content("~/Home/Show?filename=")" + item.CoverPic;
+                            _html += "<div class='width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou'>";
+                            _html += "<div class='width100 float_l img_100 z_inx_1'>";
+                            _html +="<img src='" + imageUrl+"' width='30' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >"
+                            _html +="</div>";
+                            _html +="<div class='img_backg2 donghua'>";
+                            _html += "<span class='margin_t15 float_l '>" + item.CourseName + "</span>";
+                            _html +="<span class='float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative '>"+item.CourseDetail+"</span>";
+                            _html +="</div>";
+                            _html +="<div class='width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white'>";
+                            _html +="<span class='float_l color_red'>￥88.00</span>";
+                            _html +="<span class='float_r color_gray'><span>499</span>人在学</span>";
+                            _html +="</div>";
+                            _html +="</div>";
+                        };
+
+                        _html += "</div>";
+                        _html += "</div>";
+                        _html += "</div>";
+                    };
+
+                    $("#dataBind").html(_html);
+
+
+
+
+
+                    //这里开始对来的course信息进行分类
+
+                    @*var _html = "";
+                    var _html2 = "";
+                    for (var i = 0; i <5; i++) {
+                        //res.length
+
+                        var item = res[i];
+                        var imageUrl = "@Url.Content("~/Home/Show?filename=")" + item.CoverPic;
+                        _html += "<div class='width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou'>";
+                        _html += "<div class='width100 float_l img_100 z_inx_1'>";
+                        _html +="<img src='" + imageUrl+"' width='30' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >"
+                        _html +="</div>";
+                        _html +="<div class='img_backg2 donghua'>";
+                        _html += "<span class='margin_t15 float_l '>" + item.CourseName + "</span>";
+                        _html +="<span class='float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative '>"+item.CourseDetail+"</span>";
+                        //_html += "<span class='margin_t15 float_l '>飞速上手的跨平台App开发</span>";
+                        //_html += "<span class='float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative '>8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>";
+                        _html +="</div>";
+                        _html +="<div class='width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white'>";
+                        _html +="<span class='float_l color_red'>￥88.00</span>";
+                        _html +="<span class='float_r color_gray'><span>499</span>人在学</span>";
+                        _html +="</div>";
+                        _html +="</div>";
+
+                    }
+
+                    for (var i = 5; i <10; i++) {
+                        //res.length
+
+                        var item = res[i];
+                        var imageUrl = "@Url.Content("~/Home/Show?filename=")" + item.CoverPic;
+                        _html2 += "<div class='width_224 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou'>";
+                        _html2 += "<div class='width100 float_l img_100 z_inx_1'>";
+                        _html2 +="<img src='" + imageUrl+"' width='30' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >"
+                        _html2 +="</div>";
+                        _html2 +="<div class='img_backg2 donghua'>";
+                        _html2 += "<span class='margin_t15 float_l '>" + item.CourseName + "</span>";
+                        _html2 +="<span class='float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative '>"+item.CourseDetail+"</span>";
+                        //_html += "<span class='margin_t15 float_l '>飞速上手的跨平台App开发</span>";
+                        //_html += "<span class='float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative '>8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。</span>";
+                        _html2 +="</div>";
+                        _html2 +="<div class='width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white'>";
+                        _html2 +="<span class='float_l color_red'>￥88.00</span>";
+                        _html2 +="<span class='float_r color_gray'><span>499</span>人在学</span>";
+                        _html2 +="</div>";
+                        _html2 +="</div>";
+
+                    }
+
+                        $("#dataBind").html(_html);
+
+                        $("#dataBind2").html(_html2);*@
+
+                }
+       
+            })
+    }
+</script>

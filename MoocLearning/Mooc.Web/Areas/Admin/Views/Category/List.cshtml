@@ -23,7 +23,7 @@
                         </th>
                         <th>
 
-                            二级分类所属类型
+                            父类型
                         </th>
                         <th>
                             1/2级分类
@@ -79,10 +79,21 @@
                     for (var i = 0; i < res.data.length; i++) {
 
                         var item = res.data[i];
+                        var Parent = "";
                         _html += "<tr>";
                         _html += "<td>" + item.CategoryName + "</td>";
-                        _html += "<td>" + item.ParentId + "</td>";
-                        _html += "<td>" + item.Type + "</td>";
+                        if (item.ParentId == 0 || item.ParentId == null) {
+                            Parent = "无父类";
+                        } else {
+                            for (var j = 0; j < res.data.length; j++) {
+                                if (item.ParentId == res.data[j].ID) {
+                                    Parent = res.data[j].CategoryName;
+                                    break;
+                                };
+                            };
+                        };
+                        _html += "<td>" + Parent + "</td>";
+                        _html += "<td>" + item.TypeName + "</td>";
                         _html += "<td>" + item.Remark + "</td>";
                         _html += "<td>" + item.CreateDate + "</td>";
 

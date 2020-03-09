@@ -129,6 +129,7 @@
     <Compile Include="ViewModels\CategoryPageView.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\ChapterView.cs" />
+    <Compile Include="ViewModels\CourseAddView.cs" />
     <Compile Include="ViewModels\CourseView.cs" />
     <Compile Include="ViewModels\ListTeacherPage.cs" />
     <Compile Include="ViewModels\ListUserPages.cs" />
