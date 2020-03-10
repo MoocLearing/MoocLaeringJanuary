@@ -28,6 +28,13 @@ namespace Mooc.Web.Controllers
             return View();
         }
 
+
+        public ActionResult _PartCourseList()
+        {
+            var courses = _dataContext.Courses.ToList();
+            return PartialView(courses);
+        }
+
         //return ajax course list
         [HttpPost]
         public JsonResult GetCourse()
