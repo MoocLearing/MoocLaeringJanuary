@@ -27,6 +27,11 @@ namespace Mooc.Web.Controllers
             return View();
         }
 
+        public ActionResult Reg()
+        {
+            return View();
+        }
+
         public ActionResult Show(string filename)
         {
             try

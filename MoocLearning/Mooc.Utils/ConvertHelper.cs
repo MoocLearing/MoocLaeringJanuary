@@ -14,7 +14,7 @@ namespace Mooc.Utils
             {
                 return Convert.ToInt32(value);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return defaultValue;
             }

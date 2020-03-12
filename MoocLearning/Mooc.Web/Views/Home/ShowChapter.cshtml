@@ -1,0 +1,32 @@
+﻿@model List<Mooc.Data.Entities.Chapter>
+@{
+    ViewBag.Title = "ShowChapter";
+}
+
+<style>
+    .videoBox {
+        display: inline-block;
+        margin: 50px 50px
+    }
+</style>
+
+<div class="child width_1000 margin_auto">
+
+
+
+    @foreach (var item in @Model)
+    {
+        <a href="~/Home/Play?id=@item.ID" class="videoBox">
+
+            <img src="~/Images/bofangqi.jpg" width=200>
+            <br />
+            章节名称:&emsp;<span>@item.ChapterName</span>
+            <br />
+            章节简介:&emsp;<span>@item.ChapterDetails</span>
+            <br />
+            所属课程:&emsp;<span>@item.CourseId</span>
+
+        </a>
+    }
+
+</div>

@@ -35,7 +35,14 @@
 
                 </div>
             </div>
-         
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.CourseDetail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(p => p.CourseDetail, new { @class = "form-control", @id = "CourseDetail" })
+
+                </div>
+            </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.CoverPic, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -47,20 +54,13 @@
                 @if (!string.IsNullOrEmpty(Model.CoverPic))
                 {
                     <div class="col-md-10 col-md-push-2" style="margin-top: 20px;">
-                        <img src="@Url.Content("~/Admin/Course/Show?filename="+Model.CoverPic)" style="width:50%;" />
+                        <img src="@Url.Content("~/Admin/Course/Show?filename=" + Model.CoverPic)" style="width: 50%;" />
                     </div>
                 }
 
             </div>
 
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.CourseDetail, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(p => p.CourseDetail, new { @class = "form-control", @id = "CourseDetail" })
-
-                </div>
-            </div>
 
 
             <div class="form-group" style="padding-top: 20px;">

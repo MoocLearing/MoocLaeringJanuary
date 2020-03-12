@@ -46,6 +46,13 @@
                 <input type="hidden" value="" id="fileName" />
             </div>
         </div>*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.CourseDetail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(p => p.CourseDetail, new { @class = "form-control", @id = "CourseDetail" })
+
+                </div>
+            </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.CoverPic, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -54,14 +61,12 @@
                     <input type="hidden" value="" id="fileName" />
                 </div>
             </div>
-
             <div class="form-group">
-                @Html.LabelFor(m => m.CourseDetail, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(p => p.CourseDetail, new { @class = "form-control", @id = "CourseDetail" })
-
-                </div>
+                <label class="control-label col-md-2"></label>
+                <div class="col-md-10" id="dataBind"></div>
             </div>
+
+
 
 
             <div class="form-group" style="padding-top: 20px;">
@@ -107,7 +112,11 @@
                     var data = eval("(" + info.response + ")");//解析返回的json数据
                     if (data && data.code == 0) {
                         $("#fileName").val(data.fileName);
-                        alert("上传成功")
+                        alert("上传成功");
+                        var _html = "";
+                        var imageUrl = "@Url.Content("~/Admin/Course/Show?filename=")" + data.fileName;
+                        _html += "<img src='" + imageUrl + "' width='100' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >";
+                        $("#dataBind").html(_html);
                     }
                     else {
                         //这两个alert拼写错了，所以一直没跑起来

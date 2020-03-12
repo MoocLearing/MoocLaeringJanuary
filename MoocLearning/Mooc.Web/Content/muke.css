@@ -47,7 +47,7 @@ input{outline: none;}
 .width_200{ width:200px;}
 /*这里如果不变，盒子挤不下5个课程直接掉下去了*/
 /*每个元素右边有一个margin 20px，加起来100，每个元素之前是224，5个是1120. 已经定宽1200px，1220px肯定就掉了*/
-.width_224{ width:220px;}
+.width_224{ width:224px;}
 .width_250{ width:250px;}
 .width_300{ width:300px;}
 .width_350{ width:350px;}

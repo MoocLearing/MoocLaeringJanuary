@@ -16,15 +16,15 @@ namespace Mooc.Web.Controllers
             this._dataContext = dataContext;
         }
 
-        // GET: Login
+        //GET: Login
         public ActionResult Index()
         {
-            //if (!string.IsNullOrEmpty(GetSession<string>(loginSessionName)))
-            //{
-            //    return RedirectToAction("Index", "Home");
+            if (!string.IsNullOrEmpty(GetSession<string>(loginSessionName)))
+            {
+                return RedirectToAction("Index", "Home");
 
-            //}
-           return View();
+            }
+            return View("Log");
         }
 
 
@@ -121,6 +121,11 @@ namespace Mooc.Web.Controllers
         {
             //里面自己实现
             return Json(new { code = 200, error = 300 });
+        }
+
+        public ActionResult Log()
+        {
+            return View();
         }
     }
 }

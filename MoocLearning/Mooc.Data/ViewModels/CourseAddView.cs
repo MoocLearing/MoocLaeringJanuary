@@ -12,7 +12,7 @@ namespace Mooc.Data.ViewModels
     [NotMapped]
     public class CourseAddView
     {
-        public long Id { get; set; }
+        public long ID { get; set; }
 
         [Display(Name = "课程名称")]
         public string CourseName { get; set; }

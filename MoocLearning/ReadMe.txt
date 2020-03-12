@@ -54,3 +54,26 @@ public string TeacherDepartmentToString => Enum.GetName(typeof(TeacherDepartment
 永远是显示在页面上{code=0}或{code=1,msg="错误"}这样的信息。我把前台login拿过来一部分一部分做测试，
 发现action里的login方法，和html里的ajax都没错，但就是html代码不一样就出现这样情况。
 花了很久的时间，实在找不到什么问题，只能将前台login代码直接拿到后台来用了。
+
+12/03
+在HTML：
+function initCourse() {
+        $.ajax({
+            url: "@Url.Content("~/Home/_PartCourseList")",
+            type: "POST",
+            dataType: 'html',
+            success: function(data) {
+                $("#dataBind").html(data);
+                console.log("course列表ajax success执行");
+            }
+        });
+    }
+
+在controller：
+public ActionResult _PartCourseList()
+    {
+        var courses = _dataContext.Courses.Where(x=>x.Status==1).ToList();
+        return PartialView(courses);
+    }
+
+为什么controller里的返回partialView的action，能把整个partialview的HTML渲染完成的页面+参数当成一个整体的data返回给AJAX？

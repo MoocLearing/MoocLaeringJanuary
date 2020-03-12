@@ -180,7 +180,7 @@
                     var data = eval("(" + info.response + ")");//解析返回的json数据
                     if (data && data.code == 0) {
                         $("#fileName").val(data.fileName);
-                        alert("上传成功")
+                        alert("上传成功");
                         var _html = "";
                         var imageUrl = "@Url.Content("~/Admin/User/Show?filename=")" + data.fileName;
                         _html += "<img src='" + imageUrl + "' width='100' onerror=\"javascript: this.src = '@Url.Content("~/Images/logoError.png")'\"  >";

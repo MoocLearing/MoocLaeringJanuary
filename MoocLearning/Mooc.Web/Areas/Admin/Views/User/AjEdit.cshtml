@@ -84,8 +84,10 @@
                 @if (!string.IsNullOrEmpty(Model.ImgGuid))
                 {
             <div class="col-md-10 col-md-push-2" style="margin-top: 20px;">
-                <img src="@Url.Content("~/Admin/Course/Show?filename="+Model.ImgGuid)" style="width:50%;" id="dataBinds" />
-                <div class="col-md-10" id="dataBind"></div>
+                
+                <div class="col-md-10" id="dataBinds">
+                    <img src="@Url.Content("~/Admin/Course/Show?filename="+Model.ImgGuid)" style="width:50%;" id="dataBinds" />
+                </div>
             </div>
                 }
 

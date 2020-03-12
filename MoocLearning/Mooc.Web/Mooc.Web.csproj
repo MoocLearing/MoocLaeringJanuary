@@ -192,17 +192,22 @@
     <Content Include="assets\css\layer.css" />
     <Content Include="assets\css\reset.css" />
     <Content Include="assets\css\style.css" />
+    <Content Include="assets\css\style.default.css" />
     <Content Include="assets\css\supersized.css" />
     <Content Include="assets\img\backgrounds\1.jpg" />
     <Content Include="assets\img\backgrounds\2.jpg" />
     <Content Include="assets\img\backgrounds\3.jpg" />
     <Content Include="assets\img\facebook.png" />
     <Content Include="assets\img\progress.gif" />
+    <Content Include="assets\img\p_big3.jpg" />
     <Content Include="assets\img\twitter.png" />
+    <Content Include="assets\js\front.js" />
     <Content Include="assets\js\jquery-1.8.2.min.js" />
     <Content Include="assets\js\scripts.js" />
     <Content Include="assets\js\supersized-init.js" />
     <Content Include="assets\js\supersized.3.2.7.min.js" />
+    <Content Include="assets\register.html" />
+    <Content Include="assets\vendor\jquery-validation\jquery.validate.min.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -226,6 +231,7 @@
     <Content Include="Images\bg-course.png" />
     <Content Include="Images\bg.jpg" />
     <Content Include="Images\bk.jpg" />
+    <Content Include="Images\bofangqi.jpg" />
     <Content Include="Images\data.png" />
     <Content Include="Images\fe.png" />
     <Content Include="Images\icons.png" />
@@ -378,6 +384,12 @@
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Home\_PartCourseList.cshtml" />
+    <Content Include="Views\Home\_PartJavaCourse.cshtml" />
+    <Content Include="Views\Home\ShowChapter.cshtml" />
+    <Content Include="Views\Home\Play.cshtml" />
+    <Content Include="Views\Register\Reg.cshtml" />
+    <Content Include="Views\Login\Log.cshtml" />
+    <Content Include="Views\Home\_IOSCourseList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

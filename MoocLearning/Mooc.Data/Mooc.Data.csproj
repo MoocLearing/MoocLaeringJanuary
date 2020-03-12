@@ -114,9 +114,9 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Enums\EnumModel.cs" />
-    <Compile Include="Migrations\202003051338317_test101.cs" />
-    <Compile Include="Migrations\202003051338317_test101.designer.cs">
-      <DependentUpon>202003051338317_test101.cs</DependentUpon>
+    <Compile Include="Migrations\202003111123381_first.cs" />
+    <Compile Include="Migrations\202003111123381_first.designer.cs">
+      <DependentUpon>202003111123381_first.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDBHelper.cs" />
@@ -129,8 +129,11 @@
     <Compile Include="ViewModels\CategoryPageView.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\ChapterView.cs" />
+    <Compile Include="ViewModels\ChapterViewDto.cs" />
     <Compile Include="ViewModels\CourseAddView.cs" />
+    <Compile Include="ViewModels\CourseChaptersView.cs" />
     <Compile Include="ViewModels\CourseView.cs" />
+    <Compile Include="ViewModels\JavaLastCourseDto.cs" />
     <Compile Include="ViewModels\ListTeacherPage.cs" />
     <Compile Include="ViewModels\ListUserPages.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -200,8 +203,8 @@
     <Folder Include="bin\Release\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003051338317_test101.resx">
-      <DependentUpon>202003051338317_test101.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003111123381_first.resx">
+      <DependentUpon>202003111123381_first.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
