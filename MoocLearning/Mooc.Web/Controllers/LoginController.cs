@@ -36,7 +36,7 @@ namespace Mooc.Web.Controllers
 
             if (user != null)
             {
-                string pwd = MD5Help.MD5Encrypt(password, ConfigurationManager.AppSettings["sKey"].ToString());
+                string pwd = MD5Help.MD5Encoding(password, ConfigurationManager.AppSettings["sKey"].ToString());
                 if (user.PassWord == pwd)
                 {
                     Session["username"] = user.UserName;

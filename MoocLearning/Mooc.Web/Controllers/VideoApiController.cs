@@ -2,8 +2,10 @@
 using Mooc.Data.Entities;
 using Mooc.Data.Mongo;
 using Mooc.Data.ViewModels;
+using Mooc.Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -71,6 +73,12 @@ namespace Mooc.Web.Controllers
             }
             return new BaseResult(1, "参数错误");
 
+        }
+
+        public string GetPassword(string password)
+        {
+            string pwd = MD5Help.MD5Encoding(password, ConfigurationManager.AppSettings["sKey"].ToString());
+            return pwd;
         }
     }
 }

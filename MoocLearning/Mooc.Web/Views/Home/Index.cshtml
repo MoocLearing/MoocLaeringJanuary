@@ -1238,10 +1238,10 @@
 
    function initJavaCourse() {
        $.ajax({
-           url: "@Url.Content("~/Home/_PartJavaCourse?categoryName=Java")",
+           url: "@Url.Content("~/Home/_PartJavaCourse")",
            type: "POST",
            dataType: 'html',
-           data: "Java",
+           data: { "categoryName":"Java"},
            success: function(data) {
                $("#dataBind2").html(data);
 

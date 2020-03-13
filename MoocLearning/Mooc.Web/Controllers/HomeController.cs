@@ -73,19 +73,22 @@ namespace Mooc.Web.Controllers
 
         public ActionResult _PartJavaCourse(string categoryName)
         {
-
+            List<CourseAddView> courseList = new List<CourseAddView>();
             Category category = _dataContext.Categorys.FirstOrDefault(x => x.CategoryName == categoryName);
             if (category==null)
             {
-                return Json(new { code = 1, msg = "课程类别不存在" });
+                // return Json(new { code = 1, msg = "课程类别不存在" });
+
+                return PartialView(courseList);
             }
             var courses = _dataContext.Courses.Where(x => x.CategoryId == category.ID && x.Status==1).ToList();
 
             if (courses.Count==0)
             {
-                return Json(new { code = 1, msg = "课程名称不存在" });
+               // return Json(new { code = 1, msg = "课程名称不存在" });
+                return PartialView(courseList);
             }
-            var courseList = AutoMapper.Mapper.Map<List<Course>, List<CourseAddView>>(courses);
+             courseList = AutoMapper.Mapper.Map<List<Course>, List<CourseAddView>>(courses);
 
             return PartialView(courseList);
         }
@@ -104,12 +107,12 @@ namespace Mooc.Web.Controllers
         public ActionResult Play(long? id)
         {
             if (id == null)
-                return HttpNotFound();
+                return HttpNotFound("参数错误");
             var model = _dataContext.Chapters.Find(id);
-            if (model == null)
-                return HttpNotFound();
-            if (string.IsNullOrEmpty(model.VideoGuid))
-                return Content("未上传视频");
+            if (model == null|| string.IsNullOrEmpty(model.VideoGuid))
+                return HttpNotFound("未上传视频");
+            //if (string.IsNullOrEmpty(model.VideoGuid))
+            //    return Content("未上传视频");
             return View(model);
         }
 

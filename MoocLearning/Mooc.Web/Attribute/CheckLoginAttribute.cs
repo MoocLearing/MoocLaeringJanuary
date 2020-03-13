@@ -13,7 +13,7 @@ namespace Mooc.Web.Attribute
         {
             if (isCheck)
             {
-                var auth = filterContext.HttpContext.Session["username"];
+                var auth = filterContext.HttpContext.Request.Cookies["username"];// filterContext.HttpContext.Session["username"];
                 if (auth == null)
                 {
                     filterContext.Result = new RedirectResult("/Login/Index");

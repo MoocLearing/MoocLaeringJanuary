@@ -181,7 +181,7 @@ namespace Mooc.Web.Areas.Admin.Controllers
                 //}
 
                 //DES处理加密
-                user.PassWord = MD5Help.MD5Encrypt(user.PassWord, ConfigurationManager.AppSettings["sKey"].ToString());
+                user.PassWord = MD5Help.MD5Encoding(user.PassWord, ConfigurationManager.AppSettings["sKey"].ToString());
                
 
                 _dataContext.Users.Add(user);

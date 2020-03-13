@@ -55,7 +55,7 @@ namespace Mooc.Web.Controllers
         {
             if (user != null)
             {
-                user.PassWord = MD5Help.MD5Encrypt(user.PassWord, ConfigurationManager.AppSettings["sKey"].ToString());
+                user.PassWord = MD5Help.MD5Encoding(user.PassWord, ConfigurationManager.AppSettings["sKey"].ToString());
                 _dataContext.Users.Add(user);
                 _dataContext.SaveChanges();
                 return Json(new { code = 0 });

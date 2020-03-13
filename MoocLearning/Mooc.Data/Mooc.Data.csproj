@@ -114,9 +114,9 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Enums\EnumModel.cs" />
-    <Compile Include="Migrations\202003111123381_first.cs" />
-    <Compile Include="Migrations\202003111123381_first.designer.cs">
-      <DependentUpon>202003111123381_first.cs</DependentUpon>
+    <Compile Include="Migrations\202003121320141_test103.cs" />
+    <Compile Include="Migrations\202003121320141_test103.designer.cs">
+      <DependentUpon>202003121320141_test103.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDBHelper.cs" />
@@ -203,8 +203,8 @@
     <Folder Include="bin\Release\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003111123381_first.resx">
-      <DependentUpon>202003111123381_first.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003121320141_test103.resx">
+      <DependentUpon>202003121320141_test103.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
