@@ -28,6 +28,8 @@ namespace Mooc.Data.Context
 
         public DbSet<Schedule> Schedules { get; set; }
 
+        public DbSet<CourseApply> CourseApplies { get; set; }
+
         // public DbSet<Video> Videos { get; set; }
 
         //public DbSet<SubjectCategory> SubjectCategories { get; set; }

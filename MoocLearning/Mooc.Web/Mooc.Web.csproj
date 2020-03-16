@@ -240,6 +240,7 @@
     <Content Include="Images\iOS.png" />
     <Content Include="Images\Java.png" />
     <Content Include="Images\Linux.png" />
+    <Content Include="Images\logoError.jpg" />
     <Content Include="Images\photo.png" />
     <Content Include="Images\PHP.png" />
     <Content Include="Images\uiz1.png" />
@@ -390,6 +391,8 @@
     <Content Include="Views\Register\Reg.cshtml" />
     <Content Include="Views\Login\Log.cshtml" />
     <Content Include="Views\Home\_IOSCourseList.cshtml" />
+    <Content Include="Views\Home\_DialogPartial.cshtml" />
+    <Content Include="Views\Home\SetCourseApply.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

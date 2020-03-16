@@ -15,11 +15,11 @@ namespace Mooc.Data.Entities
 
         [Required(ErrorMessage = "开始时间必选")]
         [Display(Name = "课程开始时间")]
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
 
         [Required(ErrorMessage = "结束时间必选")]
         [Display(Name = "课程结束时间")]
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         [Display(Name = "安排备注")]
         [StringLength(100, ErrorMessage = "安排备注不得超过100字符")]

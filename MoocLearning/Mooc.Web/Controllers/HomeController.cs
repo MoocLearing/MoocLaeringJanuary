@@ -8,6 +8,8 @@ using Mooc.Data.Context;
 using Mooc.Data.Entities;
 using Mooc.Data.Mongo;
 using Mooc.Data.ViewModels;
+using Mooc.Web.Attribute;
+using Mooc.Web.Models;
 
 namespace Mooc.Web.Controllers
 {
@@ -15,7 +17,6 @@ namespace Mooc.Web.Controllers
     {
 
         private readonly DataContext _dataContext;
-
 
         public HomeController(DataContext dataContext)
         {
@@ -26,6 +27,7 @@ namespace Mooc.Web.Controllers
         public ActionResult Index()
         {
             ViewBag.username = Session["username"];
+
             return View();
         }
 
@@ -106,44 +108,117 @@ namespace Mooc.Web.Controllers
 
         public ActionResult Play(long? id)
         {
+            if (Session["userid"] == null)
+            {
+                return HttpNotFound("未登录");
+            }
+
             if (id == null)
                 return HttpNotFound("参数错误");
             var model = _dataContext.Chapters.Find(id);
-            if (model == null|| string.IsNullOrEmpty(model.VideoGuid))
+
+            if (model == null || string.IsNullOrEmpty(model.VideoGuid))
                 return HttpNotFound("未上传视频");
-            //if (string.IsNullOrEmpty(model.VideoGuid))
-            //    return Content("未上传视频");
-            return View(model);
+            var userid = (long) Session["userid"];
+            if (userid > 0)
+            {
+                var appliedCourse = _dataContext.CourseApplies.Where(x => x.UserId == userid && x.CourseId == model.CourseId).ToList();
+
+                foreach (var item in appliedCourse)
+                {
+                    var schedule = _dataContext.Schedules.Find(item.ScheduleId);
+                    if (schedule != null)
+                    {
+                        if (schedule.StartTime < DateTime.Now.Date && schedule.EndTime > DateTime.Now.Date)
+                        {
+                            return View(model);
+                            break;
+                        }
+                    }
+
+                }
+            }
+            
+
+            return HttpNotFound("没有权限");
         }
 
-
+        //测试attribute的工作
+        //[CheckLoginAttribute]
         public ActionResult _IOSCourseList()
         {
-            CourseChaptersView views = new CourseChaptersView();
+            List<CourseAddView> courseList = new List<CourseAddView>();
             Category category = _dataContext.Categorys.FirstOrDefault(x => x.CategoryName == "IOS");
             if (category == null)
             {
-                return Json(new { code = 1, msg = "IOS课程类别不存在" });
+                return PartialView(courseList);
             }
             var courses = _dataContext.Courses.Where(x => x.CategoryId == category.ID && x.Status==1).ToList();
 
             if (courses.Count > 0)
             {
-               List<CourseAddView> viewList = AutoMapper.Mapper.Map<List<Course>, List<CourseAddView>>(courses);
+               courseList = AutoMapper.Mapper.Map<List<Course>, List<CourseAddView>>(courses);
 
-               CourseAddView emptycCourseAddView = new CourseAddView(){ID=0,CourseName = "No Course Name",CourseDetail = "No CourseDetail",CoverPic = ""};
-
-               while (viewList.Count<3)
-               {
-                   viewList.Add(emptycCourseAddView);
-               }
-               
-
-                return PartialView(viewList);
+                return PartialView(courseList);
 
             }
 
-            return HttpNotFound();
+            return PartialView(courseList);
+        }
+
+        //public JsonResult GetScheduleList(long? courseid)
+        //{
+        //    var list = _dataContext.Schedules.Where(x => x.CourseId == courseid).ToList();
+        //    return Json(list);
+        //}
+
+        public JsonResult GetScheduleList()
+        {
+            var list = _dataContext.Schedules.ToList();
+            return Json(list);
+        }
+
+        public ActionResult SetCourseApply(long id)
+        {
+            //在teacheroption类写了一个一样的list表达式但没有引用，就算没引用这里写r.starttime.tostring会一直报错
+            var list = _dataContext.Schedules.OrderByDescending(p => p.AddTime).Where(x=>x.CourseId==id).Select(r => new SelectListItem()
+            {   
+                Text = r.StartTime.ToString() +"  至  "+r.EndTime.ToString(),
+            Value = r.ID.ToString(),
+
+            }).ToList();
+            ViewBag.Schedulelist = list;
+            CourseApply apply = new CourseApply();
+            apply.CourseId = id;
+            if (Session["userid"]!=null)
+            {
+                apply.UserId = (long) Session["userid"];
+            }
+
+            apply.ID = 0;
+            apply.AddTime=DateTime.Now;
+            return View(apply);
+        }
+
+        [HttpPost]
+        public JsonResult SaveCourseApply(CourseApply apply)
+        {
+            if (apply != null)
+            {
+                if (apply.UserId > 0)
+                {
+                    if (apply.CourseId > 0 && apply.ScheduleId > 0)
+                    {
+                        _dataContext.CourseApplies.Add(apply);
+                        _dataContext.SaveChanges();
+                        return Json(new { code = 0 });
+                    }
+
+                }
+
+                return Json(new {code = 2, msg = "用户无登录"});
+            }
+            return Json(new{code=1,msg="错误空申请"});
         }
     }
 }

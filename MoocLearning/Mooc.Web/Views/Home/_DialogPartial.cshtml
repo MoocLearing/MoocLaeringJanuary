@@ -1,0 +1,117 @@
+﻿
+<style>
+    #dialog .form-group {
+        margin-top: 10px;
+    }
+</style>
+<div id="dialog" style="width:500px;display:none;">
+    <div class="form-horizontal" style="width:90%;margin-left:5%">
+
+        <div class="form-group">
+            <label class="control-label col-md-3">开始时间</label>
+
+            <div class="col-md-8">
+                <input type="date" class="form-control" id="daystart" />
+
+            </div>
+        </div>
+        
+        <div id="dataBind4"></div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">备注</label>
+
+            <div class="col-md-8">
+                <textarea class="form-control" id="remark"></textarea>
+
+            </div>
+        </div>
+        <div class="form-group" style="padding-top: 20px;">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="button" value="提交" id="saveSchedule" class="btn btn-success btn-submit" />
+                <input type="button" value="取消" id="cancel" class="btn btn-danger btn-margin" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function findSchedule() {
+        $.ajax({
+            url: "@Url.Content("~/Home/GetScheduleList")",
+            type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                var _html = "";
+                if (data!=null) {
+                    _html+="<div class='form-group'>";
+                    _html+="<label class='control-label col-md-2'>课程安排</label>";
+                    _html += "   <div class='col-md-10'>";
+                    _html +="   <select id='ScheduleList' class='form-control' onchange='change()'>";
+
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        var startdate = item.StartTime.toString()+item.EndTime.toString();
+                        _html += "<option value="+item.ID+">"+startdate+"</option>";
+
+
+                    }
+                    _html += "</select>";
+                    _html += "   </div>";
+                    _html += " </div>";
+
+                    $("#dataBind4").html(_html);
+
+                } else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+    }
+
+    findSchedule();
+</script>
+
+@*<script>
+    var schedule = 0;
+    function change() {
+        schedule = $("#ScheduleList").val();
+    }
+
+    function submit() {
+
+        var CategoryName = $.trim($("#CategoryName").val());
+        if (CategoryName == "") {
+            alert("类别名称不能为空");
+            return;
+        }
+        var remark = $.trim($("#remark").val());
+
+        var type = $("#CategoryType").val();
+        var FirstCategory = $("#FirstCategory").val();
+        if (type == 1) {
+            FirstCategory = 0;
+        } else {
+            if (!FirstCategory) {
+                alert("请选择一级分类");
+                return;
+            }
+        }
+        $.ajax({
+            url: "@Url.Content("~/Admin/Category/CreateCategory")",
+            data: { "CategoryName": CategoryName, "ParentId": FirstCategory, "Type": type, "Remark": remark},
+            type: "POST", dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    window.location = "@Url.Content("~/Admin/Category/List")";
+                }
+                else {
+                    alert(data.msg)
+                    return false;
+                }
+            }
+        })
+
+    }
+</script>*@

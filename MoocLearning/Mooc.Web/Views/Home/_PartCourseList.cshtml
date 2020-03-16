@@ -1,9 +1,24 @@
 ﻿@model List<Mooc.Data.Entities.Course>
 
 @{
+
     int count = Model.Count;
 }
 
+<style>
+    #applybtn {
+        right: 5px;
+        top: 5px;
+        z-index: 999;
+        position: absolute;
+    }
+
+    #coursebtn {
+        position: absolute;
+        top: 5px;
+        right: 50px;
+    }
+</style>
 
 @if (count > 0)
 {
@@ -26,21 +41,59 @@
                         margin_r20 = "margin_r20";
                     }
                     var imageUrl = @Url.Content("~/Home/Show?filename=") + item.CoverPic;
-                    <a href="~/Home/ShowChapter?courseId=@item.ID">
-                        <div class="width_224 height172 float_l @margin_r20 border_shadow jingguoxianshi over_pos bianshou">
-                            <div class="width100 float_l img_100 z_inx_1">
-                                <img src="@imageUrl" onerror="this.src='@Url.Content("~/Images/bg.jpg")'">
-                            </div>
-                            <div class="img_backg2 donghua">
-                                <span class="margin_t15 float_l ">@item.CourseName</span>
-                                <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">@item.CourseDetail</span>
-                            </div>
-                            <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
-                                <span class="float_l color_red">讲师：张三</span>
-                                <span class="float_r color_gray"><span>499</span>人在学</span>
-                            </div>
+
+                    <div class="width_224 height172 float_l @margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+                        <div class="width100 float_l img_100 z_inx_1">
+                            <img src="@imageUrl" onerror="this.src='@Url.Content("~/Images/bg.jpg")'">
                         </div>
-                    </a>
+                        <div class="img_backg2 donghua">
+                            <span class="margin_t15 float_l ">@item.CourseName</span>
+                            <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">@item.CourseDetail</span>
+                            <button onclick="addApply(@item.ID)" class="btn-primary" id="applybtn">报名</button>
+                            <button onclick="javascript:location.href='Home/ShowChapter?courseId='+@item.ID;" class="btn-primary" id="coursebtn">课程</button>
+                            @*<a href="~/Home/ShowChapter?courseId=@item.ID" class="btn-primary">章节</a>*@
+                        </div>
+
+                        <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                            <span class="float_l color_red">讲师：张三</span>
+                            <span class="float_r color_gray"><span>499</span>人在学</span>
+                        </div>
+                    </div>
+
+                    @Html.Partial("_DialogPartial");
+
+
+
+
+                    <script>
+                        function addApply(id) {
+                            alert(id);
+                            layer.open({
+                                type: 2, area: ['520px', '330px'], title: '开课设置', shade: 0.1, maxmin: false //允许全屏最小化
+                                //, content: $('#dialog')
+                                , content: "http://localhost:22312/home/setcourseapply?id=" + id
+                        });
+
+
+                            $("#saveSchedule").unbind("click").bind("click", function (e) {
+
+                                SavePostSchedule(id, coursename, index)
+
+                                e.preventDefault;
+                                e.stopPropagation;
+                            })
+
+                            $("#cancel").unbind("click").bind("click", function (e) {
+                                if (index)
+                                    layer.close(index);
+
+                                e.preventDefault;
+                                e.stopPropagation;
+                            })
+                        }
+
+                    </script>
+
 
                     if (i % 5 == 0 || (i % 5 != 0 && i == count))
                     {
@@ -48,8 +101,13 @@
                 @:</div>
             @:</div>
 
+
+
+
         }
 
     }
+
+
 
 }

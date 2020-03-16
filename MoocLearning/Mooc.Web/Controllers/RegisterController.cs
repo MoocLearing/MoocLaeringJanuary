@@ -24,7 +24,7 @@ namespace Mooc.Web.Controllers
         // GET: Register
         public ActionResult Index()
         {
-            return View();
+            return View("Reg");
         }
 
         public ActionResult Reg()

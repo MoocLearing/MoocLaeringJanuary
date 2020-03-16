@@ -1,0 +1,49 @@
+﻿@model Mooc.Data.Entities.CourseApply
+
+
+<div class="form-group">
+    <label class="control-label col-md-2">选择该课程下的课程安排时间</label>
+    <div class="col-md-10">
+        @Html.DropDownListFor(m => m.ScheduleId, ViewBag.Schedulelist as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "ScheduleId" })
+
+    </div>
+</div>
+
+<div class="form-group" style="padding-top: 20px;">
+    <div class="col-md-offset-4 col-md-8">
+        <input type="button" value="提交" onclick="submit()" class="btn btn-success btn-submit" />
+        <input type="button" value="取消" id="back()" class="btn btn-danger btn-margin" />
+    </div>
+</div>
+
+<script>
+    function submit() {
+        var schedule = $("#ScheduleId").val();
+        if (schedule == null) {
+            alert("请选择课程安排");
+        }
+
+        
+        $.ajax({
+            url: "@Url.Content("~/Home/SaveCourseApply")",
+            data: { "UserId": @Model.UserId, "CourseId": @Model.CourseId, "ScheduleId": schedule},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    alert("申请课程成功");
+                    window.close();
+                }
+                if (data.code == 2)
+                {
+                    alert("请先登录");
+                    return;
+                }
+            }
+        })
+    }
+
+    function back() {
+        window.location("~/home");
+    }
+</script>
