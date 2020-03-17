@@ -67,29 +67,35 @@
 
                     <script>
                         function addApply(id) {
-                            alert(id);
+                            console.log(id);
+
+                            var bo = isExistValue("@Url.Action("IsLogin","Home")", {});
+                            if (bo == false) {
+                                window.location.href = "@Url.Content("~/Login/Index")"
+                                return false
+                            
+                            }
                             layer.open({
                                 type: 2, area: ['520px', '330px'], title: '开课设置', shade: 0.1, maxmin: false //允许全屏最小化
                                 //, content: $('#dialog')
-                                , content: "http://localhost:22312/home/setcourseapply?id=" + id
-                        });
+                                , content: "@Url.Content("~/home/setcourseapply?id=")" + id   //"http://localhost:22312/home/setcourseapply?id=" + id
+                              });
 
 
-                            $("#saveSchedule").unbind("click").bind("click", function (e) {
+                            //$("#saveSchedule").unbind("click").bind("click", function (e) {
 
-                                SavePostSchedule(id, coursename, index)
+                            //    SavePostSchedule(id, coursename, index)
+                            //    e.preventDefault;
+                            //    e.stopPropagation;
+                            //})
 
-                                e.preventDefault;
-                                e.stopPropagation;
-                            })
+                            //$("#cancel").unbind("click").bind("click", function (e) {
+                            //    if (index)
+                            //        layer.close(index);
 
-                            $("#cancel").unbind("click").bind("click", function (e) {
-                                if (index)
-                                    layer.close(index);
-
-                                e.preventDefault;
-                                e.stopPropagation;
-                            })
+                            //    e.preventDefault;
+                            //    e.stopPropagation;
+                            //})
                         }
 
                     </script>

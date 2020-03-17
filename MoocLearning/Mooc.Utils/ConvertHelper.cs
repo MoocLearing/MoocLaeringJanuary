@@ -20,6 +20,18 @@ namespace Mooc.Utils
             }
         }
 
+        public static long ToLong(this object value, long defaultValue)
+        {
+            try
+            {
+                return Convert.ToInt64(value);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
         public static string GetConfigValue(string sKey)
         {
             string sValue = null;

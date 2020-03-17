@@ -4,8 +4,7 @@ namespace Mooc.Web.Controllers
 {
     public class BaseController : Controller
     {
-        public string loginSessionId = "userid";
-        public string loginSessionName = "username";
+       
         public BaseController()
         {
 

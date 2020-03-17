@@ -263,6 +263,7 @@
     <Content Include="Images\uiz8.jpg" />
     <Content Include="Images\uiz9.jpg" />
     <Content Include="Images\Web.png" />
+    <Content Include="Scripts\aes.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
@@ -351,6 +352,7 @@
     <Content Include="Scripts\plupload\TaoCheWangEditor.swf" />
     <Content Include="Scripts\plupload\videobutton.jpg" />
     <Content Include="Scripts\plupload\zh_CN.js" />
+    <Content Include="Scripts\public.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

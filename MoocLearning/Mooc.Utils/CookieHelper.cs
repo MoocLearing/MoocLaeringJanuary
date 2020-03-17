@@ -46,7 +46,7 @@ namespace Mooc.Utils
             HttpCookie cookie = HttpContext.Current.Request.Cookies[_name];
             if (cookie != null)
             {
-                cookie.Expires = DateTime.Now.AddYears(-1);
+                cookie.Expires = DateTime.Now.AddYears(-3);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
         }

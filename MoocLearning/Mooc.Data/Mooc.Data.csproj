@@ -115,17 +115,9 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Enums\EnumModel.cs" />
-    <Compile Include="Migrations\202003140945521_first.cs" />
-    <Compile Include="Migrations\202003140945521_first.designer.cs">
-      <DependentUpon>202003140945521_first.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003160712249_addCourseApply.cs" />
-    <Compile Include="Migrations\202003160712249_addCourseApply.designer.cs">
-      <DependentUpon>202003160712249_addCourseApply.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003160935571_seconde.cs" />
-    <Compile Include="Migrations\202003160935571_seconde.designer.cs">
-      <DependentUpon>202003160935571_seconde.cs</DependentUpon>
+    <Compile Include="Migrations\202003161242389_test201.cs" />
+    <Compile Include="Migrations\202003161242389_test201.designer.cs">
+      <DependentUpon>202003161242389_test201.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDBHelper.cs" />
@@ -212,14 +204,8 @@
     <Folder Include="bin\Release\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003140945521_first.resx">
-      <DependentUpon>202003140945521_first.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003160712249_addCourseApply.resx">
-      <DependentUpon>202003160712249_addCourseApply.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003160935571_seconde.resx">
-      <DependentUpon>202003160935571_seconde.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003161242389_test201.resx">
+      <DependentUpon>202003161242389_test201.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

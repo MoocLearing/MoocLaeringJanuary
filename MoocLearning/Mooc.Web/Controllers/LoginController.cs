@@ -19,11 +19,6 @@ namespace Mooc.Web.Controllers
         //GET: Login
         public ActionResult Index()
         {
-            if (!string.IsNullOrEmpty(GetSession<string>(loginSessionName)))
-            {
-                return RedirectToAction("Index", "Home");
-
-            }
             return View("Log");
         }
 
@@ -36,11 +31,17 @@ namespace Mooc.Web.Controllers
 
             if (user != null)
             {
-                string pwd = MD5Help.MD5Encoding(password, ConfigurationManager.AppSettings["sKey"].ToString());
+                string decrypassword = DecryptStringAES.DecryptByAES(password);
+                string pwd = MD5Help.MD5Encoding(decrypassword, ConfigurationManager.AppSettings["sKey"].ToString());
                 if (user.PassWord == pwd)
                 {
-                    Session["username"] = user.UserName;
-                    Session["userid"] = user.ID;
+                    //Session["username"] = user.UserName;
+                    //Session["userid"] = user.ID;
+                    //cookied 用法 看helper 类
+
+                    CookieHelper.SetCookie(LoginHelper.loginCookieId, user.ID.ToString());
+                    CookieHelper.SetCookie(LoginHelper.loginCookieName, user.UserName);
+
                     return Json(new { code = 0 });
                 }
                 else
@@ -78,8 +79,8 @@ namespace Mooc.Web.Controllers
 
 
                     //cookied 用法 看helper 类
-                    CookieHelper.SetCookie(loginSessionId, userModel.ID.ToString());
-                    CookieHelper.SetCookie(loginSessionName, userModel.UserName);
+                    CookieHelper.SetCookie(LoginHelper.loginCookieId, userModel.ID.ToString());
+                    CookieHelper.SetCookie(LoginHelper.loginCookieName, userModel.UserName);
 
                    // SetSession(loginSessionName, userModel.UserName);
                     
@@ -126,6 +127,13 @@ namespace Mooc.Web.Controllers
         public ActionResult Log()
         {
             return View();
+        }
+
+        public ActionResult LogOut()
+        {
+            CookieHelper.DeleteCookie(LoginHelper.loginCookieId);
+            CookieHelper.DeleteCookie(LoginHelper.loginCookieName);
+            return RedirectToAction("Index");
         }
     }
 }

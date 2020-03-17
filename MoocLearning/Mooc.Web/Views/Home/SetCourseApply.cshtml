@@ -23,10 +23,10 @@
             alert("请选择课程安排");
         }
 
-        
+
         $.ajax({
             url: "@Url.Content("~/Home/SaveCourseApply")",
-            data: { "UserId": @Model.UserId, "CourseId": @Model.CourseId, "ScheduleId": schedule},
+            data: { "CourseId": @Model.CourseId, "ScheduleId": schedule},
             type: "POST",
             dataType: 'json',
             success: function(data) {
@@ -34,10 +34,11 @@
                     alert("申请课程成功");
                     window.close();
                 }
-                if (data.code == 2)
-                {
-                    alert("请先登录");
-                    return;
+                else if (data.code == 2) {
+
+                    window.location.href="@Url.Content("~/Login/Index")"
+                } else {
+                    alert(data.msg);
                 }
             }
         })

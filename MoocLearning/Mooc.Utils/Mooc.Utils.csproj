@@ -49,6 +49,8 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ConvertHelper.cs" />
     <Compile Include="CookieHelper.cs" />
+    <Compile Include="DecryptStringAES.cs" />
+    <Compile Include="LoginHelper.cs" />
     <Compile Include="MD5Help.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

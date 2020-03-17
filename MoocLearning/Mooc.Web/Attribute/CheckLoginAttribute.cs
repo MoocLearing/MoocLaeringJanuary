@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mooc.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,11 +12,11 @@ namespace Mooc.Web.Attribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (filterContext.HttpContext.Session["username"] == null || filterContext.HttpContext.Session["userid"] == null)
+            if (filterContext.HttpContext.Request.Cookies[LoginHelper.loginCookieId] == null || filterContext.HttpContext.Request.Cookies[LoginHelper.loginCookieName] == null)
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary()
                 {
-                    {"controller","Home" },
+                    {"controller","Login" },
                     {"action","Index" }
                 });
             }
