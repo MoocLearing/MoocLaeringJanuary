@@ -13,7 +13,17 @@
     <meta name="robots" content="all,follow">
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/assets/css/style.default.css" id="theme-stylesheet">
+    <style type="text/css">
+        .custom-control-input {
+            position: absolute;
+            z-index: 3;
+            opacity: 0;
+            top: 6px;
+            left: 2px;
+        }
+   </style>
 </head>
+
 <body>
     <div class="page login-page">
         <div class="container d-flex align-items-center">
@@ -50,7 +60,7 @@
                                             <label class="custom-control-label" for="check2">自动登录</label>
                                         </div>*@
                                     <div class="custom-control custom-checkbox " style="float: right;">
-                                        <input type="checkbox" class="custom-control-input" id="remeberme">
+                                        <input type="checkbox" class="custom-control-input" name="remeberme" value="1">
                                         <label class="custom-control-label" for="check1">记住密码&nbsp;&nbsp;</label>
                                     </div>
                                 </div>
@@ -134,16 +144,22 @@
 </html>
 
 <script>
-    debugger;
-    //var aseKey = '1234567890123456789012335475';//秘钥
-    //var key = CryptoJS.enc.Utf8.parse(aseKey);//将秘钥转换成Utf8字节数组
-    //var encrypt = CryptoJS.AES.encrypt("123456", key, {
-    //    iv: CryptoJS.enc.Utf8.parse(aseKey.substr(0, 16)),
-    //    mode: CryptoJS.mode.CBC,
-    //    padding: CryptoJS.pad.Pkcs7
-    //});
-    //var data2 = encrypt.toString();//加密后的数据
 
+    $(function () {
+
+        if (getStorageItem("UserName") && getStorageItem("Password")) {
+
+            $("#login-username").val(getStorageItem("UserName"));
+            var password = Decrypt(getStorageItem("Password"));
+            $("#login-password").val(password);
+            $("input[name='remeberme']:checkbox").attr("checked", "checked");
+        } else {
+            $("input[name='remeberme']:checkbox").attr("checked", false);
+        }
+          
+    })
+
+  
     const key = CryptoJS.enc.Utf8.parse("1234567890000000");
     const iv = CryptoJS.enc.Utf8.parse("1234567890000000");
 
@@ -176,12 +192,16 @@
         return o;
     }
 
-   
-    console.log(Encrypt("123456"));
-
-    function initBind() {
-       // $("#remeberme").
-    }
+    function Decrypt(str) {
+        var decrypt = CryptoJS.AES.decrypt(str, key, {
+            keySize: 128 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        var decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
+        return decryptedStr;
+    }   
 
     function submit() {
 
@@ -196,17 +216,25 @@
             alert("密码不能为空")
             return;
         }
+        password = Encrypt($.trim($("#login-password").val()));
 
+        var remeberme = $("input[name='remeberme']:checkbox:checked").map(function () { return $(this).val() }).get().join(",");
 
         $.ajax({
             url: "@Url.Content("~/login/Login")",
             data: { "UserName": username, "Password": password},
             type: "POST",
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 if (data.code == 0) {
-                    setStorageItem("userName", username)
                     window.location = "@Url.Content("~/Home/Index")";
+                    if (remeberme == "1") {
+                        setStorageItem("UserName", username)
+                        setStorageItem("Password", password)
+                    } else{
+                        removeStorageItem("UserName")
+                        removeStorageItem("Password")
+                    }
                 } else {
                     alert(data.msg)
                     return false;
