@@ -175,8 +175,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\TeachersController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\UserCenterController.cs" />
     <Compile Include="Controllers\UserListController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VideoApiController.cs" />
@@ -194,6 +196,7 @@
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\style.default.css" />
     <Content Include="assets\css\supersized.css" />
+    <Content Include="assets\css\detail.css" />
     <Content Include="assets\img\backgrounds\1.jpg" />
     <Content Include="assets\img\backgrounds\2.jpg" />
     <Content Include="assets\img\backgrounds\3.jpg" />
@@ -243,6 +246,13 @@
     <Content Include="Images\logoError.jpg" />
     <Content Include="Images\photo.png" />
     <Content Include="Images\PHP.png" />
+    <Content Include="Images\platform\categoryPage-banner.jpg" />
+    <Content Include="Images\platform\hot-column.jpg" />
+    <Content Include="Images\platform\icon10.png" />
+    <Content Include="Images\platform\icon21.png" />
+    <Content Include="Images\platform\index-like.jpg" />
+    <Content Include="Images\platform\logo.png" />
+    <Content Include="Images\platform\user-avatar.png" />
     <Content Include="Images\uiz1.png" />
     <Content Include="Images\uiz10.jpg" />
     <Content Include="Images\uiz11.png" />
@@ -395,6 +405,11 @@
     <Content Include="Views\Home\_IOSCourseList.cshtml" />
     <Content Include="Views\Home\_DialogPartial.cshtml" />
     <Content Include="Views\Home\SetCourseApply.cshtml" />
+    <Content Include="Views\Subject\ShowSubject.cshtml" />
+    <Content Include="Views\Subject\SetCourseApply.cshtml" />
+    <Content Include="Views\Subject\Play.cshtml" />
+    <Content Include="Views\UserCenter\Index.cshtml" />
+    <Content Include="Views\Shared\_UserExistPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

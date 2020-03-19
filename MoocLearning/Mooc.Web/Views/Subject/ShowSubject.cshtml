@@ -1,0 +1,234 @@
+﻿@using System.Web.UI.WebControls
+@model List<Mooc.Data.Entities.Chapter>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
+    <link rel="stylesheet" href="~/assets/css/detail.css">
+    <script src="~/Scripts/public.js"></script>
+
+    <style>
+        #applybutton {
+            width: 104px;
+            height: 36px;
+            margin-right: 15px;
+            color: #fff;
+            font-size: 14px;
+            line-height: 36px;
+            text-align: center;
+            display: inline-block;
+            background: rgba(255, 102, 0, 1);
+
+
+        }
+
+        .dorp {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dorp_con {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px 16px;
+        }
+
+        .dorp:hover .dorp_con {
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="width1200pxAuto clearfix">
+            <div class="left clearfix">
+                <div class="left logo"><a href="@Url.Content("~/home/index")"><img src="~/Images/platform/logo.png" height="44" width="176" alt=""></a></div>
+
+            </div>
+            <div class="right clearfix" style="margin-top: 12px;">
+                @if (ViewBag.userObj != null)
+                {
+
+                    @Html.Partial("_UserExistPartial")
+                }
+                else
+                {
+                    <a href="@Url.Content("~/Login")">请登录</a>
+                }
+                @*<div class="left loginWrap">
+            <div class="user dropdown">
+                <p class="dropdown-toggle clearfix"><span class="user-avatar positionR"><img src="~/Images/platform/user-avatar.png" height="30" width="30" alt=""></span><span class="username">这个是我</span></p>
+            </div>
+        </div>
+        <a href="@Url.Content("~/Login/LogOut")" class="left rightbtn bgColorOrange">退出登陆</a>*@
+            </div>
+        </div>
+    </div>
+    <div class="categoryPage detailPage columnDetail">
+        <div class="topbanner width1200pxAuto">
+            <img src="~/Images/platform/categoryPage-banner.jpg" width="1200" height="330" />
+            <div class="intro">
+                <div class="title clearfix">
+                    <h1>@ViewBag.coursename</h1>
+
+
+                </div>
+                <div class="bookThing"><button onclick="addApply(@ViewBag.courseId)" id="applybutton">报名学习</button>主讲人：羊羊羊&nbsp;&nbsp;|&nbsp;&nbsp;当前人数：<span>32</span> 人</div>
+                <p>@ViewBag.Coursedetail</p>
+            </div>
+            <div class="info clearfix">
+
+            </div>
+        </div>
+        @*video的显示位置*@
+        <div id="showvideo" align="center">
+
+        </div>
+        <div class="main width1200pxAuto clearfix" id="changevideo">
+            <div class="left leftWrap">
+                <div class="module list lecture-list">
+                    <div class="module-hd list-header clearfix">
+
+                    </div>
+                    <div class="module-bd catalogue-view">
+
+                        <div class="chapter-list">
+                            <div class="chapter">
+                                @foreach (var item in @Model)
+                                {
+                                    <button onclick="playvideo(@item.ID)" style="display: block; margin: 20px">
+                                        <div class="item">
+                                            <div class="left con">
+                                                <span class="title">章节名称：&nbsp;@item.ChapterName</span>
+                                                
+                                                <span class="title" style="display: inline-block;float: right">详情：&nbsp;@item.ChapterDetails</span>
+                                                <i class="video"></i>
+                                            </div>
+
+                                        </div>
+                                    </button>
+
+                                }
+
+                                <script>
+                                    function playvideo(id) {
+                                        console.log(id - 2);
+                                        $.ajax({
+                                            url: "@Url.Content("~/subject/play/")",
+                                            data: { "id": id },
+                                            type: "POST",
+                                            dataType: 'json',
+                                            success: function(data) {
+                                                if (data.code == 0) {
+                                                    var _html = "";
+                                                    var videourl="@Url.Content("~/api/VideoApi/get?id=")"+data.res.VideoGuid+"";
+                                                    _html += "<div>"
+                                                    _html += "<h3>"+data.res.ChapterName+"</h3>";
+                                                    _html += "<video width='800' height='600' controls>";
+                                                    _html += "<source src="+videourl+">";
+                                                    _html += "Your browser does not support HTML5 video.";
+                                                    _html += "</video>";
+                                                    _html += "<div>";
+                                                    _html += "<button onclick='window.location.reload();' align='center' style='border: 1px solid blue; width:100px; height:100px'>返回</button>";
+                                                    _html += "</div>";
+                                                    _html += "</div>";
+
+                                                    $("#showvideo").html(_html);
+                                                    $("#changevideo").hide();
+
+                                                } else {
+                                                    alert(data.msg);
+                                                    return false;
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                </script>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right rightWrap">
+                <div class="module profile">
+                    <div class="clearfix">
+                        <div class="left avatar"><a><img src="~/Images/platform/hot-column.jpg" height="80" width="80" alt=""></a></div>
+                        <div class="left content">
+                            <div class="nickname"><a>李得花</a></div>
+                            <div class="job">北京交通大学</div>
+                        </div>
+                    </div>
+                    <ul class="clearfix">
+                        <li><span>5</span><p>课程</p></li>
+                        <li><span>10</span><p>视频</p></li>
+                        <li class="last"><span>200</span><p>学习人数</p></li>
+                    </ul>
+                </div>
+
+                <div class="module hot-column related-lecture">
+                    <div class="module-hd clearfix">
+                        <div class="left title">其他课程</div>
+                        <a href="" class="right more">更多&gt;</a>
+                    </div>
+                    <div class="module-bd">
+                        <ul>
+                            <li>
+                                <div class="item">
+                                    <a href="" target="_blank">
+                                        <img src="~/Images/platform/index-like.jpg" height="140" width="255" alt="">
+                                        <span>以图为媒 按图索骥</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item bdb0">
+                                    <a href="" target="_blank">
+                                        <img src="~/Images/platform/index-like.jpg" height="140" width="255" alt="">
+                                        <span>以图为媒 按图索骥</span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+
+        <p class="copyright">在线发行：MOOC技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    </div>
+
+</body>
+</html>
+
+<script>
+    function addApply(id) {
+        console.log(id);
+
+        var bo = isExistValue("@Url.Action("IsLogin","Home")", {});
+        if (bo == false) {
+            window.location.href = "@Url.Content("~/Login/Index")";
+            return false;
+        }
+        layer.open({
+            type: 2, area: ['520px', '330px'], title: '开课设置', shade: 0.1, maxmin: false //允许全屏最小化
+            //这里需要双参数
+            , content: "@Url.Content("~/home/setcourseapply?id=")" + id   //"http://localhost:22312/home/setcourseapply?id=" + id
+        });
+    }
+</script>

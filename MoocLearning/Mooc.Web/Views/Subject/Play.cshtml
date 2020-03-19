@@ -1,0 +1,18 @@
+﻿@model Mooc.Data.Entities.Chapter
+
+
+@{
+    ViewBag.Title = "Play";
+    string filename = Model.VideoGuid;
+
+}
+
+
+<div>
+    <h3>@Model.ChapterName</h3>
+    <video width="800" height="600" controls>
+        @*这里直接请求的是一个webapi的controller！！还能这么用！！在本项目里直接调用自己的API方法*@
+        <source src="@Url.Content("~/api/VideoApi/get?id=" + Model.VideoGuid)">
+        Your browser does not support HTML5 video.
+    </video>
+</div>

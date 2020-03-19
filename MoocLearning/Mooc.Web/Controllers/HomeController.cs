@@ -27,7 +27,16 @@ namespace Mooc.Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            ViewBag.username = Session["username"];
+            var cookieusername = CookieHelper.GetCookie("username");
+            var cookieuserid = CookieHelper.GetCookie("userid");
+            if (!cookieuserid.IsNullOrWhiteSpace() && !cookieusername.IsNullOrWhiteSpace())
+            {
+                var userobj = _dataContext.Users.Find(long.Parse(cookieuserid));
+                if (userobj != null)
+                {
+                    ViewBag.userObj = userobj;
+                }
+            }
             string s = DecryptStringAES.DecryptByAES("3XpsTtxo5oO3AKeihGorxg==");
 
             return View();
