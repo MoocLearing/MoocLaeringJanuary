@@ -51,6 +51,39 @@ namespace Mooc.Web.Controllers
 
         }
 
+
+        [HttpGet]
+        public HttpResponseMessage Image(string id)
+        {
+            try
+            {
+                string filename = id;
+                if (string.IsNullOrEmpty(filename))
+                    return new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("参数为空") };
+
+                var bytes = MongoDBHelper.down(filename);
+                if (bytes == null || bytes.Length == 0)
+                    return new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("图片不存在") };
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                result.Content = new ByteArrayContent(bytes);
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                ContentDispositionHeaderValue cdh = new ContentDispositionHeaderValue("Inline");
+                cdh.FileName = filename;
+                result.Content.Headers.ContentDisposition = cdh;
+                return result;
+            }
+            catch (Exception e)
+            {
+                return new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("异常:" + e.Message) };
+            }
+
+        }
+
+
+
+
+
         [HttpGet]
         [HttpPost]
         public BaseResult SaveEdit(Course course)

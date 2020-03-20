@@ -8,7 +8,7 @@ namespace Mooc.Utils
 {
     public static class ConvertHelper
     {
-        public static int ToInt(this object value,int defaultValue)
+        public static int ToInt(this object value, int defaultValue)
         {
             try
             {
@@ -40,6 +40,15 @@ namespace Mooc.Utils
                 sValue = "";
             }
             return sValue;
+        }
+
+        public static string GetDatetime(this DateTime? dt)
+        {
+            if (dt == null || dt == DateTime.MinValue|dt==DateTime.MaxValue)
+                return DateTime.Now.ToShortDateString();
+
+            return Convert.ToDateTime(dt).ToShortDateString();
+            
         }
 
 

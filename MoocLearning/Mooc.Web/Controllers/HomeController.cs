@@ -197,12 +197,13 @@ namespace Mooc.Web.Controllers
         public ActionResult SetCourseApply(long id)
         {
             //在teacheroption类写了一个一样的list表达式但没有引用，就算没引用这里写r.starttime.tostring会一直报错
-            var list = _dataContext.Schedules.OrderByDescending(p => p.AddTime).Where(x => x.CourseId == id).Select(r => new SelectListItem()
-            {
-                Text = r.StartTime.ToString() + "  至  " + r.EndTime.ToString(),
-                Value = r.ID.ToString(),
+            var list = _dataContext.Schedules.Where(x => x.CourseId == id).OrderByDescending(p => p.AddTime).AsEnumerable()
+                .Select(r => new SelectListItem()
+                {
+                    Text = r.StartTime.GetDatetime() + "  至  " + r.EndTime.GetDatetime(),
+                    Value = r.ID.ToString(),
 
-            }).ToList();
+                }).ToList();
             ViewBag.Schedulelist = list;
             CourseApply apply = new CourseApply();
             apply.CourseId = id;

@@ -196,9 +196,9 @@ a:hover { text-decoration:none; }
     margin:19px 0 0 6px;
     background-repeat: no-repeat;
 }
-/*引用图片出错*/
-/*.catalogue-view .chapter .item .video {
-    background-image: url(../../);
-}*/
 
+
+.catalogue-view .chapter .item .video {
+    background-image: url(../../Images/platform/icon10.png);
+}
 

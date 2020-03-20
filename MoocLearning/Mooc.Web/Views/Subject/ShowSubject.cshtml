@@ -1,5 +1,5 @@
 ﻿@using System.Web.UI.WebControls
-@model List<Mooc.Data.Entities.Chapter>
+@model Mooc.Data.ViewModels.CourseDetails
 @{
     Layout = null;
 }
@@ -12,7 +12,7 @@
     <script src="~/Scripts/layer/layer.js"></script>
     <link rel="stylesheet" href="~/assets/css/detail.css">
     <script src="~/Scripts/public.js"></script>
-
+    <title>课程详情</title>
     <style>
         #applybutton {
             width: 104px;
@@ -24,8 +24,6 @@
             text-align: center;
             display: inline-block;
             background: rgba(255, 102, 0, 1);
-
-
         }
 
         .dorp {
@@ -45,7 +43,6 @@
         .dorp:hover .dorp_con {
             display: block;
         }
-
     </style>
 </head>
 <body>
@@ -57,35 +54,22 @@
 
             </div>
             <div class="right clearfix" style="margin-top: 12px;">
-                @if (ViewBag.userObj != null)
-                {
+                @Html.Partial("_UserExistPartial")
 
-                    @Html.Partial("_UserExistPartial")
-                }
-                else
-                {
-                    <a href="@Url.Content("~/Login")">请登录</a>
-                }
-                @*<div class="left loginWrap">
-            <div class="user dropdown">
-                <p class="dropdown-toggle clearfix"><span class="user-avatar positionR"><img src="~/Images/platform/user-avatar.png" height="30" width="30" alt=""></span><span class="username">这个是我</span></p>
-            </div>
-        </div>
-        <a href="@Url.Content("~/Login/LogOut")" class="left rightbtn bgColorOrange">退出登陆</a>*@
             </div>
         </div>
     </div>
     <div class="categoryPage detailPage columnDetail">
         <div class="topbanner width1200pxAuto">
-            <img src="~/Images/platform/categoryPage-banner.jpg" width="1200" height="330" />
+            <img src="@Model.CoverPic" width="1200" height="330" onerror="this.src = '@Url.Content("~/Images/platform/categoryPage-banner.jpg")';"  />
             <div class="intro">
                 <div class="title clearfix">
-                    <h1>@ViewBag.coursename</h1>
+                    <h1>@Model.CourseName</h1>
 
 
                 </div>
-                <div class="bookThing"><button onclick="addApply(@ViewBag.courseId)" id="applybutton">报名学习</button>主讲人：羊羊羊&nbsp;&nbsp;|&nbsp;&nbsp;当前人数：<span>32</span> 人</div>
-                <p>@ViewBag.Coursedetail</p>
+                <div class="bookThing"><button onclick="addApply(@Model.ID)" id="applybutton">报名学习</button>主讲人：@Model.TeacherName&nbsp;&nbsp;|&nbsp;&nbsp;当前人数：<span>32</span> 人</div>
+                <p>@Model.CourseDetail</p>
             </div>
             <div class="info clearfix">
 
@@ -105,19 +89,29 @@
 
                         <div class="chapter-list">
                             <div class="chapter">
-                                @foreach (var item in @Model)
+                                @foreach (var item in Model.chapters)
                                 {
-                                    <button onclick="playvideo(@item.ID)" style="display: block; margin: 20px">
-                                        <div class="item">
-                                            <div class="left con">
-                                                <span class="title">章节名称：&nbsp;@item.ChapterName</span>
-                                                
-                                                <span class="title" style="display: inline-block;float: right">详情：&nbsp;@item.ChapterDetails</span>
-                                                <i class="video"></i>
-                                            </div>
+                                    @*<button onclick="playvideo(@item.ID)" style="display: block; margin: 20px">
+                                            <div class="item">
+                                                <div class="left con">
+                                                    <span class="title">章节名称：&nbsp;@item.ChapterName</span>
 
+                                                    <span class="title" style="display: inline-block;float: right">详情：&nbsp;@item.ChapterDetails</span>
+                                                    <i class="video"></i>
+                                                </div>
+
+                                            </div>
+                                        </button>*@
+
+
+                                    <div class="item">
+                                        <div class="left con" onclick="playvideo(@item.ID)" style="cursor:pointer;">
+                                            <img src="~/images/platform/hot-column.jpg" alt="">
+                                            <span class="title">@item.ChapterName</span>
+                                            <i class="video"></i>
                                         </div>
-                                    </button>
+
+                                    </div>
 
                                 }
 
@@ -131,7 +125,9 @@
                                             dataType: 'json',
                                             success: function(data) {
                                                 if (data.code == 0) {
-                                                    var _html = "";
+
+
+                                                    @*var _html = "";
                                                     var videourl="@Url.Content("~/api/VideoApi/get?id=")"+data.res.VideoGuid+"";
                                                     _html += "<div>"
                                                     _html += "<h3>"+data.res.ChapterName+"</h3>";
@@ -145,7 +141,7 @@
                                                     _html += "</div>";
 
                                                     $("#showvideo").html(_html);
-                                                    $("#changevideo").hide();
+                                                    $("#changevideo").hide();*@
 
                                                 } else {
                                                     alert(data.msg);
@@ -228,7 +224,7 @@
         layer.open({
             type: 2, area: ['520px', '330px'], title: '开课设置', shade: 0.1, maxmin: false //允许全屏最小化
             //这里需要双参数
-            , content: "@Url.Content("~/home/setcourseapply?id=")" + id   //"http://localhost:22312/home/setcourseapply?id=" + id
+            , content: "@Url.Content("~/home/setcourseapply?id=")" + id  
         });
     }
 </script>

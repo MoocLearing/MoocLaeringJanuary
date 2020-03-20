@@ -6,7 +6,9 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Mooc.Data.Context;
 using Mooc.Data.Entities;
+using Mooc.Data.ViewModels;
 using Mooc.Utils;
+using Mooc.Web.Attribute;
 
 namespace Mooc.Web.Controllers
 {
@@ -24,30 +26,60 @@ namespace Mooc.Web.Controllers
             return null;
         }
 
+
+        //必须是登录用户-加个拦截器就行
+        //注意命名--Details;index-显示到页面 注意名字
+        [CheckLogin]
         public ActionResult ShowSubject(long? courseId)
         {
-            ViewBag.courseId = courseId;
-            var course = _dataContext.Courses.Find(courseId);
-            if (course != null)
-            {
-                ViewBag.coursename = course.CourseName;
-                ViewBag.Coursedetail = course.CourseDetail;
-            }
 
-            var cookieusername = CookieHelper.GetCookie("username");
-            var cookieuserid = CookieHelper.GetCookie("userid");
-            if (!cookieuserid.IsNullOrWhiteSpace() && !cookieusername.IsNullOrWhiteSpace())
-            {
-                var userobj = _dataContext.Users.Find(long.Parse(cookieuserid));
-                if (userobj != null)
-                {
-                    ViewBag.userObj = userobj;
-                }
-            }
+            var model = (from b in _dataContext.Courses
+                         join c in _dataContext.Teachers on b.TeacherId equals c.ID
+                         where b.ID == courseId
+                         select new CourseDetails
+                         {
+                             CourseName = b.CourseName,
+                             CourseDetail = b.CourseDetail,
+                             ID = b.ID,
+                             TeacherName = c.TeacherName,
+                             TeacherId = c.ID,
+                             CoverPic = "/Api/VideoApi/Image?id=" + b.CoverPic
+                         }).FirstOrDefault();
+
+            if (model == null)
+                return HttpNotFound("当前课程不存在");
+
+            model.chapters = _dataContext.Chapters.Where(p => p.CourseId == model.ID).ToList();
 
 
-            var chapters = _dataContext.Chapters.Where(x => x.CourseId == courseId).ToList();
-            return View(chapters);
+
+            //var course = _dataContext.Courses.Find(courseId);
+            //if (course == null)
+            //    return HttpNotFound("当前课程不存在");
+
+
+            //ViewBag.courseId = courseId;
+            //var course = _dataContext.Courses.Find(courseId);
+            //if (course != null)
+            //{
+            //    ViewBag.coursename = course.CourseName;
+            //    ViewBag.Coursedetail = course.CourseDetail;
+            //}
+
+            var cookieusername = LoginHelper.UserName;//CookieHelper.GetCookie("username");
+            var cookieuserid = LoginHelper.UserId;//CookieHelper.GetCookie("userid");
+            //if (cookieuserid > 0 && !cookieusername.IsNullOrWhiteSpace())
+            //{
+            //    var userobj = _dataContext.Users.Find(cookieuserid);
+            //    if (userobj != null)
+            //    {
+            //        ViewBag.userObj = userobj;//ViewBag.User
+            //    }
+            //}
+            ViewBag.userObj = _dataContext.Users.Find(cookieuserid);
+
+           // var chapters = _dataContext.Chapters.Where(x => x.CourseId == courseId).ToList();
+            return View(model);
         }
 
         public ActionResult SetCourseApply(long id)
@@ -105,39 +137,58 @@ namespace Mooc.Web.Controllers
         public JsonResult Play(long? id)
         {
             //这里session集体该cookie了
-            if (CookieHelper.GetCookie("username").IsNullOrWhiteSpace() || CookieHelper.GetCookie("userid").IsNullOrWhiteSpace())
-            {
-                return Json(new {code = 1, msg = "未登录"});
-            }
+            //if (CookieHelper.GetCookie("username").IsNullOrWhiteSpace() || CookieHelper.GetCookie("userid").IsNullOrWhiteSpace())
+            //{
+            //    return Json(new { code = 1, msg = "未登录" });
+            //}
 
-            if (id == null)
-                return Json(new {code = 1, msg = "参数错误"});
+            //if (id == null)
+            //    return Json(new { code = 1, msg = "参数错误" });
             var model = _dataContext.Chapters.Find(id);
+            if (model == null|| string.IsNullOrEmpty(model.VideoGuid))
+                return Json(new { code = 1, msg = "当前视频不存在" });
 
-            if (model == null || string.IsNullOrEmpty(model.VideoGuid))
-                return Json(new {code = 1, msg = "未上传视频"});
-            var userid = long.Parse(CookieHelper.GetCookie("userid"));
-            if (userid > 0)
+            var course=_dataContext.Courses.Find(model.CourseId);
+            if (course == null||course.Status!=1)
+                return Json(new { code = 1, msg = "当前课程未上架" });
+
+            var ScheduleIds = _dataContext.CourseApplies.Where(x => x.UserId ==LoginHelper.UserId  && x.CourseId == model.CourseId).Select(p=>p.ScheduleId).ToList();
+            if(ScheduleIds == null|| ScheduleIds.Count==0)
+                return Json(new { code = 1, msg = "请先报名" });
+            foreach (var scheduleid in ScheduleIds)
             {
-                var appliedCourse = _dataContext.CourseApplies.Where(x => x.UserId == userid && x.CourseId == model.CourseId).ToList();
 
-                foreach (var item in appliedCourse)
+                var schedule = _dataContext.Schedules.Find(id);
+                if (schedule != null&& schedule.StartTime <= DateTime.Now.Date && schedule.EndTime >= DateTime.Now.Date)
                 {
-                    var schedule = _dataContext.Schedules.Find(item.ScheduleId);
-                    if (schedule != null)
-                    {
-                        if (schedule.StartTime < DateTime.Now.Date && schedule.EndTime > DateTime.Now.Date)
-                        {
-                            return Json(new{code=0,res=model});
-                            break;
-                        }
-                    }
-
+                    return Json(new { code = 0, res = "有权限" });
                 }
+
             }
+            return Json(new { code = 1, msg = "该课程暂时未开课" });
+
+            //var userid = long.Parse(CookieHelper.GetCookie("userid"));
+            //if (userid > 0)
+            //{
+            //    var appliedCourse = _dataContext.CourseApplies.Where(x => x.UserId == userid && x.CourseId == model.CourseId).ToList();
+
+            //    foreach (var item in appliedCourse)
+            //    {
+
+            //        var schedule = _dataContext.Schedules.Find(item.ScheduleId);
+            //        if (schedule != null)
+            //        {
+            //            if (schedule.StartTime < DateTime.Now.Date && schedule.EndTime > DateTime.Now.Date)
+            //            {
+            //                return Json(new { code = 0, res = model });
+            //                break;
+            //            }
+            //        }
+
+            //    }
+            //}
 
 
-            return Json(new {code = 1, msg = "没有足够权限"});
         }
     }
 }
