@@ -1,0 +1,271 @@
+﻿@model Mooc.Data.ViewModels.UserViewModel
+
+@{
+    Layout = null;
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="~/assets/css/personalCenter.css">
+    <script src="~/Scripts/plupload/plupload.full.min.js"></script>
+}
+
+<div class="right leftWrap profile">
+    <div class="module">
+        <div class="module-hd">
+            <ul class="tabNav">
+                <li class="cur"><a href="">基本资料</a><i></i></li>
+                <li><a href="">修改密码</a></li>
+            </ul>
+        </div>
+        <div class="module-bd info">
+            <div class="baseInfo positionR">
+                <div class="saveOrEdit">
+                    <span>基本资料</span>
+                    <div></div>
+                    <a href="javascript:void(0)">保存</a>
+                </div>
+                <div class="avatar">
+                    <div class="photo" id="dataBind">
+                        @if(!string.IsNullOrEmpty(Model.ImgGuid))
+                        {
+                            <img src="@Url.Content("~/userCenter/Show?filename="+Model.ImgGuid)" width="153" height="153" id="dataBind7">
+                            <img src="#" alt="Alternate Text" id="databind5" hidden/>
+                        }
+                    
+                    </div>
+                    <p class="tip">支持jpg、gif、png、bmp格式文件不大于2M</p>
+                    <div class="tab-section">
+                        <div class="avatar-box">
+                            <div class="tabs">
+                                <div class="tabNav clearfix">
+                                    <span class="nav-item active" id="uploadimg">上传头像</span>
+                                    <input type="hidden" value="@Model.ImgGuid" id="fileName" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <label>用户名：</label>
+                    <div class="inputFrame active">
+                        @Html.EditorFor(p => p.UserName, new { htmlAttributes = new { @class = "form-control", @id = "UserName" } })
+                    </div>
+                </div>
+                <div class="item">
+                    <label>邮箱：</label>
+                    <div class="inputFrame">
+                        @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", @id = "Email" } })
+                    </div>
+                </div>
+
+                <div class="item">
+                    <label>职业：</label>
+                    <div class="inputFrame">
+                        @Html.DropDownListFor(m => m.RoleType, ViewBag.RoleList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "RoleType" })
+                    </div>
+                </div>
+                <div class="item">
+                    <label>性别：</label>
+                    <div class="inputFrame">
+                        @Html.DropDownListFor(m => m.Gender, ViewBag.GenderList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "gender" })
+                    </div>
+                </div>
+                @*<div class="item">
+                        <label>所在单位：</label>
+                        <div class="inputFrame">
+                            <input type="text">
+                        </div>
+                    </div>
+
+                    <div class="itemArea">
+                        <label>个人简介：</label>
+                        <div class="textfield">
+                            <textarea style="resize: none;border: 1px solid #e3e3e3;"></textarea>
+                        </div>
+                    </div>*@
+
+            </div>
+
+        </div>
+    </div>
+    <div class="btnsWrap clearfix" style="margin-top: 100px">
+        <a href="@Url.Content("~/usercenter/person?id="+Model.ID)" class="a1 left" id="quxiao">取　消</a>
+        <a href="javascript:void(0)" class="a3 right" id="baocun">保存修改</a>
+    </div>
+
+</div>
+
+<script>
+    function initUpload() {
+
+        var uploader_file = new plupload.Uploader({//创建实例的构造方法
+            runtimes: 'gears,html5,html4,flash', //上传插件初始化选用那种方式的优先级顺序
+            browse_button: "uploadimg", // 上传按钮
+            url: "@Url.Content("~/Admin/User/UploadImg")", //远程上传地址
+            @*flash_swf_url: "@Url.Content("~/Scripts/plupload/Moxie.swf")",*@
+            filters: {
+                max_file_size: '50mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+                mime_types: [//允许文件上传类型
+                    { title: "图片文件", extensions: "jpg,jpeg,gif,png" }//"mp4,flv,rmvb,mpeg,mov,wmv"
+                ]
+            },
+            multipart_params: {  'type': '1' },//往后台传参数
+            multi_selection: false, //true:ctrl多文件上传, false 单文件上传
+            init: {
+                FilesAdded: function (up, files) { //文件上传前
+                    
+                    uploader_file.start();
+
+                },
+
+                UploadProgress: function (up, file) { //上传中，显示进度条
+
+                },
+                FileUploaded: function (up, file, info) { //文件上传成功的时候触发
+                    var data = eval("(" + info.response + ")");//解析返回的json数据
+                    if (data && data.code == 0) {
+                        $("#fileName").val(data.fileName);
+                        alert("上传成功");
+
+                        var imageUrl = "@Url.Content("~/usercenter/Show?filename=")" + data.fileName;
+                        //通过改变属性改变图片的值
+                        $("#dataBind7").attr('src', imageUrl);
+
+                    }
+                    else {
+                        //这两个alert拼写错了，所以一直没跑起来
+                        alert(data.msg);
+                    }
+                },
+                UploadComplete: function (uploader, files) {
+                    console.log("UploadComplete", files);
+
+                },
+                Error: function (up, err) { //上传出错的时候触发
+                    $("#upload-program").hide();
+                    var errorCode = err.code;
+                    switch (errorCode) {
+                    case -600:
+                        alert("抱歉，上传失败！您所上传的视频超过50mb！");
+                        break;
+                    case -601:
+                        alert("请上传 jpg、jpeg、gif、png 格式文件！");
+                        break;
+                    case -602:
+                        alert("文件选择重复! ");
+                        break;
+                    case -200:
+                        alert("发生http网络错误! ");
+                        break;
+                    case -400:
+                        alert("发生安全问题而产生的错误! ");
+                        break;
+                    default:
+                        alert("上传失败! ");
+                        break;
+                    }
+                }
+            }
+        });
+        uploader_file.init();
+    }
+    initUpload();
+
+</script>
+
+<script>
+
+    $("#baocun").on("click",
+        function submit() {
+
+            var username = $.trim($("#UserName").val());
+            if (username == "") {
+                alert("用户名不能为空")
+                return;
+            }
+
+            //var password = $.trim($("#Password").val());
+            //if (password == "") {
+            //    alert("密码不能为空")
+            //    return;
+            //}
+
+            //var ConfirmPassword = $.trim($("#ConfirmPassword").val());
+            //if (ConfirmPassword == "") {
+            //    alert("确认密码不能为空")
+            //    return;
+            //}
+
+            //if (password != ConfirmPassword) {
+            //    alert("密码和确认密码不一致");
+            //    return;
+            //}
+
+            var Email = $("#Email").val();
+            if (Email == "") {
+                alert("邮箱不能为空")
+                return;
+            }
+
+            var Gender = $("#gender").val();
+            if (!Gender) {
+                alert("请选择课性别")
+                return;
+            }
+
+            var RoleType = $("#RoleType").val();
+            if (!RoleType) {
+                alert("请选择角色类型")
+                return;
+            }
+            ////默认先给一个数据，为了能往后台传数据
+            //var teacherid = 0;
+            //var StudentNo = 0;
+
+            //if (RoleType == 2) {
+            //    teacherid = $("#TeacherId").val();
+            //    if (!teacherid) {
+            //        alert("请选择课程讲师")
+            //        return;
+            //    }
+            //}
+
+            //if (RoleType == 3) {
+            //    StudentNo = $("#StudentNo").val();
+            //    if (StudentNo=="") {
+            //        alert("学号不能为空")
+            //        return;
+            //    }
+            //}
+
+
+            var fileName = $("#fileName").val()
+            if (!fileName) {
+                alert("请上传用户头像")
+                return;
+            }
+            // var status = $.trim($("#status").val());
+
+            $.ajax({
+                url: "@Url.Content("~/UserCenter/AjSaveEdit")",
+                data: {
+                    "UserName": username,
+                    "Email": Email,
+                    "Gender": Gender,
+                    "RoleType": RoleType,
+                    "ImgGuid": fileName,
+                    "ID": @Model.ID
+                },
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+                    if (data.code == 0) {
+                        window.location = "@Url.Content("~/home")";
+                    } else {
+                        alert(data.msg)
+                        return false;
+                    }
+                }
+            })
+
+        });
+</script>

@@ -30,11 +30,7 @@ namespace Mooc.Data.Context
 
         public DbSet<CourseApply> CourseApplies { get; set; }
 
-        // public DbSet<Video> Videos { get; set; }
-
-        //public DbSet<SubjectCategory> SubjectCategories { get; set; }
-
-        // public DbSet<CategoryType> CategoryTypes { get; set; }
+        public DbSet<Study> Studies { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

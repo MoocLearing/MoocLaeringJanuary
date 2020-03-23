@@ -61,22 +61,26 @@
     </div>
     <div class="categoryPage detailPage columnDetail">
         <div class="topbanner width1200pxAuto">
-            <img src="@Model.CoverPic" width="1200" height="330" onerror="this.src = '@Url.Content("~/Images/platform/categoryPage-banner.jpg")';"  />
-            <div class="intro">
-                <div class="title clearfix">
-                    <h1>@Model.CourseName</h1>
+            <img src="@Model.CoverPic" width="1200" height="330" onerror="this.src = '@Url.Content("~/Images/platform/categoryPage-banner.jpg")';" />
+            @*video的显示位置*@
+            <div id="showvideo" align="center"></div>
+                
+                    <div class="intro" id="changevideo2">
+                        <div class="title clearfix">
+                            <h1>@Model.CourseName</h1>
 
 
-                </div>
-                <div class="bookThing"><button onclick="addApply(@Model.ID)" id="applybutton">报名学习</button>主讲人：@Model.TeacherName&nbsp;&nbsp;|&nbsp;&nbsp;当前人数：<span>32</span> 人</div>
-                <p>@Model.CourseDetail</p>
+                        </div>
+                        <div class="bookThing"><button onclick="addApply(@Model.ID)" id="applybutton">报名学习</button>主讲人：@Model.TeacherName&nbsp;&nbsp;|&nbsp;&nbsp;当前人数：<span>32</span> 人</div>
+                        <p>@Model.CourseDetail</p>
+                    </div>
+                    <div class="info clearfix">
+
+                    </div>
+                
+
             </div>
-            <div class="info clearfix">
 
-            </div>
-        </div>
-        @*video的显示位置*@
-        <div id="showvideo" align="center">
 
         </div>
         <div class="main width1200pxAuto clearfix" id="changevideo">
@@ -118,19 +122,32 @@
                                 <script>
                                     function playvideo(id) {
                                         console.log(id - 2);
+
                                         $.ajax({
                                             url: "@Url.Content("~/subject/play/")",
                                             data: { "id": id },
                                             type: "POST",
-                                            dataType: 'json',
+                                            dataType: 'html',
                                             success: function(data) {
+                                                $("#showvideo").html(data);
+                                                $("#changevideo").hide();
+                                                $("#changevideo2").hide();
+                                            }
+                                        
+                                        });
+                                        @*$.ajax({
+
+                                            url: "@Url.Content("~/subject/play/")",
+                                            data: { "id": id },
+                                            type: "POST",
+                                            dataType: 'json',
+                                            success: function (data) {
                                                 if (data.code == 0) {
 
-
-                                                    @*var _html = "";
-                                                    var videourl="@Url.Content("~/api/VideoApi/get?id=")"+data.res.VideoGuid+"";
-                                                    _html += "<div>"
-                                                    _html += "<h3>"+data.res.ChapterName+"</h3>";
+                                                    var _html = "";
+                                                    var videourl="@Url.Content("~/api/VideoApi/get?id=")"+data.chapter.VideoGuid+"";
+                                                    _html += "<div style='margin:30px;'>"
+                                                    _html += "<h3>"+data.chapter.ChapterName+"</h3>";
                                                     _html += "<video width='800' height='600' controls>";
                                                     _html += "<source src="+videourl+">";
                                                     _html += "Your browser does not support HTML5 video.";
@@ -139,16 +156,16 @@
                                                     _html += "<button onclick='window.location.reload();' align='center' style='border: 1px solid blue; width:100px; height:100px'>返回</button>";
                                                     _html += "</div>";
                                                     _html += "</div>";
-
                                                     $("#showvideo").html(_html);
-                                                    $("#changevideo").hide();*@
+                                                    $("#changevideo").hide();
+                                                    $("#changevideo2").hide();
 
                                                 } else {
                                                     alert(data.msg);
                                                     return false;
                                                 }
                                             }
-                                        });
+                                        });*@
                                     }
 
                                 </script>
@@ -203,7 +220,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
     <div class="footer">
 
         <p class="copyright">在线发行：MOOC技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;</p>

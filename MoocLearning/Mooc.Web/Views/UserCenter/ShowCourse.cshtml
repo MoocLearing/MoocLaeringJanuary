@@ -1,0 +1,35 @@
+﻿@model List<Mooc.Data.Entities.Course>  
+
+    <ul class="content clearfix">
+        @foreach (var item in @Model)
+        {
+            <li>
+                <div class="left avatar"><a href="" target="_blank"><img src="~/Images/personalCenter/index-speaker.jpg" width="72" height="72" alt=""></a><p>讲师：阿杜</p></div>
+                <div class="left panel panel1">
+                    <i class="arrow"></i>
+                    <div class="panel-header">
+                        <h2><a href="" target="_blank">java技术</a>正在学习</h2>
+                    </div>
+                    <div class="panel-body clearfix">
+                        <a href="" class="left pic" target="_blank">
+                            <img src="~/Images/personalCenter/index-speaker.jpg" height="185" width="246" alt="">
+                        </a>
+                        <div class="left infoWrap">
+                            <div class="title"><a href="" target="_blank">手残党看过来，有了这本宜家食谱</a></div>
+                            <div class="tags">
+                                <a>生活休闲</a>
+                                <a>艺术人生艺术</a>
+
+                            </div>
+                            <div class="intro"><a href="" target="_blank">通过PHP学习的进阶篇的学习，你可以对PHP的理论知识由浅入深有更深一步的掌握，这些知识能够使您更加全面的掌握PHP</a></div>
+                            <div class="info clearfix">
+                                <a href="" class="icon previewNum" title="浏览数">6478</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+
+    </ul>

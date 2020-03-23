@@ -10,9 +10,56 @@
 
 <div>
     <h3>@Model.ChapterName</h3>
-    <video width="800" height="600" controls>
+    <video width="800" height="600" controls id="myVideo">
         @*这里直接请求的是一个webapi的controller！！还能这么用！！在本项目里直接调用自己的API方法*@
         <source src="@Url.Content("~/api/VideoApi/get?id=" + Model.VideoGuid)">
         Your browser does not support HTML5 video.
     </video>
+    <button onclick='window.location.reload();' align='center' style='border: 1px solid blue; width:100px; height:100px'>返回</button>
 </div>
+
+
+<script>
+    //获取视频DOM元素
+    var myVideo = document.getElementById("myVideo");
+
+    //使用事件监听方式捕捉事件， 此事件可作为实时监测video 播放状态
+    myVideo.addEventListener("timeupdate", function () {
+        var timeDisplay;
+        //用秒数来显示当前播放进度
+        timeDisplay = Math.floor(myVideo.currentTime);
+        console.log(Math.floor(myVideo.currentTime));
+
+        //当视频播放到 2s的时候做处理
+        if (timeDisplay == 2) {
+            //处理代码
+            alert(timeDisplay);
+            saveStudyfunc();
+
+        }
+    }, false);
+
+
+
+</script>
+<script>
+    function saveStudyfunc() {
+        alert("infuncajax");
+
+        $.ajax({
+            url: "@Url.Content("~/Subject/SaveStudy/")",
+            data: { "ChapterId": @Model.ID, "CourseId": @Model.CourseId, "ScheduleId": @ViewBag.currentscheduleId},
+            type: "POST",
+            dataType: 'json',
+            success: function(data) {
+                if (data.code == 0) {
+                    alert("此章节已经加入到学习计划中");
+                }
+                if (data.code == 1) {
+                    alert(data.msg);
+                }
+            }
+                                        
+        });
+    }
+</script>

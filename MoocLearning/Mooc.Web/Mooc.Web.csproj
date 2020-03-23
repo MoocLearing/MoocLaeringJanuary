@@ -192,6 +192,7 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
     <Content Include="assets\css\layer.css" />
+    <Content Include="assets\css\personalCenter.css" />
     <Content Include="assets\css\reset.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\style.default.css" />
@@ -244,6 +245,20 @@
     <Content Include="Images\Java.png" />
     <Content Include="Images\Linux.png" />
     <Content Include="Images\logoError.jpg" />
+    <Content Include="Images\personalCenter\banner.jpg" />
+    <Content Include="Images\personalCenter\icon6-a.png" />
+    <Content Include="Images\personalCenter\icon6.png" />
+    <Content Include="Images\personalCenter\index-speaker.jpg" />
+    <Content Include="Images\personalCenter\noresult.png" />
+    <Content Include="Images\personalCenter\pc-avatar.jpg" />
+    <Content Include="Images\personalCenter\pc-icon1.png" />
+    <Content Include="Images\personalCenter\pc-icon10.png" />
+    <Content Include="Images\personalCenter\pc-icon7.gif" />
+    <Content Include="Images\personalCenter\pc-icon8.jpg" />
+    <Content Include="Images\personalCenter\pc-icon9.jpg" />
+    <Content Include="Images\personalCenter\sprite.png" />
+    <Content Include="Images\personalCenter\view-a.png" />
+    <Content Include="Images\personalCenter\view.png" />
     <Content Include="Images\photo.png" />
     <Content Include="Images\PHP.png" />
     <Content Include="Images\platform\categoryPage-banner.jpg" />
@@ -410,6 +425,11 @@
     <Content Include="Views\Subject\Play.cshtml" />
     <Content Include="Views\UserCenter\Index.cshtml" />
     <Content Include="Views\Shared\_UserExistPartial.cshtml" />
+    <Content Include="Views\UserCenter\Person.cshtml" />
+    <Content Include="Views\UserCenter\ShowCourse.cshtml" />
+    <Content Include="Views\Shared\_PartialPlayChapter.cshtml" />
+    <Content Include="Views\UserCenter\MyCourse.cshtml" />
+    <Content Include="Views\UserCenter\MyDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

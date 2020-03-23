@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Mooc.Data.ViewModels.UserCenterCourseView>
+@*这里IQueryable和List<>都有问题，就这个好用IEnum<>*@
+@{
+
+    int count = Model.Count();
+}
+@{
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+}
+<style>
+    .statusbind {
+    }
+</style>
+@if (count > 0)
+{
+    foreach (var item in Model)
+    {
+
+        <li>
+            <div class="left avatar"><a href="" target="_blank"><img src="~/Images/personalCenter/index-speaker.jpg" width="72" height="72" alt=""></a><p>讲师：@item.TeacherName</p></div>
+            <div class="left panel panel1">
+                <i class="arrow"></i>
+                <div class="panel-header">
+                    <h2><a href="" target="_blank">@item.CategoryName</a><span class="statusbind"></span></h2>
+                </div>
+                <div class="panel-body clearfix">
+                    <a href="" class="left pic" target="_blank">
+                        <img src="@item.CourseCover" height="185" width="246" alt="">
+                    </a>
+                    <div class="left infoWrap">
+                        <div class="title"><a href="" target="_blank">@item.CourseName</a></div>
+                        <div class="tags">
+                            <a>生活休闲</a>
+                            <a>艺术人生艺术</a>
+
+                        </div>
+                        <div class="intro"><a href="" target="_blank">@item.CourseDetail</a></div>
+                        <div class="info clearfix">
+                            <a href="" class="icon previewNum" title="浏览数">6478</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        //在每个course显示是否正在学习或已经学完这个绑定没有试出来
+        @*<script>
+                var i = 0;
+                function getstatus() {
+
+
+                    $.ajax({
+                        url: "@Url.Content("~/UserCenter/GetStatus/")",
+                        data: { "id": "@item.CourseId" },
+                        type: "POST",
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.code == 0) {
+                                $(".statusbind:eq("+i+")").html("已完成学习");
+                            } else {
+                                $(".statusbind:eq("+i+")").html("正在学习");
+                            }
+                        }
+                    });
+                }
+
+                getstatus();
+                i+=1;
+            </script>*@
+    }
+}
+@if (count <= 0)
+{
+    <li>
+
+        <div class="left panel panel1">
+            <div class="list-body noresult">抱歉 ！暂无相关数据</div>
+        </div>
+    </li>
+}
+
+
+
+
+
+
+
+
