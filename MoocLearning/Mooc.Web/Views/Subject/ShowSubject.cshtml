@@ -121,17 +121,22 @@
 
                                 <script>
                                     function playvideo(id) {
-                                        console.log(id - 2);
+                                        console.log(id);
 
                                         $.ajax({
                                             url: "@Url.Content("~/subject/play/")",
                                             data: { "id": id },
                                             type: "POST",
-                                            dataType: 'html',
-                                            success: function(data) {
-                                                $("#showvideo").html(data);
-                                                $("#changevideo").hide();
-                                                $("#changevideo2").hide();
+                                            dataType: 'json',
+                                            success: function(res) {
+                                                //$("#showvideo").html(data);
+                                                //$("#changevideo").hide();
+                                                //$("#changevideo2").hide();
+                                                if (res.code == 0) {
+                                                    window.location.href = "@Url.Content("~/play/index/")" + id;
+                                                } else {
+                                                    alert(res.msg)
+                                                }
                                             }
                                         
                                         });

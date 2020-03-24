@@ -8,6 +8,7 @@ namespace Mooc.Data.ViewModels
 {
     public class UserCenterCourseView
     {
+        public long ScheduleId { get; set; }
         public long CourseId { get; set; }
 
         public string CourseName { get; set; }
@@ -17,6 +18,8 @@ namespace Mooc.Data.ViewModels
         public string TeacherName { get; set; }
 
         public string StudyStatus { get; set; }
+
+
 
     }
 }

@@ -11,17 +11,19 @@ using Mooc.Data.Entities;
 using Mooc.Data.Mongo;
 using Mooc.Data.ViewModels;
 using Mooc.Utils;
+using Mooc.Web.Attribute;
 using Mooc.Web.Models;
 
 namespace Mooc.Web.Controllers
 {
+    [CheckLogin]
     public class UserCenterController : Controller
     {
         private readonly DataContext _dataContext;
 
         public UserCenterController(DataContext dataContext)
         {
-            _dataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
+            _dataContext = dataContext;
         }
 
         // GET: UserCenter
@@ -30,18 +32,15 @@ namespace Mooc.Web.Controllers
             return View();
         }
 
-        public ActionResult Person(long? id)
+        public ActionResult Person()
         {
-            var currentUser = _dataContext.Users.Find(id);
+            var currentUser = _dataContext.Users.Find(LoginHelper.UserId);
 
-            if (currentUser != null)
-            {
-                var model = AutoMapper.Mapper.Map<UserViewModel>(currentUser);
-                return View(model);
-            }
+            if (currentUser == null)
+                return HttpNotFound();
 
-            return HttpNotFound();
-
+            var model = AutoMapper.Mapper.Map<UserViewModel>(currentUser);
+            return View(model);
         }
 
         public ActionResult Show(string filename)
@@ -61,7 +60,7 @@ namespace Mooc.Web.Controllers
                 return Content("出错：" + e.Message);
             }
         }
-        
+
         public ActionResult ShowCourse(long? id)
         {
 
@@ -80,8 +79,8 @@ namespace Mooc.Web.Controllers
 
                 foreach (var num in hs)
                 {
-                  var onecourse =  _dataContext.Courses.Find(num);
-                  appliedCourses.Add(onecourse);
+                    var onecourse = _dataContext.Courses.Find(num);
+                    appliedCourses.Add(onecourse);
                 }
 
                 return PartialView(appliedCourses);
@@ -92,30 +91,63 @@ namespace Mooc.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult MyCourse(long id)
+        public ActionResult MyCourse(int type)
         {
 
+            long userId = LoginHelper.UserId;
             var list = (from a in _dataContext.CourseApplies
-                    join b in _dataContext.Courses on a.CourseId equals b.ID
-                    join c in _dataContext.Categorys on b.CategoryId equals c.ID
-                    join d in _dataContext.Teachers on b.TeacherId equals d.ID
-                    where a.UserId == id
-                    
-                    select new UserCenterCourseView()
-                    {
-                        CourseId = a.CourseId,
-                        CourseDetail = b.CourseDetail,
-                        CourseCover = "/Api/VideoApi/Image?id=" + b.CoverPic,
-                        CourseName = b.CourseName,
-                        CategoryName = c.CategoryName,
-                        TeacherName = d.TeacherName,
-                        StudyStatus = "正在学习"
+                        join b in _dataContext.Courses on a.CourseId equals b.ID
+                        join c in _dataContext.Categorys on b.CategoryId equals c.ID
+                        join d in _dataContext.Teachers on b.TeacherId equals d.ID
+                        where a.UserId == userId
+                        select new UserCenterCourseView()
+                        {
+                            CourseId = a.CourseId,
+                            CourseDetail = b.CourseDetail,
+                            CourseCover = "/Api/VideoApi/Image?id=" + b.CoverPic,
+                            CourseName = b.CourseName,
+                            CategoryName = c.CategoryName,
+                            TeacherName = d.TeacherName,
+                            ScheduleId=a.ScheduleId
+                            
+                        }
+                ).ToList();
 
- 
-                    }
-                );
+            foreach (var item in list)
+            {
+                item.StudyStatus = CheckCourseStatus(item.CourseId, item.ScheduleId);
+            }
+            //var newList = list.Where((x, i) => list.FindIndex(z => z.CourseId == x.CourseId) == i).ToList();//去掉重复
+            if (type == 2)
+            {
+                list = list.Where(p => p.StudyStatus == "正在学习").ToList();
+            }
+            else if (type == 3)
+            {
+               list = list.Where(p => p.StudyStatus == "已完成").ToList();
+            }
 
+            //this._dataContext.Database.ExecuteSqlCommand();
+            //this._dataContext.Database.SqlQuery();
+//            var tran= this._dataContext.Database.BeginTransaction();
+//
+//            tran.Commit();
+//            tran.Rollback();
             return PartialView(list);
+        }
+
+        public string CheckCourseStatus(long couseId, long scheduleId)
+        {
+            DateTime now = DateTime.Now;
+            long userId = LoginHelper.UserId;
+            int count = _dataContext.Chapters.Count(p => p.CourseId == couseId);
+            int iCount = _dataContext.Studies.Count(p => p.CourseId == couseId && p.UserId == userId && p.ScheduleId == scheduleId);
+            if (iCount > 0 && count == iCount)
+                return "已完成";
+            else if (iCount <= 0)
+                return "未学习";
+            return "正在学习";
+
         }
 
         [HttpPost]
@@ -123,14 +155,14 @@ namespace Mooc.Web.Controllers
         {
             var coursePerChapterNum = _dataContext.Chapters.Where(x => x.CourseId == id).Count();
 
-            var studyedChapterPerCourse = _dataContext.Studies.Where(x => x.CourseId == id && x.UserId==LoginHelper.UserId).Count();
+            var studyedChapterPerCourse = _dataContext.Studies.Where(x => x.CourseId == id && x.UserId == LoginHelper.UserId).Count();
 
             if (studyedChapterPerCourse >= coursePerChapterNum)
             {
-                return Json(new {code = 0});
+                return Json(new { code = 0 });
             }
 
-            return Json(new {code = 1});
+            return Json(new { code = 1 });
         }
 
         public ActionResult MyDetail()
