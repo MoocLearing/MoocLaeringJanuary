@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using log4net;
 using Microsoft.Ajax.Utilities;
 using Mooc.Data.Context;
 using Mooc.Data.Entities;
@@ -18,7 +19,7 @@ namespace Mooc.Web.Controllers
     {
 
         private readonly DataContext _dataContext;
-
+        private ILog logger = LogManager.GetLogger(typeof(HomeController));
         public HomeController(DataContext dataContext)
         {
             _dataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
@@ -27,6 +28,8 @@ namespace Mooc.Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            logger.Info("my test home index");
+            logger.Error("this is an error");
             var cookieusername = CookieHelper.GetCookie("username");
             var cookieuserid = CookieHelper.GetCookie("userid");
             if (!cookieuserid.IsNullOrWhiteSpace() && !cookieusername.IsNullOrWhiteSpace())
