@@ -43,7 +43,7 @@ namespace Mooc.Web.Controllers
                              ID = b.ID,
                              TeacherName = c.TeacherName,
                              TeacherId = c.ID,
-                             CoverPic = "/Api/VideoApi/Image?id=" + b.CoverPic
+                             CoverPic = b.CoverPic
                          }).FirstOrDefault();
 
             if (model == null)

@@ -130,6 +130,7 @@
     <Compile Include="ViewModels\BaseResult.cs" />
     <Compile Include="ViewModels\CategoryPageView.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\ChapterDto.cs" />
     <Compile Include="ViewModels\ChapterView.cs" />
     <Compile Include="ViewModels\ChapterViewDto.cs" />
     <Compile Include="ViewModels\CourseAddView.cs" />

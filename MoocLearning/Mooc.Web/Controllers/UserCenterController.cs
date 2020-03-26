@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity.Core.Common.CommandTrees;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Mooc.Data.Context;
 using Mooc.Data.Entities;
 using Mooc.Data.Mongo;
@@ -140,13 +142,24 @@ namespace Mooc.Web.Controllers
         {
             DateTime now = DateTime.Now;
             long userId = LoginHelper.UserId;
+            var currentSchedule = _dataContext.Schedules.Find(scheduleId);
             int count = _dataContext.Chapters.Count(p => p.CourseId == couseId);
             int iCount = _dataContext.Studies.Count(p => p.CourseId == couseId && p.UserId == userId && p.ScheduleId == scheduleId);
             if (iCount > 0 && count == iCount)
+            {
                 return "已完成";
-            else if (iCount <= 0)
-                return "未学习";
-            return "正在学习";
+            }
+            //这里少一步逻辑，正在学习的逻辑是：courseApplied.schedule在当前时间内，但study的chapterID ！=course.chapters
+            if (currentSchedule != null
+                && currentSchedule.StartTime <= now
+                && currentSchedule.EndTime >= now
+                && iCount >= 0
+                && count > iCount)
+            {
+                return "正在学习";
+            }
+
+            return "未学习";
 
         }
 
@@ -227,7 +240,7 @@ namespace Mooc.Web.Controllers
         public JsonResult AjSaveEdit(User user)
         {
             var exist = _dataContext.Users.Find(user.ID);
-            if (user != null && exist != null)
+            if (user!= null && exist != null)
             {
                 //String EncryptPass(String pass)
                 //{
@@ -256,6 +269,42 @@ namespace Mooc.Web.Controllers
             }
             return Json(new { code = 1, msg = "出错" });
 
+        }
+
+        [HttpPost]
+        public JsonResult CheckPwd(string password)
+        {
+            //string decrypassword = DecryptStringAES.DecryptByAES(password);
+            string pwd = MD5Help.MD5Encoding(password, ConfigurationManager.AppSettings["sKey"].ToString());
+
+            var user = _dataContext.Users.Find(LoginHelper.UserId);
+
+            if (user!=null && user.PassWord == pwd)
+            {
+                return Json(new {code = 0});
+            }
+
+            return Json(new {code = 1});
+        }
+
+        [HttpPost]
+        public JsonResult SaveNewPass(string newpass)
+        {
+            if (newpass.IsNullOrWhiteSpace() || newpass.Length<6)
+            {
+                return Json(new {code = 1, msg = "密码有误"});
+            }
+
+            var curuser =_dataContext.Users.Find(LoginHelper.UserId);
+
+            if (curuser != null)
+            {
+                curuser.PassWord = MD5Help.MD5Encoding(newpass, ConfigurationManager.AppSettings["sKey"].ToString());
+                _dataContext.SaveChanges();
+                return Json(new {code = 0});
+            }
+
+            return Json(new {code = 1, msg = "更改密码失败"});
         }
 
     }

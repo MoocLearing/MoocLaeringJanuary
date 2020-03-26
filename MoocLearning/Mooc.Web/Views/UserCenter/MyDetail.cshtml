@@ -11,11 +11,14 @@
     <div class="module">
         <div class="module-hd">
             <ul class="tabNav">
-                <li class="cur"><a href="">基本资料</a><i></i></li>
-                <li><a href="">修改密码</a></li>
+                <li id="li1"><a onclick="showdetails()">基本资料</a><i></i></li>
+                <li id="li2"><a onclick="showpwd()">修改密码</a></li>
             </ul>
         </div>
-        <div class="module-bd info">
+
+
+        @*修改资料页面*@
+        <div class="module-bd info" id="mydetails">
             <div class="baseInfo positionR">
                 <div class="saveOrEdit">
                     <span>基本资料</span>
@@ -24,12 +27,12 @@
                 </div>
                 <div class="avatar">
                     <div class="photo" id="dataBind">
-                        @if(!string.IsNullOrEmpty(Model.ImgGuid))
+                        @if (!string.IsNullOrEmpty(Model.ImgGuid))
                         {
                             <img src="@Url.Content("~/userCenter/Show?filename="+Model.ImgGuid)" width="153" height="153" id="dataBind7">
-                            <img src="#" alt="Alternate Text" id="databind5" hidden/>
+                            <img src="#" alt="Alternate Text" id="databind5" hidden />
                         }
-                    
+
                     </div>
                     <p class="tip">支持jpg、gif、png、bmp格式文件不大于2M</p>
                     <div class="tab-section">
@@ -58,9 +61,9 @@
                 </div>
 
                 <div class="item">
-                    <label>职业：</label>
+                    <label>角色：</label>
                     <div class="inputFrame">
-                        @Html.DropDownListFor(m => m.RoleType, ViewBag.RoleList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "RoleType" })
+                        @Html.DropDownListFor(m => m.RoleType, ViewBag.RoleList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "RoleType", onchange = "change()" })
                     </div>
                 </div>
                 <div class="item">
@@ -69,30 +72,154 @@
                         @Html.DropDownListFor(m => m.Gender, ViewBag.GenderList as IEnumerable<SelectListItem>, "--请选择--", new { @class = "form-control col-md-10", @id = "gender" })
                     </div>
                 </div>
-                @*<div class="item">
-                        <label>所在单位：</label>
-                        <div class="inputFrame">
-                            <input type="text">
-                        </div>
+                <div class="item" hidden id="dataBind12">
+                    <label>学号：</label>
+                    <div class="inputFrame">
+                        @Html.EditorFor(x => x.StudentNo, new { htmlAttributes = new { @class = "form-control", @id = "StudentNo" } });
                     </div>
-
-                    <div class="itemArea">
-                        <label>个人简介：</label>
-                        <div class="textfield">
-                            <textarea style="resize: none;border: 1px solid #e3e3e3;"></textarea>
-                        </div>
-                    </div>*@
+                </div>
 
             </div>
 
-        </div>
-    </div>
-    <div class="btnsWrap clearfix" style="margin-top: 100px">
-        <a href="@Url.Content("~/usercenter/person?id="+Model.ID)" class="a1 left" id="quxiao">取　消</a>
-        <a href="javascript:void(0)" class="a3 right" id="baocun">保存修改</a>
-    </div>
+            <div class="btnsWrap clearfix" style="margin-top: 100px">
+                <a href="@Url.Content("~/usercenter/person?id="+Model.ID)" class="a1 left" id="quxiao">取　消</a>
+                <a href="javascript:void(0)" class="a3 right" id="baocun">保存修改</a>
+            </div>
 
+        </div>
+
+
+        @*修改密码页面*@
+        <div class="module-bd changePwd info" id="mypwds">
+
+            <div class="item">
+                <label>当前密码:</label>
+                <div class="inputFrame" id="111">
+                    <input type="text" placeholder="请输入当前密码" id="oldpwd" onkeyup="a()">
+                </div>
+                <div id="checkoldpwd"></div>
+            </div>
+            <div class="item">
+                <label>新设密码:</label>
+                <div class="inputFrame" id="222">
+                    <input type="text" placeholder="支持6-20位字符，大小写字母、数字及下划线" id="newpwd" onkeyup="b()">
+                </div>
+                <div id="samepwd"></div>
+            </div>
+            <div class="item">
+                <label>再次确认:</label>
+                <div class="inputFrame" id="333">
+                    <input type="text" placeholder="请再次输入您的密码" id="checknew" onkeyup="c()">
+                </div>
+                <div id="doublechecked"></div>
+            </div>
+            <button onclick="SubmitPwd()">确认修改</button>
+        </div>
+
+    </div>
 </div>
+
+
+<script>
+
+    var correctPwd = "";
+
+    function a() {
+        console.log("run oldpwd ajax");
+        
+        var curpwd = $("#oldpwd").val();
+        $.ajax({
+            url: "@Url.Content("~/UserCenter/CheckPwd/")",
+            data: {"password":curpwd},
+            type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    var _html = "";
+                    _html += "<span class='judge-r'></span>";
+                    $("#checkoldpwd").html(_html);
+
+                    correctPwd = curpwd;
+                } 
+
+                if (data.code == 1) {
+                    var _html = "";
+                    _html += "<span class='judge-w'></span>";
+                    _html += "<div class='error-tip'><i></i>当前密码有误！请重新输入。</div>";
+                    $("#checkoldpwd").html(_html);
+
+                }
+
+            }
+        });
+    }
+
+    function b() {
+        if ($("#newpwd").val() === correctPwd || $("#newpwd").val().length<6 ) {
+            var _html = "";
+            _html += "<span class='judge-w'></span>";
+            _html += "<div class='error-tip'><i></i>新设密码与当前密码相同！请重新输入。</div>";
+            $("#samepwd").html(_html);
+        } else {
+            $("#samepwd").html("<span class='judge-r'></span>");
+        }
+    }
+
+
+    function c() {
+        if ($("#checknew").val() !== $("#newpwd").val()) {
+            var _html = "";
+            _html += "<span class='judge-w'></span>";
+            _html += "<div class='error-tip'><i></i>确认密码有误，请重新输入。</div>";
+            $("#doublechecked").html(_html);
+        } else {
+            var _html = "";
+            _html += "<span class='judge-r'></span>";
+            $("#doublechecked").html(_html);
+
+        }
+    }
+
+
+    function SubmitPwd() {
+        if ($("#checknew").val() !== $("#newpwd").val() && $("#newpwd").val().length < 6) {
+            alert("新密码设置不正确！");
+        }
+
+        $.ajax({
+            url: "@Url.Content("~/UserCenter/SaveNewPass/")",
+            data: {"newpass":$("#newpwd").val()},
+            type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 0) {
+                    alert("修改密码成功！");
+                    window.location.href = @Url.Content("~/home/index");
+                } else {
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+
+
+</script>
+
+<script>
+
+    function change() {
+
+        var selectValue = $('select option:selected').val();
+
+        if (selectValue == 3) {
+            $("#dataBind12").show();
+        } else {
+            $("#dataBind12").hide();
+        }
+
+    }
+
+</script>
 
 <script>
     function initUpload() {
@@ -112,7 +239,7 @@
             multi_selection: false, //true:ctrl多文件上传, false 单文件上传
             init: {
                 FilesAdded: function (up, files) { //文件上传前
-                    
+
                     uploader_file.start();
 
                 },
@@ -219,7 +346,7 @@
             }
             ////默认先给一个数据，为了能往后台传数据
             //var teacherid = 0;
-            //var StudentNo = 0;
+            ////var StudentNo = 0;
 
             //if (RoleType == 2) {
             //    teacherid = $("#TeacherId").val();
@@ -228,14 +355,13 @@
             //        return;
             //    }
             //}
+            var studentNo = 0;
+            studentNo = $("#StudentNo").val();
+            if (studentNo=="") {
+                alert("学号不能为空");
+                return;
+            }
 
-            //if (RoleType == 3) {
-            //    StudentNo = $("#StudentNo").val();
-            //    if (StudentNo=="") {
-            //        alert("学号不能为空")
-            //        return;
-            //    }
-            //}
 
 
             var fileName = $("#fileName").val()
@@ -253,7 +379,8 @@
                     "Gender": Gender,
                     "RoleType": RoleType,
                     "ImgGuid": fileName,
-                    "ID": @Model.ID
+                    "ID": @Model.ID,
+                    "StudentNo":studentNo
                 },
                 type: "POST",
                 dataType: 'json',
@@ -268,4 +395,29 @@
             })
 
         });
+</script>
+
+
+<script>
+    showdetails();
+    function showdetails() {
+        console.log("up");
+        $("#li1").removeClass("cur");
+        $("#li2").removeClass("cur");
+        $("#li1").addClass("cur");
+        $("#mydetails").show();
+        $("#mypwds").hide();
+    }
+
+
+</script>
+<script>
+    function showpwd() {
+        console.log("down");
+        $("#li1").removeClass("cur");
+        $("#li2").removeClass("cur");
+        $("#li2").addClass("cur");
+        $("#mydetails").hide();
+        $("#mypwds").show();
+    }
 </script>

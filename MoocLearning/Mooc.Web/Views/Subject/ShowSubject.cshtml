@@ -61,7 +61,7 @@
     </div>
     <div class="categoryPage detailPage columnDetail">
         <div class="topbanner width1200pxAuto">
-            <img src="@Model.CoverPic" width="1200" height="330" onerror="this.src = '@Url.Content("~/Images/platform/categoryPage-banner.jpg")';" />
+            <img src="@Url.Content("~/api/VideoApi/get?id="+Model.CoverPic)" width="1200" height="330" onerror="this.src = '@Url.Content("~/Images/platform/categoryPage-banner.jpg")';" />
             @*video的显示位置*@
             <div id="showvideo" align="center"></div>
                 
@@ -109,11 +109,12 @@
 
 
                                     <div class="item">
-                                        <div class="left con" onclick="playvideo(@item.ID)" style="cursor:pointer;">
-                                            <img src="~/images/platform/hot-column.jpg" alt="">
-                                            <span class="title">@item.ChapterName</span>
-                                            <i class="video"></i>
-                                        </div>
+                                        @*<div class="left con" onclick="playvideo(@item.ID)" style="cursor:pointer;">*@
+                                            <div class="left con" onclick="window.location.href ='@Url.Content("~/Play/Index?id=")@item.ID'" style="cursor:pointer;">
+                                                <img src="~/images/platform/hot-column.jpg" alt="">
+                                                <span class="title">@item.ChapterName</span>
+                                                <i class="video"></i>
+                                            </div>
 
                                     </div>
 
@@ -122,11 +123,12 @@
                                 <script>
                                     function playvideo(id) {
                                         console.log(id);
+                                        @*window.location.href = @Url.Content("~/Play/Index?id=") + id;*@
 
-                                        $.ajax({
-                                            url: "@Url.Content("~/subject/play/")",
-                                            data: { "id": id },
-                                            type: "POST",
+                                        @*$.ajax({
+                                            url: "@Url.Content("~/Play/Index")"+id+"",
+                                            //data: { "id": id },
+                                            type: "GET",
                                             dataType: 'json',
                                             success: function(res) {
                                                 //$("#showvideo").html(data);
@@ -139,7 +141,7 @@
                                                 }
                                             }
                                         
-                                        });
+                                        });*@
                                         @*$.ajax({
 
                                             url: "@Url.Content("~/subject/play/")",

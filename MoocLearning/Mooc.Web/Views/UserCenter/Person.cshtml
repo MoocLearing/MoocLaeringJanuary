@@ -46,7 +46,7 @@
 
                         <li class="item3"><a onclick="GetCourse(2)"><i></i><span>正在学习</span></a></li>
                         <li class="item4"><a onclick="GetCourse(3)"><i></i><span>已经完成</span></a></li>
-                        <li class="item6"><a href="#" id="mydetail"><i></i><span>我的资料</span></a></li>
+                        <li class="item6"><a onclick="GetMyDetail()"><i></i><span>我的资料</span></a></li>
                         @*<script>
                                 $("#mydetail").on("click", function () {
                                     $.ajax({
@@ -172,24 +172,42 @@
 </script>
 <script>
     function GetCourse(type) {
-            $("#leftMenu li").removeClass("cur")
-            $("#leftMenu li:eq(" + type + ")").addClass("cur");
+        $("#leftMenu li").removeClass("cur")
+        $("#leftMenu li:eq(" + type + ")").addClass("cur");
 
-                $.ajax({
-                    url: "@Url.Content("~/UserCenter/Mycourse/")",
-                    data: {"type":type},
-                    type: "POST",
-                    dataType: 'html',
-                    success: function (data) {
-                        $("#rightData").html(data);
+        $.ajax({
+            url: "@Url.Content("~/UserCenter/Mycourse/")",
+            data: {"type":type},
+            type: "POST",
+            dataType: 'html',
+            success: function (data) {
+                $("#rightData").html(data);
 
-                    }
+            }
 
-                });
+        });
     }
 
     $(function () {
         GetCourse(1)
     })
 
+</script>
+
+<script>
+    function GetMyDetail() {
+        $("#leftMenu li").removeClass("cur")
+        $("#leftMenu li:eq(4)").addClass("cur");
+        $.ajax({
+            url: "@Url.Content("~/UserCenter/MyDetail/")",
+            type: "POST",
+            dataType: 'html',
+            success: function (data) {
+                $("#rightData").html(data);
+
+
+            }
+
+        });
+    }
 </script>
