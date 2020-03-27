@@ -95,7 +95,7 @@
             console.log(Math.floor(myVideo.currentTime));
 
             //当视频播放到 2s的时候做处理
-            if (timeDisplay == 1) {
+            if (timeDisplay == 5) {
                 //处理代码
                 saveStudyfunc();
 
@@ -113,13 +113,8 @@
             data: { "ChapterId": @Model.ChapterOne.ID, "CourseId": @Model.ChapterOne.CourseId, "ScheduleId": @Model.ScheduleId},
             type: "POST",
             dataType: 'json',
-            success: function(data) {
-                if (data.code == 0) {
-                    alert("此章节已经加入到学习计划中");
-                }
-                if (data.code == 1) {
-                    alert(data.msg);
-                }
+            success: function (data) {
+                console.log(data)
             }
 
         });

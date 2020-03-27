@@ -94,24 +94,24 @@
 
             <div class="item">
                 <label>当前密码:</label>
-                <div class="inputFrame" id="111">
-                    <input type="text" placeholder="请输入当前密码" id="oldpwd" onkeyup="a()">
+                <div class="inputFrame">
+                    <input type="password" placeholder="请输入当前密码" id="oldpwd" onkeyup="isExist(this)">
                 </div>
-                <div id="checkoldpwd"></div>
+                <div class="tip"></div>
             </div>
             <div class="item">
                 <label>新设密码:</label>
-                <div class="inputFrame" id="222">
-                    <input type="text" placeholder="支持6-20位字符，大小写字母、数字及下划线" id="newpwd" onkeyup="b()">
+                <div class="inputFrame">
+                    <input type="password" placeholder="支持6-20位字符，大小写字母、数字及下划线" id="newpwd" onkeyup="newPwd(this)">
                 </div>
-                <div id="samepwd"></div>
+                <div class="tip"></div>
             </div>
             <div class="item">
                 <label>再次确认:</label>
-                <div class="inputFrame" id="333">
-                    <input type="text" placeholder="请再次输入您的密码" id="checknew" onkeyup="c()">
+                <div class="inputFrame">
+                    <input type="password" placeholder="请再次输入您的密码" id="checknew" onkeyup="confirmPwd(this)">
                 </div>
-                <div id="doublechecked"></div>
+                <div class="tip"></div>
             </div>
             <button onclick="SubmitPwd()">确认修改</button>
         </div>
@@ -124,59 +124,51 @@
 
     var correctPwd = "";
 
-    function a() {
-        console.log("run oldpwd ajax");
-        
-        var curpwd = $("#oldpwd").val();
+    function bindMsg(self, code, msg) {
+        if (code == 0) {
+            $(self).parent().next(".tip").html("<span class='judge-r'></span>");
+        }
+        else {
+             $(self).parent().next(".tip").html("<span class='judge-w'></span><div class='error-tip'><i></i>"+msg+"</div>");
+        }
+    }
+    function isExist(self) {
+
+        var curpwd = $(self).val();
+        if (!curpwd)
+            return;
+
         $.ajax({
-            url: "@Url.Content("~/UserCenter/CheckPwd/")",
+            url: "@Url.Content("~/UserCenter/CheckPwd")",
             data: {"password":curpwd},
             type: "POST",
             dataType: 'json',
             success: function (data) {
-                if (data.code == 0) {
-                    var _html = "";
-                    _html += "<span class='judge-r'></span>";
-                    $("#checkoldpwd").html(_html);
 
-                    correctPwd = curpwd;
-                } 
-
-                if (data.code == 1) {
-                    var _html = "";
-                    _html += "<span class='judge-w'></span>";
-                    _html += "<div class='error-tip'><i></i>当前密码有误！请重新输入。</div>";
-                    $("#checkoldpwd").html(_html);
-
-                }
+                bindMsg(self, data.code, "当前密码有误！请重新输入。")
 
             }
         });
     }
 
-    function b() {
-        if ($("#newpwd").val() === correctPwd || $("#newpwd").val().length<6 ) {
-            var _html = "";
-            _html += "<span class='judge-w'></span>";
-            _html += "<div class='error-tip'><i></i>新设密码与当前密码相同！请重新输入。</div>";
-            $("#samepwd").html(_html);
-        } else {
-            $("#samepwd").html("<span class='judge-r'></span>");
+    function newPwd(self) {
+         var newpwd = $(self).val();
+        if ((/^[a-zA-Z0-9_]{6,20}$/.test(newpwd) == false)) {
+            bindMsg(self, 1, "密码6-20位英文字母、数字、下划线组成")
+        }
+        else {
+            bindMsg(self, 0, "")
         }
     }
 
 
-    function c() {
-        if ($("#checknew").val() !== $("#newpwd").val()) {
-            var _html = "";
-            _html += "<span class='judge-w'></span>";
-            _html += "<div class='error-tip'><i></i>确认密码有误，请重新输入。</div>";
-            $("#doublechecked").html(_html);
+    function confirmPwd(self) {
+        if ($("#newpwd").val() !== $(self).val()) {
+          
+             bindMsg(self, 1, "确认密码和新密码不一致！")
+            
         } else {
-            var _html = "";
-            _html += "<span class='judge-r'></span>";
-            $("#doublechecked").html(_html);
-
+            bindMsg(self, 0, "")
         }
     }
 
@@ -194,7 +186,7 @@
             success: function (data) {
                 if (data.code == 0) {
                     alert("修改密码成功！");
-                    window.location.href = @Url.Content("~/home/index");
+                    window.location.href = "@Url.Content("~/home/index")";
                 } else {
                     alert(data.msg);
                 }
@@ -301,8 +293,7 @@
 
 <script>
 
-    $("#baocun").on("click",
-        function submit() {
+    $("#baocun").on("click",function () {
 
             var username = $.trim($("#UserName").val());
             if (username == "") {

@@ -110,8 +110,8 @@ namespace Mooc.Web.Controllers
                             CourseName = b.CourseName,
                             CategoryName = c.CategoryName,
                             TeacherName = d.TeacherName,
-                            ScheduleId=a.ScheduleId
-                            
+                            ScheduleId = a.ScheduleId
+
                         }
                 ).ToList();
 
@@ -126,15 +126,15 @@ namespace Mooc.Web.Controllers
             }
             else if (type == 3)
             {
-               list = list.Where(p => p.StudyStatus == "已完成").ToList();
+                list = list.Where(p => p.StudyStatus == "已完成").ToList();
             }
 
             //this._dataContext.Database.ExecuteSqlCommand();
             //this._dataContext.Database.SqlQuery();
-//            var tran= this._dataContext.Database.BeginTransaction();
-//
-//            tran.Commit();
-//            tran.Rollback();
+            //            var tran= this._dataContext.Database.BeginTransaction();
+            //
+            //            tran.Commit();
+            //            tran.Rollback();
             return PartialView(list);
         }
 
@@ -182,15 +182,11 @@ namespace Mooc.Web.Controllers
         {
             var curuser = _dataContext.Users.Find(LoginHelper.UserId);
 
-            if (curuser != null)
-            {
-                ViewBag.RoleList = SelectOptions.GetRoleSelectOptions();
-                ViewBag.GenderList = SelectOptions.GetGenderSelectOptions();
-                var viewmodel = AutoMapper.Mapper.Map<UserViewModel>(curuser);
-                return PartialView(viewmodel);
-            }
-
-            return HttpNotFound();
+            ViewBag.RoleList = SelectOptions.GetRoleSelectOptions();
+            ViewBag.GenderList = SelectOptions.GetGenderSelectOptions();
+            var viewmodel = AutoMapper.Mapper.Map<UserViewModel>(curuser);
+            return PartialView(viewmodel);
+            
         }
 
         [HttpPost]
@@ -240,7 +236,7 @@ namespace Mooc.Web.Controllers
         public JsonResult AjSaveEdit(User user)
         {
             var exist = _dataContext.Users.Find(user.ID);
-            if (user!= null && exist != null)
+            if (user != null && exist != null)
             {
                 //String EncryptPass(String pass)
                 //{
@@ -279,32 +275,32 @@ namespace Mooc.Web.Controllers
 
             var user = _dataContext.Users.Find(LoginHelper.UserId);
 
-            if (user!=null && user.PassWord == pwd)
+            if (user != null && user.PassWord == pwd)
             {
-                return Json(new {code = 0});
+                return Json(new { code = 0 });
             }
 
-            return Json(new {code = 1});
+            return Json(new { code = 1 });
         }
 
         [HttpPost]
         public JsonResult SaveNewPass(string newpass)
         {
-            if (newpass.IsNullOrWhiteSpace() || newpass.Length<6)
+            if (newpass.IsNullOrWhiteSpace() || newpass.Length < 6)
             {
-                return Json(new {code = 1, msg = "密码有误"});
+                return Json(new { code = 1, msg = "密码有误" });
             }
 
-            var curuser =_dataContext.Users.Find(LoginHelper.UserId);
+            var curuser = _dataContext.Users.Find(LoginHelper.UserId);
 
             if (curuser != null)
             {
                 curuser.PassWord = MD5Help.MD5Encoding(newpass, ConfigurationManager.AppSettings["sKey"].ToString());
                 _dataContext.SaveChanges();
-                return Json(new {code = 0});
+                return Json(new { code = 0 });
             }
 
-            return Json(new {code = 1, msg = "更改密码失败"});
+            return Json(new { code = 1, msg = "更改密码失败" });
         }
 
     }

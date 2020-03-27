@@ -18,7 +18,7 @@ namespace Mooc.Web.Controllers
 
         public SubjectController(DataContext dataContext)
         {
-            _dataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
+            _dataContext = dataContext;
         }
         // GET: Subject
         public ActionResult Index()
@@ -78,7 +78,7 @@ namespace Mooc.Web.Controllers
             //}
             ViewBag.userObj = _dataContext.Users.Find(cookieuserid);
 
-           // var chapters = _dataContext.Chapters.Where(x => x.CourseId == courseId).ToList();
+            // var chapters = _dataContext.Chapters.Where(x => x.CourseId == courseId).ToList();
             return View(model);
         }
 
@@ -134,75 +134,23 @@ namespace Mooc.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Play(long? id)
+        public JsonResult Play(long id)
         {
+            long scheduleId = 0;
+            string msg = string.Empty;
+            var isplay = isPlay(id, out msg, out scheduleId);
 
-            var model = _dataContext.Chapters.Find(id);
-            if (model == null || string.IsNullOrEmpty(model.VideoGuid))
-                return Json(new { code = 1, msg = "当前视频不存在" });
-
-            var course = _dataContext.Courses.Find(model.CourseId);
-            if (course == null || course.Status != 1)
-                return Json(new { code = 1, msg = "当前课程未上架" });
-
-            var courseApplyList = _dataContext.CourseApplies.Where(x => x.UserId == LoginHelper.UserId && x.CourseId == model.CourseId).ToList();
-
-            if (courseApplyList.Count == 0)
-                return Json(new { code = 1, msg = "请先报名" });
-
-            foreach (var courseapplys in courseApplyList)
-            {
-                var currentschedule = _dataContext.Schedules.Find(courseapplys.ScheduleId);
-
-                if (currentschedule != null && currentschedule.StartTime <= DateTime.Now.Date && currentschedule.EndTime >= DateTime.Now.Date)
-                {
-                    return PartialView(model);
-                }
-
-            }
-            return Json(new { code = 1, msg = "该课程暂时未开课" });
+            return Json(new { code = isplay ? 0 : 1, msg = msg });
         }
-
-        
-
-        //public ActionResult play(long? id)
-        //{
-        //    var model = _dataContext.Chapters.Find(id);
-        //    if (model == null || string.IsNullOrEmpty(model.VideoGuid))
-        //        return Content("当前视频不存在" );
-
-        //    var course = _dataContext.Courses.Find(model.CourseId);
-        //    if (course == null || course.Status != 1)
-        //        return Content("当前课程未上架" );
-
-        //    var courseApplyList = _dataContext.CourseApplies.Where(x => x.UserId == LoginHelper.UserId && x.CourseId == model.CourseId).ToList();
-
-        //    if (courseApplyList.Count == 0)
-        //        return Content("请先报名" );
-
-        //    foreach (var courseapplys in courseApplyList)
-        //    {
-        //        var currentschedule = _dataContext.Schedules.Find(courseapplys.ScheduleId);
-
-        //        if (currentschedule != null && currentschedule.StartTime <= DateTime.Now.Date && currentschedule.EndTime >= DateTime.Now.Date)
-        //        {
-        //            ViewBag.currentscheduleId = currentschedule.ID;
-        //            return PartialView(model);
-        //        }
-
-        //    }
-        //    return Content("该课程暂时未开课" );
-
-        //}
 
 
         [HttpPost]
         public JsonResult SaveStudy(Study study)
         {
-            if (study.ChapterId > 0 
-                && study.CourseId > 0 
-                && study.ScheduleId > 0 
-                && LoginHelper.UserId > 0 
+            if (study.ChapterId > 0
+                && study.CourseId > 0
+                && study.ScheduleId > 0
+                && LoginHelper.UserId > 0
                 && !LoginHelper.UserName.IsNullOrWhiteSpace())
             {
                 Study newStudy = new Study()
@@ -220,40 +168,61 @@ namespace Mooc.Web.Controllers
                 {
                     if (item.ChapterId == study.ChapterId)
                     {
-                        return Json(new {code = 0});
-                    }   
+                        return Json(new { code = 0 });
+                    }
                 }
 
                 _dataContext.Studies.Add(newStudy);
                 _dataContext.SaveChanges();
-                return Json(new{code=0});
+                return Json(new { code = 0 });
             }
 
-            return Json(new {code = 1, msg = "该视频没有存入学习列表"});
+            return Json(new { code = 1, msg = "该视频没有存入学习列表" });
         }
 
-        //var userid = long.Parse(CookieHelper.GetCookie("userid"));
-        //if (userid > 0)
-        //{
-        //    var appliedCourse = _dataContext.CourseApplies.Where(x => x.UserId == userid && x.CourseId == model.CourseId).ToList();
+        public bool isPlay(long id, out string msg, out long scheduleId)
+        {
+            scheduleId = 0;
+            msg = "";
+            var model = _dataContext.Chapters.Find(id);
+            if (model == null || string.IsNullOrEmpty(model.VideoGuid))
+            {
+                msg = "当前视频不存在";
+                return false;
+            }
 
-        //    foreach (var item in appliedCourse)
-        //    {
-
-        //        var schedule = _dataContext.Schedules.Find(item.ScheduleId);
-        //        if (schedule != null)
-        //        {
-        //            if (schedule.StartTime < DateTime.Now.Date && schedule.EndTime > DateTime.Now.Date)
-        //            {
-        //                return Json(new { code = 0, res = model });
-        //                break;
-        //            }
-        //        }
-
-        //    }
-        //}
+            var course = _dataContext.Courses.Find(model.CourseId);
+            if (course == null || course.Status != 1)
+            {
+                msg = "当前课程未上架";
+                return false;
+            }
 
 
+            var courseApplyList = _dataContext.CourseApplies.Where(x => x.UserId == LoginHelper.UserId && x.CourseId == model.CourseId).ToList();
+
+            if (courseApplyList.Count == 0)
+            {
+                msg = "请先报名";
+                return false;
+            }
+
+            foreach (var courseapplys in courseApplyList)
+            {
+                var currentschedule = _dataContext.Schedules.Find(courseapplys.ScheduleId);
+
+                if (currentschedule != null && currentschedule.StartTime <= DateTime.Now.Date && currentschedule.EndTime >= DateTime.Now.Date)
+                {
+                    scheduleId = currentschedule.ID;
+                    msg = "";
+                    return true;
+                }
+
+            }
+            msg = "该课程暂时未开课";
+            return false;
+
+        }
 
     }
 }

@@ -109,8 +109,8 @@
 
 
                                     <div class="item">
-                                        @*<div class="left con" onclick="playvideo(@item.ID)" style="cursor:pointer;">*@
-                                            <div class="left con" onclick="window.location.href ='@Url.Content("~/Play/Index?id=")@item.ID'" style="cursor:pointer;">
+                                        <div class="left con" onclick="playvideo(@item.ID)" style="cursor:pointer;">
+                                            @*<div class="left con" onclick="window.location.href ='@Url.Content("~/Play/Index?id=")@item.ID'" style="cursor:pointer;">*@
                                                 <img src="~/images/platform/hot-column.jpg" alt="">
                                                 <span class="title">@item.ChapterName</span>
                                                 <i class="video"></i>
@@ -122,18 +122,14 @@
 
                                 <script>
                                     function playvideo(id) {
-                                        console.log(id);
-                                        @*window.location.href = @Url.Content("~/Play/Index?id=") + id;*@
 
-                                        @*$.ajax({
-                                            url: "@Url.Content("~/Play/Index")"+id+"",
-                                            //data: { "id": id },
+                                        $.ajax({
+                                            url: "@Url.Content("~/Subject/Play")",
+                                            data: { "id": id },
                                             type: "GET",
                                             dataType: 'json',
                                             success: function(res) {
-                                                //$("#showvideo").html(data);
-                                                //$("#changevideo").hide();
-                                                //$("#changevideo2").hide();
+                                                
                                                 if (res.code == 0) {
                                                     window.location.href = "@Url.Content("~/play/index/")" + id;
                                                 } else {
@@ -141,7 +137,7 @@
                                                 }
                                             }
                                         
-                                        });*@
+                                        });
                                         @*$.ajax({
 
                                             url: "@Url.Content("~/subject/play/")",
